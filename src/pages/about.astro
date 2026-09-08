@@ -1,43 +1,157 @@
 ---
+import { Image } from 'astro:assets';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Hero from '../components/Hero.astro';
 import CTA from '../components/CTA.astro';
+import maddiePhoto from '../assets/images/maddie.png';
+import joelPhoto from '../assets/images/dj2.webp';
 ---
 
 <BaseLayout
   title="About"
-  description="Placeholder about page for the Tango Studio website foundation."
+  description="Maddie and Joel: an Argentine-German couple teaching and spreading Argentine tango from Limburg, the Netherlands."
 >
   <Hero
-    eyebrow="About"
-    heading="A placeholder about page"
-    description="Temporary copy describing who we are. The real story and team content will be added later."
+    eyebrow="About us"
+    heading="We have a story to tell"
+    description="We are Maddie and Joel, an Argentine-German couple who want to teach and spread tango around the world."
+    primaryCta={{ href: '/#contact', label: 'Join our classes' }}
+    secondaryCta={{ href: '/wedding-dance', label: 'Wedding dance' }}
   />
 
-  <section class="section">
-    <div class="container prose">
-      <h2>Placeholder heading</h2>
+  <!-- ============ Our story ============ -->
+  <section class="section section--tint">
+    <div class="container prose" data-reveal>
+      <span class="eyebrow">Our story</span>
+      <h2>An Argentine-German couple</h2>
       <p>
-        Placeholder paragraph. This page currently exists to validate routing,
-        layout and shared components. Replace this text with the real about
-        content when the design is ready.
+        We met dancing tango in Buenos Aires in 2016. We come from totally
+        different, distant worlds. We took our first steps in dance a few years
+        ago, and it still excites us like the first day.
       </p>
       <p>
-        Another placeholder paragraph so the page has enough content to check
-        vertical rhythm, line length and responsive behaviour.
-      </p>
-
-      <h3>Placeholder subheading</h3>
-      <p>
-        Short placeholder text under a secondary heading to confirm the heading
-        hierarchy renders correctly.
+        We believe tango is a powerful tool to connect people. For us, tango
+        transcends cultures and countries.
       </p>
     </div>
   </section>
 
+  <!-- ============ Maddie ============ -->
+  <section class="section">
+    <div class="container bio" data-reveal-group>
+      <div class="bio__media" data-reveal="left">
+        <Image src={maddiePhoto} alt="Maddie" widths={[220, 440]} sizes="220px" loading="lazy" />
+      </div>
+      <div class="bio__body" data-reveal="right">
+        <span class="eyebrow">Hi, I am Maddie</span>
+        <h2>From Germany to Buenos Aires</h2>
+        <p>
+          Maddie is originally from Germany. She started dancing tango in 2013,
+          during her university years in Wageningen. In 2016 she landed in
+          Buenos Aires for three months, and over her four years there she
+          focused on her own tango studies, learning with different teachers in
+          both old and new styles.
+        </p>
+        <p>
+          During the lockdown she practiced regularly with her dance partner,
+          taking part in a tango ensemble. She shared a few shows and workshops
+          with Joel before they decided to move to the Netherlands. In her
+          classes she puts her coaching background and language skills to good
+          use.
+        </p>
+        <p>
+          For Maddie, tango is almost therapeutic. It means personal growth,
+          inner and outer expansion, and getting in touch with your feelings
+          and creativity.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ Joel ============ -->
+  <section class="section section--tint">
+    <div class="container bio bio--reverse" data-reveal-group>
+      <div class="bio__media" data-reveal="right">
+        <Image src={joelPhoto} alt="Joel" widths={[220, 440]} sizes="220px" loading="lazy" />
+      </div>
+      <div class="bio__body" data-reveal="left">
+        <span class="eyebrow">Hi, I am Joel</span>
+        <h2>Tango from Buenos Aires</h2>
+        <p>
+          Joel is an Argentine tango dancer from Buenos Aires. He started
+          dancing tango in 2012 and studied Tango Salon and Stage Tango with
+          different teachers in the city.
+        </p>
+        <p>
+          In 2016-2017 he danced at the famous Homero Manzi Café show. In 2018
+          he took part in the tango festival in Brno, Czech Republic, and he
+          competed in the Tango Mundial (2018 and 2019) and the Metropolitan
+          Championship of Buenos Aires. He has performed several shows all over
+          Buenos Aires with his previous tango partner.
+        </p>
+        <p>
+          After the quarantine he started teaching with his wife Maddie, while
+          continuing to study with the big maestros. He loves performing and
+          exploring tango further, but his passion lies in teaching and sharing
+          an art that has brought so much joy to his own life.
+        </p>
+      </div>
+    </div>
+  </section>
+
   <CTA
-    heading="Placeholder call to action"
-    description="Temporary CTA copy on the about page."
-    button={{ href: '/contact', label: 'Contact us' }}
+    heading="Come dance with us"
+    description="Regular classes, private lessons and wedding dance choreography in Limburg, the Netherlands."
+    button={{ href: '/#contact', label: 'Get in touch' }}
   />
 </BaseLayout>
+
+<style>
+  .bio {
+    display: grid;
+    gap: clamp(20px, 4vw, 44px);
+    align-items: center;
+  }
+
+  @media (min-width: 720px) {
+    .bio {
+      grid-template-columns: minmax(0, 220px) minmax(0, 1fr);
+    }
+
+    .bio--reverse .bio__media {
+      order: 2;
+    }
+  }
+
+  .bio__media {
+    width: min(220px, 60vw);
+    margin-inline: auto;
+    border: var(--border-subtle);
+    border-radius: var(--radius);
+    overflow: hidden;
+    box-shadow: var(--shadow-rest);
+  }
+
+  @media (min-width: 720px) {
+    .bio__media {
+      width: 100%;
+    }
+  }
+
+  .bio__media :global(img) {
+    display: block;
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+    object-position: center top;
+    background: var(--color-bg);
+  }
+
+  .bio__body p {
+    color: rgba(44, 44, 42, 0.8);
+  }
+
+  .bio__body p:last-child {
+    margin-bottom: 0;
+  }
+</style>

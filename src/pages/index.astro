@@ -1,11 +1,15 @@
 ---
+import { Image } from 'astro:assets';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Hero from '../components/Hero.astro';
+import Button from '../components/Button.astro';
 import Card from '../components/Card.astro';
 import ContactForm from '../components/ContactForm.astro';
 import Testimonials from '../components/Testimonials.astro';
 import Community from '../components/Community.astro';
 import heroImage from '../assets/images/hero-classes.jpg';
+import maddiePhoto from '../assets/images/maddie.png';
+import joelPhoto from '../assets/images/dj2.webp';
 
 const whatsappCommunityUrl =
   'https://chat.whatsapp.com/BDvSLGgAuqW5THotX58YAh?mode=gi_t';
@@ -96,6 +100,41 @@ const lessons = [
     </div>
   </section>
 
+  <section class="section section--tint">
+    <div class="container">
+      <div class="section-intro" data-reveal>
+        <span class="eyebrow">The teachers</span>
+        <h2>Meet Maddie &amp; Joel</h2>
+        <p>
+          An Argentine-German couple who met dancing tango in Buenos Aires. We
+          teach the regular classes together.
+        </p>
+      </div>
+
+      <div class="teachers" data-reveal-group>
+        <figure class="teachers__card" data-reveal>
+          <Image src={maddiePhoto} alt="Maddie" widths={[320, 480, 640]} sizes="(min-width: 720px) 45vw, 90vw" loading="lazy" />
+          <figcaption>
+            <span class="teachers__name">Maddie</span>
+            <span class="teachers__role">Tango teacher &amp; coach</span>
+          </figcaption>
+        </figure>
+
+        <figure class="teachers__card" data-reveal>
+          <Image src={joelPhoto} alt="Joel" widths={[320, 480, 640]} sizes="(min-width: 720px) 45vw, 90vw" loading="lazy" />
+          <figcaption>
+            <span class="teachers__name">Joel</span>
+            <span class="teachers__role">Tango teacher &amp; tango DJ</span>
+          </figcaption>
+        </figure>
+      </div>
+
+      <p class="teachers__cta" data-reveal>
+        <Button href="/about" variant="outline">Read our full story</Button>
+      </p>
+    </div>
+  </section>
+
   <Testimonials
     eyebrow="Testimonials"
     heading="What students say"
@@ -139,6 +178,78 @@ const lessons = [
 </BaseLayout>
 
 <style>
+  /* ---------- Meet the teachers ---------- */
+  .teachers {
+    display: grid;
+    gap: var(--gap-md);
+    grid-template-columns: 1fr;
+    max-width: 720px;
+    margin-inline: auto;
+  }
+
+  @media (min-width: 560px) {
+    .teachers {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  .teachers__card {
+    margin: 0;
+    background: var(--color-surface);
+    border: var(--border-subtle);
+    border-radius: var(--radius);
+    overflow: hidden;
+    box-shadow: var(--shadow-rest);
+    transition:
+      transform 0.5s var(--ease-premium),
+      border-color 0.4s ease,
+      box-shadow 0.4s ease;
+  }
+
+  .teachers__card:hover {
+    transform: translateY(-6px);
+    border-color: color-mix(in srgb, var(--color-principal) 40%, transparent);
+    box-shadow: var(--shadow-hover);
+  }
+
+  .teachers__card :global(img) {
+    display: block;
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+    object-position: center top;
+    background: var(--color-bg);
+  }
+
+  .teachers__card figcaption {
+    padding: 16px clamp(16px, 2.4vw, 22px) 20px;
+  }
+
+  .teachers__name {
+    display: block;
+    font-weight: 600;
+    color: var(--color-principal);
+    font-size: 17px;
+  }
+
+  .teachers__role {
+    display: block;
+    margin-top: 2px;
+    font-size: 13px;
+    color: rgba(44, 44, 42, 0.6);
+  }
+
+  .teachers__cta {
+    margin: clamp(28px, 4vw, 40px) 0 0;
+    text-align: center;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .teachers__card:hover {
+      transform: none;
+    }
+  }
+
   .contact-block {
     display: grid;
     gap: clamp(32px, 6vw, 64px);
