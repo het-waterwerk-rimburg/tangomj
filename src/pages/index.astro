@@ -1,0 +1,164 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Hero from '../components/Hero.astro';
+import Card from '../components/Card.astro';
+import ContactForm from '../components/ContactForm.astro';
+import Testimonials from '../components/Testimonials.astro';
+import Community from '../components/Community.astro';
+import heroImage from '../assets/images/hero-classes.jpg';
+
+const whatsappCommunityUrl =
+  'https://chat.whatsapp.com/BDvSLGgAuqW5THotX58YAh?mode=gi_t';
+
+const testimonials = [
+  {
+    quote:
+      'Amazing Tango teachers with focus on Technique and Essence. Very nice human beings too. Happy to recommend',
+    name: 'Rohit Rao',
+  },
+  {
+    quote:
+      'He has a great eye for detail and very gentle and encouraging guidance. He has helped me a lot. Oh and he is TALL so tall ladies, get involved! 😉',
+    name: 'Anthea Okereke',
+  },
+  {
+    quote:
+      'I was so surprised, how gently the tango dance could be led. 🙂 I very much recommend to take his lesson and try for yourself 😉',
+    name: 'Eliška Grafová',
+  },
+];
+
+const lessons = [
+  {
+    title: 'Regular lessons',
+    description:
+      'Weekly group classes for every level. Come with or without a partner and build your dance step by step, in a friendly room. Your first class is €5.',
+  },
+  {
+    title: 'Private lessons',
+    description:
+      'One-on-one sessions focused on what you want to work on: your embrace, musicality, or getting ready for a special night.',
+  },
+  {
+    title: 'Wedding dance',
+    description:
+      'A choreography made for your song and your comfort on the floor, rehearsed until it feels easy on the day.',
+  },
+];
+---
+
+<BaseLayout
+  title="Tango Studio"
+  description="Argentine tango classes in Limburg, the Netherlands. Weekly group lessons, private lessons and wedding dance choreography."
+>
+  <Hero
+    image={heroImage}
+    imageAlt="A tango class gathered around a dancing couple"
+    eyebrow="Argentine tango in Limburg"
+    heading="Learn to dance tango, one class at a time"
+    description="Weekly group classes for every level, in a welcoming room. No partner needed, no experience needed."
+    primaryCta={{ href: '#contact', label: 'Join our regular classes · €5 first class' }}
+    secondaryCta={{ href: '#lessons', label: 'See what we offer' }}
+  />
+
+  <section class="section section--tint">
+    <div class="container prose" data-reveal>
+      <span class="eyebrow">The school</span>
+      <h2>A place to learn and to meet</h2>
+      <p>
+        In our classes we aim to learn from where each of us is, with patience
+        for ourselves and for one another. We look for connection and mutual
+        support.
+      </p>
+      <p>
+        We are all on this path, and together we will go further.
+      </p>
+    </div>
+  </section>
+
+  <section id="lessons" class="section">
+    <div class="container">
+      <div class="section-intro" data-reveal>
+        <span class="eyebrow">What we offer</span>
+        <h2>Three ways to dance with us</h2>
+        <p>Pick the one that fits, or ask us and we will point you the right way.</p>
+      </div>
+
+      <div class="card-grid" data-reveal-group>
+        {
+          lessons.map((lesson) => (
+            <div data-reveal>
+              <Card title={lesson.title} description={lesson.description} />
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <Testimonials
+    eyebrow="Testimonials"
+    heading="What students say"
+    testimonials={testimonials}
+  />
+
+  <Community whatsappUrl={whatsappCommunityUrl} />
+
+  <section id="contact" class="section section--tint">
+    <div class="container contact-block">
+      <div class="contact-block__intro" data-reveal="left">
+        <span class="eyebrow">Contact</span>
+        <h2>Join our regular classes</h2>
+        <p>
+          Contact us to start or improve your tango, or with any question you
+          have. We will be happy to answer.
+        </p>
+
+        <ul class="contact-block__details">
+          <li>
+            <strong>Email:</strong>
+            <a href="mailto:info@tangomj.nl">info@tangomj.nl</a>
+          </li>
+          <li>
+            <strong>WhatsApp:</strong>
+            <a
+              href="https://wa.me/31621710803"
+              target="_blank"
+              rel="noopener noreferrer">+31 6 21710803</a
+            >
+          </li>
+          <li><strong>Area:</strong> Limburg, Netherlands</li>
+        </ul>
+      </div>
+
+      <div class="contact-block__form surface-card" data-reveal="right">
+        <ContactForm selectedTopic="Regular lessons" />
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .contact-block {
+    display: grid;
+    gap: clamp(32px, 6vw, 64px);
+  }
+
+  @media (min-width: 860px) {
+    .contact-block {
+      grid-template-columns: 1fr 1fr;
+      align-items: start;
+    }
+  }
+
+  .contact-block__details {
+    list-style: none;
+    padding: 0;
+    margin: 24px 0 0;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    font-size: 15px;
+    color: rgba(44, 44, 42, 0.8);
+  }
+</style>

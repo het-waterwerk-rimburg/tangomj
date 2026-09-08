@@ -1,0 +1,303 @@
+---
+import Button from './Button.astro';
+
+interface Props {
+  /** Make.com webhook the form POSTs to (JSON via fetch, form-encoded as no-JS fallback). */
+  action?: string;
+  /** Options for the "I'm interested in" select. */
+  topics?: string[];
+  /** Pre-selected topic value (must match one of `topics`). */
+  selectedTopic?: string;
+  /** Sent as the `website` field so Make can route by source. */
+  website?: string;
+  /** URL of the privacy policy the consent checkbox links to. */
+  privacyPolicyUrl?: string;
+}
+
+const {
+  action = 'https://hook.eu1.make.com/6haz3m8zqr7uooygiv8d1wz7y3kawiev',
+  topics = ['Regular lessons', 'Private lessons', 'Wedding dance', 'Other'],
+  selectedTopic,
+  website = 'tangomj',
+  privacyPolicyUrl = '/privacy-policy',
+} = Astro.props;
+---
+
+<form
+  class="contact-form"
+  action={action}
+  method="post"
+  data-contact-form
+  data-website={website}
+>
+  <div class="contact-form__field">
+    <label for="cf-name">Name</label>
+    <input
+      type="text"
+      id="cf-name"
+      name="name"
+      autocomplete="name"
+      required
+      minlength="2"
+    />
+  </div>
+
+  <div class="contact-form__field">
+    <label for="cf-email">Email</label>
+    <input
+      type="email"
+      id="cf-email"
+      name="email"
+      autocomplete="email"
+      required
+    />
+  </div>
+
+  <div class="contact-form__field">
+    <label for="cf-topic">I'm interested in</label>
+    <div class="contact-form__select">
+      <select id="cf-topic" name="topic" required>
+        <option value="" disabled selected={!selectedTopic}>Choose an option</option>
+        {
+          topics.map((topic) => (
+            <option value={topic} selected={topic === selectedTopic}>
+              {topic}
+            </option>
+          ))
+        }
+      </select>
+      <span class="contact-form__select-icon" aria-hidden="true"></span>
+    </div>
+  </div>
+
+  <div class="contact-form__field">
+    <label for="cf-message">Message</label>
+    <textarea id="cf-message" name="message" rows="5" required minlength="10"
+    ></textarea>
+  </div>
+
+  <input type="hidden" name="website" value={website} />
+
+  <div class="contact-form__consent">
+    <input type="checkbox" id="cf-privacy" name="privacy" required />
+    <label for="cf-privacy">
+      I have read the
+      <a href={privacyPolicyUrl} target="_blank" rel="noopener noreferrer">
+        privacy policy</a
+      >.
+    </label>
+  </div>
+
+  <Button type="submit" variant="primary" data-submit>Send message</Button>
+
+  <p class="contact-form__status" data-status role="status" aria-live="polite" hidden></p>
+</form>
+
+<style>
+  .contact-form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    max-width: 520px;
+  }
+
+  .contact-form > :global(.btn) {
+    align-self: flex-start;
+  }
+
+  .contact-form__field {
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+  }
+
+  .contact-form label {
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    color: var(--color-principal);
+  }
+
+  .contact-form input,
+  .contact-form textarea,
+  .contact-form select {
+    font: inherit;
+    color: var(--color-texto);
+    background: var(--color-surface);
+    border: var(--border-subtle);
+    border-radius: var(--radius-sm);
+    padding: 12px 14px;
+    transition: var(--transition-surface);
+  }
+
+  .contact-form input:focus,
+  .contact-form textarea:focus,
+  .contact-form select:focus {
+    outline: none;
+    border-color: var(--color-secundario);
+    box-shadow: 0 0 0 3px rgba(55, 130, 211, 0.16);
+  }
+
+  .contact-form textarea {
+    resize: vertical;
+    min-height: 120px;
+  }
+
+  /* Select: native control, custom chevron, full-width hit area */
+  .contact-form__select {
+    position: relative;
+  }
+
+  .contact-form__select select {
+    width: 100%;
+    appearance: none;
+    -webkit-appearance: none;
+    padding-right: 40px;
+    cursor: pointer;
+  }
+
+  .contact-form__select select:invalid {
+    color: rgba(44, 44, 42, 0.55);
+  }
+
+  .contact-form__select-icon {
+    position: absolute;
+    right: 16px;
+    top: 50%;
+    width: 8px;
+    height: 8px;
+    border-right: 2px solid var(--color-principal);
+    border-bottom: 2px solid var(--color-principal);
+    transform: translateY(-70%) rotate(45deg);
+    pointer-events: none;
+  }
+
+  /* Consent row: checkbox + inline label */
+  .contact-form__consent {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .contact-form__consent input {
+    margin-top: 3px;
+    width: 18px;
+    height: 18px;
+    flex: none;
+    accent-color: var(--color-principal);
+    cursor: pointer;
+  }
+
+  .contact-form__consent label {
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 1.5;
+    color: var(--color-texto);
+    cursor: pointer;
+  }
+
+  /* Native validation feedback, shown only after the field has been touched */
+  .contact-form input:user-invalid,
+  .contact-form textarea:user-invalid,
+  .contact-form select:user-invalid {
+    border-color: var(--color-acento);
+  }
+
+  .contact-form__status {
+    margin: 0;
+    padding: 12px 14px;
+    border-radius: var(--radius-sm);
+    font-size: 14px;
+    line-height: 1.5;
+  }
+
+  .contact-form__status[data-state='success'] {
+    background: rgba(55, 130, 211, 0.1);
+    color: var(--color-principal);
+  }
+
+  .contact-form__status[data-state='error'] {
+    background: rgba(122, 31, 43, 0.08);
+    color: var(--color-acento);
+  }
+
+  .contact-form[data-sending] :global(.btn) {
+    opacity: 0.6;
+    pointer-events: none;
+  }
+</style>
+
+<script>
+  type StatusState = 'success' | 'error';
+
+  const forms = document.querySelectorAll<HTMLFormElement>('[data-contact-form]');
+
+  forms.forEach((form) => {
+    const button = form.querySelector<HTMLButtonElement>('[data-submit]');
+    const status = form.querySelector<HTMLElement>('[data-status]');
+    const endpoint = form.getAttribute('action') || '';
+    const website = form.dataset.website || 'tangomj';
+
+    if (!endpoint || endpoint === '#') return;
+
+    const setStatus = (state: StatusState, message: string) => {
+      if (!status) return;
+      status.dataset.state = state;
+      status.textContent = message;
+      status.hidden = false;
+    };
+
+    const clearStatus = () => {
+      if (!status) return;
+      status.hidden = true;
+      status.removeAttribute('data-state');
+      status.textContent = '';
+    };
+
+    form.addEventListener('submit', async (event) => {
+      event.preventDefault();
+
+      if (!form.checkValidity()) {
+        form.reportValidity();
+        return;
+      }
+
+      clearStatus();
+      form.dataset.sending = 'true';
+      const originalLabel = button?.textContent ?? 'Send message';
+      if (button) button.textContent = 'Sending…';
+
+      const payload = {
+        name: (form.elements.namedItem('name') as HTMLInputElement).value.trim(),
+        email: (form.elements.namedItem('email') as HTMLInputElement).value.trim(),
+        topic: (form.elements.namedItem('topic') as HTMLSelectElement).value,
+        message: (form.elements.namedItem('message') as HTMLTextAreaElement).value.trim(),
+        website,
+      };
+
+      try {
+        const response = await fetch(endpoint, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload),
+        });
+
+        if (!response.ok) throw new Error(`HTTP ${response.status}`);
+
+        form.reset();
+        setStatus(
+          'success',
+          'Thanks! Your message has been sent. We will get back to you soon.'
+        );
+      } catch {
+        setStatus(
+          'error',
+          'Something went wrong sending your message. Please try again, or email us directly.'
+        );
+      } finally {
+        delete form.dataset.sending;
+        if (button) button.textContent = originalLabel;
+      }
+    });
+  });
+</script>

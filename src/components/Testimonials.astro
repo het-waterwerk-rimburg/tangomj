@@ -1,0 +1,337 @@
+---
+interface Testimonial {
+  quote: string;
+  name: string;
+  detail?: string;
+}
+
+interface Props {
+  eyebrow?: string;
+  heading?: string;
+  testimonials: Testimonial[];
+}
+
+const {
+  eyebrow = 'Testimonials',
+  heading = 'What students say',
+  testimonials,
+} = Astro.props;
+---
+
+<section class="section testimonials" aria-labelledby="testimonials-heading">
+  <div class="container">
+    <div class="section-intro" data-reveal>
+      <span class="eyebrow">{eyebrow}</span>
+      <h2 id="testimonials-heading">{heading}</h2>
+    </div>
+
+    <div class="testimonials__carousel" data-reveal>
+      <ul
+        class="testimonials__track"
+        data-tst-track
+        tabindex="0"
+        role="region"
+        aria-label="Student testimonials"
+      >
+        {
+          testimonials.map((t) => (
+            <li class="testimonials__card">
+              <svg
+                class="testimonials__mark"
+                viewBox="0 0 30 22"
+                fill="currentColor"
+                aria-hidden="true"
+              >
+                <path d="M0 22V13.4C0 8.6 1.2 4.9 3.6 2.4 6 0 9-.6 12.6.6L11 4.9C8.9 4.3 7.3 4.5 6.2 5.6 5.1 6.6 4.5 8.3 4.4 10.6H11V22H0Z" />
+                <path d="M18.4 22V13.4C18.4 8.6 19.6 4.9 22 2.4 24.4 0 27.4-.6 31 .6L29.4 4.9C27.3 4.3 25.7 4.5 24.6 5.6 23.5 6.6 22.9 8.3 22.8 10.6H29.4V22H18.4Z" />
+              </svg>
+              <blockquote class="testimonials__quote">{t.quote}</blockquote>
+              <p class="testimonials__name">
+                {t.name}
+                {t.detail && <span class="testimonials__detail">{t.detail}</span>}
+              </p>
+            </li>
+          ))
+        }
+      </ul>
+
+      <div class="testimonials__controls">
+        <button
+          type="button"
+          class="testimonials__arrow"
+          data-tst-prev
+          aria-label="Previous testimonial"
+        >
+          <span class="testimonials__arrow-glyph testimonials__arrow-glyph--prev" aria-hidden="true"></span>
+        </button>
+
+        <div class="testimonials__dots" data-tst-dots>
+          {
+            testimonials.map((_, i) => (
+              <button
+                type="button"
+                class="testimonials__dot"
+                data-tst-dot
+                aria-label={`Go to testimonial ${i + 1}`}
+              />
+            ))
+          }
+        </div>
+
+        <button
+          type="button"
+          class="testimonials__arrow"
+          data-tst-next
+          aria-label="Next testimonial"
+        >
+          <span class="testimonials__arrow-glyph testimonials__arrow-glyph--next" aria-hidden="true"></span>
+        </button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .testimonials {
+    background: var(--color-header);
+    border-block: var(--border-subtle);
+  }
+
+  .testimonials__carousel {
+    position: relative;
+  }
+
+  .testimonials__track {
+    display: flex;
+    gap: 20px;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scroll-behavior: smooth;
+    padding: 4px;
+    margin: -4px -4px 0;
+    list-style: none;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+
+  .testimonials__track::-webkit-scrollbar {
+    display: none;
+  }
+
+  .testimonials__track:focus-visible {
+    outline: 2px solid var(--color-detalle);
+    outline-offset: 3px;
+    border-radius: var(--radius-sm);
+  }
+
+  .testimonials__card {
+    flex: 0 0 auto;
+    width: min(86vw, 440px);
+    scroll-snap-align: center;
+    display: flex;
+    flex-direction: column;
+    background: var(--color-surface);
+    border: var(--border-subtle);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-rest);
+    padding: clamp(26px, 3vw, 38px) clamp(24px, 2.8vw, 34px);
+    transition:
+      border-color 0.4s ease,
+      box-shadow 0.4s ease,
+      transform 0.5s var(--ease-premium);
+  }
+
+  .testimonials__card:hover {
+    transform: translateY(-6px);
+    border-color: color-mix(in srgb, var(--color-principal) 40%, transparent);
+    box-shadow: var(--shadow-hover);
+  }
+
+  .testimonials__mark {
+    width: 30px;
+    height: 22px;
+    color: var(--color-secundario);
+    opacity: 0.35;
+    margin-bottom: 16px;
+  }
+
+  .testimonials__quote {
+    margin: 0 0 20px;
+    font-size: 16px;
+    line-height: 1.7;
+    color: rgba(44, 44, 42, 0.85);
+    flex: 1;
+  }
+
+  .testimonials__name {
+    margin: 0;
+    font-size: 14.5px;
+    font-weight: 600;
+    color: var(--color-principal);
+  }
+
+  .testimonials__detail {
+    display: block;
+    margin-top: 2px;
+    font-size: 12.5px;
+    font-weight: 400;
+    color: rgba(44, 44, 42, 0.55);
+  }
+
+  /* ---------- Controls ---------- */
+
+  .testimonials__controls {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    margin-top: clamp(26px, 3vw, 36px);
+  }
+
+  .testimonials__arrow {
+    flex: none;
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    background: var(--color-surface);
+    border: var(--border-subtle);
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition:
+      border-color 0.3s ease,
+      background-color 0.3s ease,
+      transform 0.3s var(--ease-premium);
+  }
+
+  .testimonials__arrow:hover:not(:disabled) {
+    border-color: var(--color-secundario);
+    background: rgba(55, 130, 211, 0.06);
+    transform: scale(1.08);
+  }
+
+  .testimonials__arrow:disabled {
+    opacity: 0.35;
+    cursor: default;
+  }
+
+  .testimonials__arrow-glyph {
+    width: 8px;
+    height: 8px;
+    border-top: 1.6px solid var(--color-principal);
+    border-right: 1.6px solid var(--color-principal);
+  }
+
+  .testimonials__arrow-glyph--prev {
+    transform: translateX(2px) rotate(-135deg);
+  }
+
+  .testimonials__arrow-glyph--next {
+    transform: translateX(-2px) rotate(45deg);
+  }
+
+  .testimonials__dots {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .testimonials__dot {
+    width: 7px;
+    height: 7px;
+    padding: 0;
+    border: none;
+    border-radius: 50%;
+    background: rgba(7, 58, 124, 0.22);
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.3s var(--ease-premium);
+  }
+
+  .testimonials__dot:hover {
+    background: rgba(55, 130, 211, 0.55);
+  }
+
+  .testimonials__dot[aria-current='true'] {
+    background: var(--color-principal);
+    transform: scale(1.35);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .testimonials__track {
+      scroll-behavior: auto;
+    }
+
+    .testimonials__card:hover,
+    .testimonials__arrow:hover:not(:disabled) {
+      transform: none;
+    }
+  }
+
+  @media (max-width: 420px) {
+    .testimonials__card {
+      width: 88vw;
+      padding: 24px 22px;
+    }
+  }
+</style>
+
+<script>
+  document.querySelectorAll<HTMLElement>('.testimonials__carousel').forEach((root) => {
+    const track = root.querySelector<HTMLElement>('[data-tst-track]');
+    const cards = Array.from(root.querySelectorAll<HTMLElement>('.testimonials__card'));
+    const dots = Array.from(root.querySelectorAll<HTMLButtonElement>('[data-tst-dot]'));
+    const prev = root.querySelector<HTMLButtonElement>('[data-tst-prev]');
+    const next = root.querySelector<HTMLButtonElement>('[data-tst-next]');
+    if (!track || cards.length === 0) return;
+
+    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    let active = 0;
+
+    const setActive = (index: number) => {
+      active = Math.max(0, Math.min(cards.length - 1, index));
+      dots.forEach((dot, i) =>
+        dot.setAttribute('aria-current', i === active ? 'true' : 'false')
+      );
+      if (prev) prev.disabled = active === 0;
+      if (next) next.disabled = active === cards.length - 1;
+    };
+
+    const goTo = (index: number) => {
+      const clamped = Math.max(0, Math.min(cards.length - 1, index));
+      track.scrollTo({
+        left: cards[clamped].offsetLeft - track.offsetLeft,
+        behavior: reduce ? 'auto' : 'smooth',
+      });
+      setActive(clamped);
+    };
+
+    dots.forEach((dot, i) => dot.addEventListener('click', () => goTo(i)));
+    prev?.addEventListener('click', () => goTo(active - 1));
+    next?.addEventListener('click', () => goTo(active + 1));
+
+    if ('IntersectionObserver' in window) {
+      const io = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting && entry.intersectionRatio >= 0.6) {
+              setActive(cards.indexOf(entry.target as HTMLElement));
+            }
+          });
+        },
+        { root: track, threshold: [0.6] }
+      );
+      cards.forEach((card) => io.observe(card));
+    } else {
+      let raf = 0;
+      track.addEventListener('scroll', () => {
+        cancelAnimationFrame(raf);
+        raf = requestAnimationFrame(() =>
+          setActive(Math.round(track.scrollLeft / cards[0].offsetWidth))
+        );
+      });
+    }
+
+    setActive(0);
+  });
+</script>

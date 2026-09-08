@@ -1,0 +1,43 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Hero from '../components/Hero.astro';
+import CTA from '../components/CTA.astro';
+---
+
+<BaseLayout
+  title="About"
+  description="Placeholder about page for the Tango Studio website foundation."
+>
+  <Hero
+    eyebrow="About"
+    heading="A placeholder about page"
+    description="Temporary copy describing who we are. The real story and team content will be added later."
+  />
+
+  <section class="section">
+    <div class="container prose">
+      <h2>Placeholder heading</h2>
+      <p>
+        Placeholder paragraph. This page currently exists to validate routing,
+        layout and shared components. Replace this text with the real about
+        content when the design is ready.
+      </p>
+      <p>
+        Another placeholder paragraph so the page has enough content to check
+        vertical rhythm, line length and responsive behaviour.
+      </p>
+
+      <h3>Placeholder subheading</h3>
+      <p>
+        Short placeholder text under a secondary heading to confirm the heading
+        hierarchy renders correctly.
+      </p>
+    </div>
+  </section>
+
+  <CTA
+    heading="Placeholder call to action"
+    description="Temporary CTA copy on the about page."
+    button={{ href: '/contact', label: 'Contact us' }}
+  />
+</BaseLayout>

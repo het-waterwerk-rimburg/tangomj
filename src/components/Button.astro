@@ -1,0 +1,139 @@
+---
+interface Props {
+  href?: string;
+  variant?: 'primary' | 'secondary' | 'outline' | 'ghost' | 'whatsapp';
+  type?: 'button' | 'submit' | 'reset';
+  class?: string;
+  [key: string]: unknown;
+}
+
+const {
+  href,
+  variant = 'primary',
+  type = 'button',
+  class: className,
+  ...rest
+} = Astro.props;
+
+const Tag = href ? 'a' : 'button';
+const classList = ['btn', `btn--${variant}`, className].filter(Boolean).join(' ');
+---
+
+<Tag
+  class={classList}
+  href={href}
+  type={href ? undefined : type}
+  {...rest}
+>
+  <slot />
+</Tag>
+
+<style>
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 13px 26px;
+    border-radius: var(--radius-sm);
+    font: inherit;
+    font-weight: 600;
+    font-size: 15px;
+    line-height: 1;
+    letter-spacing: 0.01em;
+    text-align: center;
+    cursor: pointer;
+    border: 1px solid transparent;
+    transform: translateZ(0);
+    transition:
+      transform 0.35s var(--ease-premium),
+      background-color 0.4s ease,
+      border-color 0.4s ease,
+      color 0.4s ease,
+      box-shadow 0.4s ease;
+  }
+
+  /* Expand on hover (guide §7) */
+  .btn:hover {
+    transform: scale(1.05);
+  }
+
+  .btn:active {
+    transform: scale(0.98);
+  }
+
+  .btn--primary {
+    background: var(--color-detalle);
+    color: var(--color-texto);
+  }
+
+  .btn--primary:hover {
+    background: #e5a600;
+    color: var(--color-texto);
+    box-shadow: var(--shadow-hover);
+  }
+
+  .btn--secondary {
+    background: var(--color-principal);
+    color: #fff;
+  }
+
+  .btn--secondary:hover {
+    background: var(--color-acento);
+    color: #fff;
+    box-shadow: var(--shadow-hover);
+  }
+
+  .btn--outline {
+    background: transparent;
+    color: var(--color-principal);
+    border-color: rgba(7, 58, 124, 0.28);
+  }
+
+  .btn--outline:hover {
+    color: var(--color-acento);
+    border-color: var(--color-acento);
+    background: rgba(122, 31, 43, 0.05);
+  }
+
+  /* WhatsApp — brand green, for community / chat links */
+  .btn--whatsapp {
+    background: #25d366;
+    color: #fff;
+    border-color: #25d366;
+  }
+
+  .btn--whatsapp:hover {
+    background: #1ebe5b;
+    border-color: #1ebe5b;
+    color: #fff;
+    box-shadow: 0 12px 28px rgba(37, 211, 102, 0.35);
+  }
+
+  .btn--whatsapp :global(svg) {
+    width: 18px;
+    height: 18px;
+  }
+
+  /* Ghost — for dark backgrounds (e.g. the cover hero) */
+  .btn--ghost {
+    background: rgba(255, 255, 255, 0.08);
+    color: #fff;
+    border-color: rgba(255, 255, 255, 0.65);
+    backdrop-filter: blur(2px);
+  }
+
+  .btn--ghost:hover {
+    background: rgba(255, 255, 255, 0.18);
+    border-color: #fff;
+    color: #fff;
+    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.25);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .btn:hover,
+    .btn:active {
+      transform: none;
+    }
+  }
+</style>

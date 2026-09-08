@@ -1,0 +1,221 @@
+---
+import { Image } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+import Button from './Button.astro';
+
+interface Props {
+  eyebrow?: string;
+  heading: string;
+  description?: string;
+  primaryCta?: { href: string; label: string };
+  secondaryCta?: { href: string; label: string };
+  /** Short line shown under the buttons (e.g. a price note). */
+  note?: string;
+  /** Imported image asset. When set, the hero renders full-bleed with the image behind light text. */
+  image?: ImageMetadata;
+  imageAlt?: string;
+}
+
+const {
+  eyebrow,
+  heading,
+  description,
+  primaryCta,
+  secondaryCta,
+  note,
+  image,
+  imageAlt = '',
+} = Astro.props;
+
+const hasMedia = Boolean(image);
+---
+
+<section class:list={['hero', { 'hero--cover': hasMedia }]}>
+  {
+    hasMedia && image && (
+      <div class="hero__media" aria-hidden={imageAlt ? undefined : 'true'}>
+        <Image
+          src={image}
+          alt={imageAlt}
+          widths={[640, 960, 1440, 1920]}
+          sizes="100vw"
+          loading="eager"
+          fetchpriority="high"
+          decoding="async"
+        />
+      </div>
+    )
+  }
+
+  <div class="container hero__inner">
+    <div class="hero__content">
+      {eyebrow && <span class="eyebrow hero__eyebrow" data-hero-item>{eyebrow}</span>}
+      <h1 class="hero__heading" data-hero-item>{heading}</h1>
+      {description && <p class="hero__description" data-hero-item>{description}</p>}
+
+      {
+        (primaryCta || secondaryCta) && (
+          <div class="hero__actions" data-hero-item>
+            {primaryCta && (
+              <Button href={primaryCta.href} variant="primary">
+                {primaryCta.label}
+              </Button>
+            )}
+            {secondaryCta && (
+              <Button
+                href={secondaryCta.href}
+                variant={hasMedia ? 'ghost' : 'outline'}
+              >
+                {secondaryCta.label}
+              </Button>
+            )}
+          </div>
+        )
+      }
+
+      {note && <p class="hero__note" data-hero-item>{note}</p>}
+    </div>
+  </div>
+</section>
+
+<style>
+  .hero {
+    padding-block: clamp(48px, 8vw, 96px);
+  }
+
+  .hero__inner {
+    display: grid;
+    gap: clamp(28px, 5vw, 56px);
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .hero__inner > * {
+    min-width: 0;
+  }
+
+  .hero__content {
+    max-width: min(42ch, 100%);
+  }
+
+  .hero__heading {
+    margin-bottom: 16px;
+  }
+
+  .hero__description {
+    font-size: clamp(16px, 1.6vw, 19px);
+    color: rgba(44, 44, 42, 0.78);
+    margin-bottom: 28px;
+  }
+
+  .hero__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 14px;
+  }
+
+  .hero__note {
+    margin: 16px 0 0;
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 0.01em;
+    color: rgba(44, 44, 42, 0.7);
+  }
+
+  /* ---------- Entrance: content rises in on load ---------- */
+
+  [data-hero-item] {
+    opacity: 0;
+    transform: translateY(20px);
+    animation: hero-rise 0.7s var(--ease-premium) forwards;
+  }
+
+  [data-hero-item]:nth-child(1) {
+    animation-delay: 0.05s;
+  }
+  [data-hero-item]:nth-child(2) {
+    animation-delay: 0.15s;
+  }
+  [data-hero-item]:nth-child(3) {
+    animation-delay: 0.25s;
+  }
+  [data-hero-item]:nth-child(4) {
+    animation-delay: 0.35s;
+  }
+  [data-hero-item]:nth-child(5) {
+    animation-delay: 0.45s;
+  }
+
+  @keyframes hero-rise {
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    [data-hero-item] {
+      opacity: 1;
+      transform: none;
+      animation: none;
+    }
+  }
+
+  /* ---------- Cover variant: full-bleed image behind light text ---------- */
+
+  .hero--cover {
+    position: relative;
+    isolation: isolate;
+    display: flex;
+    align-items: flex-end;
+    min-height: min(78vh, 680px);
+    padding-block: clamp(72px, 14vw, 140px);
+    color: #fff;
+    overflow: hidden;
+  }
+
+  .hero__media {
+    position: absolute;
+    inset: 0;
+    z-index: -2;
+  }
+
+  .hero__media :global(img) {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center 35%;
+  }
+
+  .hero__media::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      to top,
+      rgba(7, 26, 54, 0.92) 0%,
+      rgba(7, 26, 54, 0.62) 42%,
+      rgba(7, 26, 54, 0.34) 72%,
+      rgba(7, 26, 54, 0.28) 100%
+    );
+  }
+
+  .hero--cover .hero__content {
+    max-width: 46ch;
+  }
+
+  .hero--cover .hero__heading {
+    color: #fff;
+  }
+
+  .hero--cover .hero__eyebrow {
+    color: var(--color-detalle);
+  }
+
+  .hero--cover .hero__description {
+    color: rgba(255, 255, 255, 0.9);
+  }
+
+  .hero--cover .hero__note {
+    color: rgba(255, 255, 255, 0.82);
+  }
+</style>

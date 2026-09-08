@@ -1,0 +1,41 @@
+---
+import Button from './Button.astro';
+
+interface Props {
+  heading: string;
+  description?: string;
+  button: { href: string; label: string };
+}
+
+const { heading, description, button } = Astro.props;
+---
+
+<section class="cta section">
+  <div class="container cta__inner">
+    <h2 class="cta__heading">{heading}</h2>
+    {description && <p class="cta__description">{description}</p>}
+    <Button href={button.href} variant="secondary">{button.label}</Button>
+  </div>
+</section>
+
+<style>
+  .cta__inner {
+    max-width: 640px;
+    margin-inline: auto;
+    text-align: center;
+    padding: clamp(40px, 6vw, 72px) clamp(24px, 4vw, 56px);
+    background: var(--color-surface);
+    border: var(--border-subtle);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-rest);
+  }
+
+  .cta__heading {
+    margin-bottom: 12px;
+  }
+
+  .cta__description {
+    color: rgba(44, 44, 42, 0.78);
+    margin-bottom: 24px;
+  }
+</style>

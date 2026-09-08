@@ -1,0 +1,840 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Hero from '../components/Hero.astro';
+import Card from '../components/Card.astro';
+import CTA from '../components/CTA.astro';
+import Testimonials from '../components/Testimonials.astro';
+import ContactForm from '../components/ContactForm.astro';
+import heroImage from '../assets/images/wedding-hero.jpg';
+
+const concerns = [
+  {
+    title: '“We have two left feet.”',
+    description:
+      'You’ve never danced together and don’t know where to start.',
+  },
+  {
+    title: '“We don’t have much time.”',
+    description:
+      'Between venues, invitations and everything else, learning a choreography can feel overwhelming.',
+  },
+  {
+    title: '“We don’t want to look awkward.”',
+    description:
+      'You want your first dance to feel natural, not like you’re trying to remember 27 steps.',
+  },
+];
+
+const reasons = [
+  {
+    title: 'Connection',
+    description:
+      'You learn to move together, communicate and listen without words.',
+  },
+  {
+    title: 'Elegance',
+    description:
+      'Simple movements can look beautiful when they are danced with connection.',
+  },
+  {
+    title: 'Personality',
+    description:
+      'Your choreography is built around your music, your space and your comfort level.',
+  },
+  {
+    title: 'A memory you’ll keep',
+    description:
+      'You’re not just learning a wedding dance. You’re learning something you can continue enjoying together.',
+  },
+];
+
+const steps = [
+  {
+    title: 'Tell us your story',
+    meta: '15-20 min free consultation.',
+    description:
+      'Your music, wedding, experience, venue and what you imagine for your first dance.',
+  },
+  {
+    title: 'Create your dance',
+    description:
+      'We design a choreography around you, not around a generic routine.',
+  },
+  {
+    title: 'Learn together',
+    meta: 'Private 60-minute sessions.',
+    description:
+      'Step by step. No pressure. Videos and exercises to practice at home.',
+  },
+  {
+    title: 'Make it yours',
+    description:
+      'We refine the details, adapt to your dress, shoes, venue and music.',
+  },
+  {
+    title: 'Wedding day ready',
+    meta: 'Final rehearsal.',
+    description:
+      'You walk onto the dance floor knowing exactly what to do.',
+  },
+];
+
+const faqs = [
+  {
+    question: 'Do we need previous dance experience?',
+    answer:
+      'No! You don’t need any prior experience. We start from the basics and adapt the lessons to fit your pace and style as a couple.',
+  },
+  {
+    question: 'How many classes do we need before the wedding?',
+    answer:
+      'There’s no minimum or maximum. First, we have an initial meeting to understand your starting point and agree on a plan. From there, we’ll recommend a package tailored to you.',
+  },
+  {
+    question: 'Can we practice in our wedding outfits?',
+    answer:
+      'Absolutely! The dance can be adapted to your dress and suit so you’ll feel comfortable and confident.',
+  },
+  {
+    question: 'Can you help us choose the music?',
+    answer:
+      'Yes! We’ll explore the music together. Tango is our favorite recommendation, but we can adapt tango steps to another rhythm if you prefer.',
+  },
+  {
+    question: 'How long is each class?',
+    answer: 'Classes are 60 minutes each.',
+  },
+  {
+    question: 'How do we progress between classes?',
+    answer:
+      'Progress depends on your dedication. We provide exercises and guidance to practice at home, helping you improve efficiently. Our goal is to reach your objective with the fewest number of classes possible.',
+  },
+  {
+    question: 'What if one of us learns faster than the other?',
+    answer:
+      'We adapt lessons to the couple’s pace. The focus is on connection, not perfection. You’ll always feel comfortable and supported.',
+  },
+  {
+    question: 'Can we include special choreography for our first dance?',
+    answer:
+      'Of course! We personalize a choreography based on your style, music, and comfort level, making it unique for your wedding.',
+  },
+  {
+    question: 'When are the lessons?',
+    answer:
+      'We schedule according to your availability. Flexibility is key: we work around your wedding planning.',
+  },
+  {
+    question: 'Where do the lessons take place?',
+    answer:
+      'We teach private lessons in Limburg, Netherlands. Get in touch and we’ll find a time and place that works for you.',
+  },
+  {
+    question: 'Do you offer group classes or is it only private lessons?',
+    answer:
+      'For wedding dance, we recommend private classes to fully personalize the choreography and pace, but we can suggest optional workshops if you want to add fun extras.',
+  },
+  {
+    question: 'Can we record the lessons to practice at home?',
+    answer:
+      'Yes! We encourage you to record the lessons or take notes so you can practice at home. We’ll also give you exercises and tips to keep improving between classes.',
+  },
+  {
+    question: 'How early should we start learning before the wedding?',
+    answer:
+      'We recommend starting at least 4 months before your wedding, and ideally as early as possible. This gives you enough time to learn at a relaxed pace, practice at home, and feel confident and connected on your big day.',
+  },
+  {
+    question: 'Can we adapt the choreography if our wedding is in a small space?',
+    answer:
+      'Absolutely! We tailor the dance to your venue, whether it’s a small room or a big hall.',
+  },
+];
+
+const testimonials = [
+  {
+    quote:
+      'We had no experience, we started from zero, and by the end of the classes we had a beautiful dance for the day.',
+    name: 'Marcel & Vera',
+    detail: 'Married in Spain',
+  },
+  {
+    quote:
+      'We had very little time, with all the wedding preparations, but in just a few classes we managed to learn the dance!',
+    name: 'Ajeng & Volkan',
+    detail: 'Our very first students',
+  },
+  {
+    quote:
+      'We chose to bring some tango into our first dance, and everything went just as we planned. Thank you.',
+    name: 'Katrin & Robin',
+    detail: 'Married in Germany',
+  },
+];
+
+const coachPhotos = {
+  main: 'https://tangomj.nl/wp-content/uploads/2023/01/PResentation-and-movie_Moment8855.jpg',
+  joel: 'https://tangomj.nl/wp-content/uploads/2024/11/WhatsApp-Image-2024-09-19-at-12.45.32-1023x1536.jpeg',
+  maddie: 'https://tangomj.nl/wp-content/uploads/2025/08/imagen-2-maddie.png',
+};
+---
+
+<BaseLayout
+  title="Wedding Dance"
+  description="A personalized tango first dance for your wedding, taught by Maddie & Joel in Limburg, the Netherlands. No previous experience required."
+>
+  <Hero
+    image={heroImage}
+    imageAlt="Maddie and Joel dancing tango"
+    eyebrow="Tango Wedding Dance"
+    heading="Your first dance should feel like you."
+    description="Learn a beautiful, personalized first dance, even if you have never danced before."
+    primaryCta={{ href: '#wedding-contact', label: 'Book a free consultation' }}
+    secondaryCta={{ href: '#method', label: 'See how it works' }}
+    note="Personalized private lessons · No previous experience required · Limburg, Netherlands"
+  />
+
+  <!-- ============ You don't need to be dancers ============ -->
+  <section class="section section--tint">
+    <div class="container">
+      <div class="section-intro" data-reveal>
+        <span class="eyebrow">First dance</span>
+        <h2>You don’t need to be dancers.</h2>
+        <p>You just need to feel confident together.</p>
+      </div>
+
+      <div class="card-grid" data-reveal-group>
+        {
+          concerns.map((c) => (
+            <div data-reveal>
+              <Card title={c.title} description={c.description} />
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ The transformation ============ -->
+  <section class="section">
+    <div class="container">
+      <div class="section-intro" data-reveal>
+        <span class="eyebrow">The transformation</span>
+        <h2>From “we don’t know how to dance” to “we can’t believe we did that.”</h2>
+      </div>
+
+      <div class="transform" data-reveal>
+        <div class="transform__panel">
+          <p class="transform__label">Before</p>
+          <ul>
+            <li>Nervous</li>
+            <li>No experience</li>
+            <li>No choreography</li>
+            <li>Afraid of forgetting</li>
+          </ul>
+        </div>
+        <div class="transform__arrow" aria-hidden="true">→</div>
+        <div class="transform__panel transform__panel--after">
+          <p class="transform__label">After</p>
+          <ul>
+            <li>Confident</li>
+            <li>Connected</li>
+            <li>Personalized choreography</li>
+            <li>Ready for the big day</li>
+          </ul>
+        </div>
+      </div>
+
+      <p class="transform__statement" data-reveal>
+        We don’t teach you a routine to perform.
+        <strong>We help you create a dance that feels like yours.</strong>
+      </p>
+    </div>
+  </section>
+
+  <!-- ============ Why tango ============ -->
+  <section class="section section--tint">
+    <div class="container">
+      <div class="section-intro" data-reveal>
+        <span class="eyebrow">Why tango?</span>
+        <h2>Why tango?</h2>
+      </div>
+
+      <div class="why-grid" data-reveal-group>
+        {
+          reasons.map((r) => (
+            <div class="why-grid__item" data-reveal>
+              <h3>{r.title}</h3>
+              <p>{r.description}</p>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ Meet the coaches ============ -->
+  <section class="section">
+    <div class="container">
+      <div class="section-intro" data-reveal>
+        <span class="eyebrow">Meet your wedding dance coaches</span>
+        <h2>Maddie &amp; Joel</h2>
+        <p>
+          Two different backgrounds, one goal: helping couples feel confident,
+          connected and beautiful on the dance floor.
+        </p>
+      </div>
+
+      <figure class="coaches__lead" data-reveal>
+        <img
+          src={coachPhotos.main}
+          alt="Maddie and Joel"
+          loading="lazy"
+          decoding="async"
+          width="1280"
+          height="720"
+        />
+      </figure>
+
+      <div class="coaches" data-reveal-group>
+        <figure class="coaches__card" data-reveal>
+          <img
+            src={coachPhotos.joel}
+            alt="Joel"
+            loading="lazy"
+            decoding="async"
+            width="1023"
+            height="1536"
+          />
+          <figcaption>
+            <h3>Joel</h3>
+            <p>
+              Argentine tango teacher with 10+ years of experience studying and
+              dancing tango in Buenos Aires.
+            </p>
+          </figcaption>
+        </figure>
+
+        <figure class="coaches__card" data-reveal>
+          <img
+            src={coachPhotos.maddie}
+            alt="Maddie"
+            loading="lazy"
+            decoding="async"
+            width="800"
+            height="1000"
+          />
+          <figcaption>
+            <h3>Maddie</h3>
+            <p>
+              Coach specialized in personal development, movement and helping
+              people feel comfortable in their bodies.
+            </p>
+          </figcaption>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ The method ============ -->
+  <section id="method" class="section section--tint">
+    <div class="container">
+      <div class="section-intro" data-reveal>
+        <span class="eyebrow">The method</span>
+        <h2>Your journey to the first dance</h2>
+      </div>
+
+      <ol class="method" data-reveal-group>
+        {
+          steps.map((step, i) => (
+            <li class="method__step" data-reveal>
+              <span class="method__num" aria-hidden="true">
+                {String(i + 1).padStart(2, '0')}
+              </span>
+              <div class="method__body">
+                <h3>{step.title}</h3>
+                {step.meta && <p class="method__meta">{step.meta}</p>}
+                <p class="method__desc">{step.description}</p>
+              </div>
+            </li>
+          ))
+        }
+      </ol>
+    </div>
+  </section>
+
+  <!-- ============ FAQ ============ -->
+  <section class="section">
+    <div class="container faq">
+      <div class="section-intro" data-reveal>
+        <span class="eyebrow">FAQ</span>
+        <h2>Wedding answers</h2>
+        <p>
+          All you want to know about learning tango for your big day… and more!
+        </p>
+      </div>
+
+      <div class="faq__list" data-reveal>
+        {
+          faqs.map((item) => (
+            <details class="faq__item" name="wedding-faq">
+              <summary>
+                {item.question}
+                <span class="faq__marker" aria-hidden="true"></span>
+              </summary>
+              <div class="faq__answer">
+                <p>{item.answer}</p>
+              </div>
+            </details>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <Testimonials
+    eyebrow="Testimonials"
+    heading="Stories from the dance floor"
+    testimonials={testimonials}
+  />
+
+  <CTA
+    heading="Ready to start your first dance?"
+    description="Book a free 15-20 minute consultation. We’ll talk about your song, your wedding and what you imagine for your dance."
+    button={{ href: '#wedding-contact', label: 'Book a free consultation' }}
+  />
+
+  <!-- ============ Contact ============ -->
+  <section id="wedding-contact" class="section section--tint">
+    <div class="container contact-block">
+      <div class="contact-block__intro" data-reveal="left">
+        <span class="eyebrow">Contact</span>
+        <h2>Tell us about your first dance</h2>
+        <p>
+          Send us a message and we will get back to you to arrange your free
+          consultation.
+        </p>
+
+        <ul class="contact-block__details">
+          <li>
+            <strong>Email:</strong>
+            <a href="mailto:info@tangomj.nl">info@tangomj.nl</a>
+          </li>
+          <li>
+            <strong>WhatsApp:</strong>
+            <a
+              href="https://wa.me/31621710803"
+              target="_blank"
+              rel="noopener noreferrer">+31 6 21710803</a
+            >
+          </li>
+          <li><strong>Area:</strong> Limburg, Netherlands</li>
+        </ul>
+      </div>
+
+      <div class="contact-block__form surface-card" data-reveal="right">
+        <ContactForm selectedTopic="Wedding dance" />
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  /* ---------- Transformation ---------- */
+  .transform {
+    display: grid;
+    gap: 20px;
+    align-items: stretch;
+    margin-bottom: clamp(32px, 5vw, 56px);
+  }
+
+  @media (min-width: 760px) {
+    .transform {
+      grid-template-columns: 1fr auto 1fr;
+      align-items: center;
+    }
+  }
+
+  .transform__panel {
+    background: var(--color-bg);
+    border: var(--border-subtle);
+    border-radius: var(--radius);
+    padding: clamp(24px, 3vw, 34px);
+  }
+
+  .transform__panel--after {
+    background: rgba(122, 31, 43, 0.05);
+    border-color: rgba(122, 31, 43, 0.35);
+  }
+
+  .transform__label {
+    margin: 0 0 14px;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: rgba(44, 44, 42, 0.5);
+  }
+
+  .transform__panel--after .transform__label {
+    color: var(--color-acento);
+  }
+
+  .transform__panel ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .transform__panel li {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 15px;
+    color: rgba(44, 44, 42, 0.72);
+  }
+
+  .transform__panel li::before {
+    content: '';
+    flex: none;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    border: 1.5px solid rgba(7, 58, 124, 0.3);
+  }
+
+  .transform__panel--after li {
+    color: rgba(44, 44, 42, 0.9);
+    font-weight: 500;
+  }
+
+  .transform__panel--after li::before {
+    border: none;
+    background: var(--color-detalle);
+  }
+
+  .transform__arrow {
+    text-align: center;
+    font-size: 24px;
+    color: var(--color-secundario);
+    transform: rotate(90deg);
+  }
+
+  @media (min-width: 760px) {
+    .transform__arrow {
+      transform: none;
+    }
+  }
+
+  .transform__statement {
+    max-width: 620px;
+    margin-inline: auto;
+    text-align: center;
+    font-size: clamp(18px, 2.4vw, 26px);
+    line-height: 1.45;
+    color: rgba(44, 44, 42, 0.6);
+  }
+
+  .transform__statement strong {
+    display: block;
+    margin-top: 4px;
+    color: var(--color-acento);
+    font-weight: 600;
+  }
+
+  /* ---------- Why tango ---------- */
+  .why-grid {
+    display: grid;
+    gap: var(--gap-md);
+    grid-template-columns: 1fr;
+  }
+
+  @media (min-width: 640px) {
+    .why-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  .why-grid__item {
+    background: var(--color-surface);
+    border: var(--border-subtle);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-rest);
+    padding: clamp(24px, 3vw, 34px);
+    transition:
+      transform 0.5s var(--ease-premium),
+      border-color 0.4s ease,
+      box-shadow 0.4s ease;
+  }
+
+  .why-grid__item:hover {
+    transform: translateY(-6px);
+    border-color: color-mix(in srgb, var(--color-principal) 40%, transparent);
+    box-shadow: var(--shadow-hover);
+  }
+
+  .why-grid__item h3 {
+    margin: 0 0 8px;
+    color: var(--color-principal);
+    font-weight: var(--weight-heading);
+    font-size: clamp(18px, 1.8vw, 21px);
+  }
+
+  .why-grid__item p {
+    margin: 0;
+    font-size: 14.5px;
+    line-height: 1.65;
+    color: rgba(44, 44, 42, 0.68);
+  }
+
+  /* ---------- Coaches ---------- */
+  .coaches__lead {
+    margin: 0 0 var(--gap-md);
+    border: var(--border-subtle);
+    border-radius: var(--radius);
+    overflow: hidden;
+    box-shadow: var(--shadow-rest);
+  }
+
+  .coaches__lead img {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    object-fit: cover;
+    background: var(--color-bg);
+  }
+
+  .coaches {
+    display: grid;
+    gap: var(--gap-md);
+    grid-template-columns: 1fr;
+  }
+
+  @media (min-width: 720px) {
+    .coaches {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  .coaches__card {
+    margin: 0;
+    background: var(--color-surface);
+    border: var(--border-subtle);
+    border-radius: var(--radius);
+    overflow: hidden;
+    box-shadow: var(--shadow-rest);
+  }
+
+  .coaches__card img {
+    width: 100%;
+    aspect-ratio: 4 / 5;
+    object-fit: cover;
+    background: var(--color-bg);
+  }
+
+  .coaches__card figcaption {
+    padding: clamp(20px, 2.6vw, 28px);
+  }
+
+  .coaches__card h3 {
+    margin: 0 0 8px;
+    color: var(--color-principal);
+    font-weight: var(--weight-heading);
+    font-size: clamp(18px, 1.8vw, 21px);
+  }
+
+  .coaches__card p {
+    margin: 0;
+    font-size: 14.5px;
+    line-height: 1.65;
+    color: rgba(44, 44, 42, 0.68);
+  }
+
+  /* ---------- Method ---------- */
+  .method {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 20px;
+  }
+
+  @media (min-width: 900px) {
+    .method {
+      grid-template-columns: repeat(5, 1fr);
+      gap: 18px;
+    }
+  }
+
+  .method__step {
+    background: var(--color-surface);
+    border: var(--border-subtle);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-rest);
+    padding: clamp(22px, 2.6vw, 28px);
+    display: flex;
+    gap: 14px;
+  }
+
+  @media (min-width: 900px) {
+    .method__step {
+      flex-direction: column;
+      gap: 10px;
+    }
+  }
+
+  .method__num {
+    flex: none;
+    font-size: clamp(22px, 2.4vw, 28px);
+    font-weight: 300;
+    line-height: 1;
+    color: var(--color-principal);
+    opacity: 0.25;
+  }
+
+  .method__body h3 {
+    margin: 0 0 8px;
+    font-weight: var(--weight-heading);
+    font-size: 17px;
+    color: var(--color-principal);
+  }
+
+  .method__meta {
+    margin: 0 0 6px;
+    font-size: 12.5px;
+    font-weight: 600;
+    color: var(--color-secundario);
+  }
+
+  .method__desc {
+    margin: 0;
+    font-size: 14px;
+    line-height: 1.6;
+    color: rgba(44, 44, 42, 0.66);
+  }
+
+  /* ---------- FAQ ---------- */
+  .faq {
+    max-width: 800px;
+  }
+
+  .faq__list {
+    background: var(--color-surface);
+    border: var(--border-subtle);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-rest);
+    overflow: hidden;
+  }
+
+  .faq__item {
+    border-bottom: var(--border-subtle);
+  }
+
+  .faq__item:last-child {
+    border-bottom: none;
+  }
+
+  .faq__item summary {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    padding: clamp(18px, 2.4vw, 24px) clamp(20px, 3vw, 30px);
+    font-size: clamp(15.5px, 1.6vw, 17px);
+    font-weight: 500;
+    color: var(--color-principal);
+    cursor: pointer;
+    list-style: none;
+    transition: background-color 0.3s ease;
+  }
+
+  .faq__item summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .faq__item summary:hover {
+    background: rgba(7, 58, 124, 0.03);
+  }
+
+  .faq__marker {
+    position: relative;
+    flex: none;
+    width: 16px;
+    height: 16px;
+  }
+
+  .faq__marker::before,
+  .faq__marker::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    background: var(--color-principal);
+    transition: transform 0.35s var(--ease-premium), background-color 0.3s ease;
+  }
+
+  .faq__marker::before {
+    width: 12px;
+    height: 1.5px;
+    transform: translate(-50%, -50%);
+  }
+
+  .faq__marker::after {
+    width: 1.5px;
+    height: 12px;
+    transform: translate(-50%, -50%);
+  }
+
+  .faq__item[open] .faq__marker::after {
+    transform: translate(-50%, -50%) rotate(90deg) scale(0);
+  }
+
+  .faq__item[open] .faq__marker::before {
+    background: var(--color-acento);
+  }
+
+  .faq__answer p {
+    margin: 0;
+    padding: 0 clamp(20px, 3vw, 30px) clamp(18px, 2.4vw, 24px);
+    font-size: 14.5px;
+    line-height: 1.7;
+    color: rgba(44, 44, 42, 0.7);
+    max-width: 58ch;
+  }
+
+  /* ---------- Contact block (shared with home) ---------- */
+  .contact-block {
+    display: grid;
+    gap: clamp(32px, 6vw, 64px);
+  }
+
+  @media (min-width: 860px) {
+    .contact-block {
+      grid-template-columns: 1fr 1fr;
+      align-items: start;
+    }
+  }
+
+  .contact-block__details {
+    list-style: none;
+    padding: 0;
+    margin: 24px 0 0;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    font-size: 15px;
+    color: rgba(44, 44, 42, 0.8);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .why-grid__item:hover {
+      transform: none;
+    }
+    .faq__marker::before,
+    .faq__marker::after {
+      transition: none;
+    }
+  }
+</style>

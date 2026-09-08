@@ -1,0 +1,67 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import ContactForm from '../components/ContactForm.astro';
+---
+
+<BaseLayout
+  title="Contact"
+  description="Placeholder contact page for the Tango Studio website foundation."
+>
+  <section class="section">
+    <div class="container contact-layout">
+      <div class="contact-layout__intro">
+        <span class="eyebrow">Contact</span>
+        <h1>Get in touch</h1>
+        <p>
+          Contact us to start or improve your tango, or with any question you
+          have. We will be happy to answer.
+        </p>
+
+        <ul class="contact-layout__details">
+          <li>
+            <strong>Email:</strong>
+            <a href="mailto:info@tangomj.nl">info@tangomj.nl</a>
+          </li>
+          <li>
+            <strong>WhatsApp:</strong>
+            <a
+              href="https://wa.me/31621710803"
+              target="_blank"
+              rel="noopener noreferrer">+31 6 21710803</a
+            >
+          </li>
+          <li><strong>Area:</strong> Limburg, Netherlands</li>
+        </ul>
+      </div>
+
+      <div class="contact-layout__form surface-card">
+        <ContactForm />
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .contact-layout {
+    display: grid;
+    gap: clamp(32px, 6vw, 64px);
+  }
+
+  @media (min-width: 860px) {
+    .contact-layout {
+      grid-template-columns: 1fr 1fr;
+      align-items: start;
+    }
+  }
+
+  .contact-layout__details {
+    list-style: none;
+    padding: 0;
+    margin: 24px 0 0;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    font-size: 15px;
+    color: rgba(44, 44, 42, 0.8);
+  }
+</style>
