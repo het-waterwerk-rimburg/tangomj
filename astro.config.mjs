@@ -8,4 +8,7 @@ export default defineConfig({
   // Update this to the real production domain when it is known.
   site: 'https://example.com',
   integrations: [sitemap()],
+  redirects: {
+    '/milonga': 'https://tresesquinas.vercel.app/',
+  },
 });
