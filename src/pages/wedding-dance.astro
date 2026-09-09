@@ -1,4 +1,5 @@
 ---
+import { Image } from 'astro:assets';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Hero from '../components/Hero.astro';
 import Card from '../components/Card.astro';
@@ -6,6 +7,8 @@ import CTA from '../components/CTA.astro';
 import Testimonials from '../components/Testimonials.astro';
 import ContactForm from '../components/ContactForm.astro';
 import heroImage from '../assets/images/wedding-hero.jpg';
+import maddiePhoto from '../assets/images/maddie.png';
+import joelPhoto from '../assets/images/dj2.webp';
 
 const concerns = [
   {
@@ -172,11 +175,6 @@ const testimonials = [
   },
 ];
 
-const coachPhotos = {
-  main: 'https://tangomj.nl/wp-content/uploads/2023/01/PResentation-and-movie_Moment8855.jpg',
-  joel: 'https://tangomj.nl/wp-content/uploads/2024/11/WhatsApp-Image-2024-09-19-at-12.45.32-1023x1536.jpeg',
-  maddie: 'https://tangomj.nl/wp-content/uploads/2025/08/imagen-2-maddie.png',
-};
 ---
 
 <BaseLayout
@@ -285,26 +283,14 @@ const coachPhotos = {
         </p>
       </div>
 
-      <figure class="coaches__lead" data-reveal>
-        <img
-          src={coachPhotos.main}
-          alt="Maddie and Joel"
-          loading="lazy"
-          decoding="async"
-          width="1280"
-          height="720"
-        />
-      </figure>
-
       <div class="coaches" data-reveal-group>
         <figure class="coaches__card" data-reveal>
-          <img
-            src={coachPhotos.joel}
+          <Image
+            src={joelPhoto}
             alt="Joel"
+            widths={[300, 600]}
+            sizes="(min-width: 720px) 45vw, 90vw"
             loading="lazy"
-            decoding="async"
-            width="1023"
-            height="1536"
           />
           <figcaption>
             <h3>Joel</h3>
@@ -316,13 +302,12 @@ const coachPhotos = {
         </figure>
 
         <figure class="coaches__card" data-reveal>
-          <img
-            src={coachPhotos.maddie}
+          <Image
+            src={maddiePhoto}
             alt="Maddie"
+            widths={[300, 600]}
+            sizes="(min-width: 720px) 45vw, 90vw"
             loading="lazy"
-            decoding="async"
-            width="800"
-            height="1000"
           />
           <figcaption>
             <h3>Maddie</h3>
@@ -591,21 +576,6 @@ const coachPhotos = {
   }
 
   /* ---------- Coaches ---------- */
-  .coaches__lead {
-    margin: 0 0 var(--gap-md);
-    border: var(--border-subtle);
-    border-radius: var(--radius);
-    overflow: hidden;
-    box-shadow: var(--shadow-rest);
-  }
-
-  .coaches__lead img {
-    width: 100%;
-    aspect-ratio: 16 / 9;
-    object-fit: cover;
-    background: var(--color-bg);
-  }
-
   .coaches {
     display: grid;
     gap: var(--gap-md);
@@ -627,10 +597,12 @@ const coachPhotos = {
     box-shadow: var(--shadow-rest);
   }
 
-  .coaches__card img {
+  .coaches__card :global(img) {
+    display: block;
     width: 100%;
     aspect-ratio: 4 / 5;
     object-fit: cover;
+    object-position: center top;
     background: var(--color-bg);
   }
 
