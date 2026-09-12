@@ -1,0 +1,139 @@
+---
+// Promotional block for an upcoming event organised by Tango MJ but hosted
+// on its own official site (e.g. Las Tres Esquinas -> lastresesquinas.nl).
+// Everything that changes between editions (date, description, image, link)
+// is a prop, so a future edition only needs new values here — no redesign.
+import type { ImageMetadata } from 'astro';
+import { Image } from 'astro:assets';
+import Button from './Button.astro';
+
+interface Props {
+  eyebrow?: string;
+  name: string;
+  tagline?: string;
+  date: string;
+  location: string;
+  description: string;
+  ctaLabel: string;
+  ctaHref: string;
+  organiser?: string;
+  image: ImageMetadata;
+  imageAlt: string;
+}
+
+const {
+  eyebrow = 'Upcoming Milonga',
+  name,
+  tagline,
+  date,
+  location,
+  description,
+  ctaLabel,
+  ctaHref,
+  organiser,
+  image,
+  imageAlt,
+} = Astro.props;
+---
+
+<section class="section event-promo-section" aria-labelledby="event-promo-heading">
+  <div class="container">
+    <div class="event-promo surface-card" data-reveal>
+      <div class="event-promo__media">
+        <Image
+          src={image}
+          alt={imageAlt}
+          widths={[400, 640, 860]}
+          sizes="(min-width: 760px) 42vw, 90vw"
+          loading="lazy"
+        />
+      </div>
+
+      <div class="event-promo__body">
+        <span class="eyebrow">{eyebrow}</span>
+        <h2 id="event-promo-heading">{name}</h2>
+        {tagline && <p class="event-promo__tagline">{tagline}</p>}
+
+        <ul class="event-promo__meta">
+          <li>{date}</li>
+          <li>{location}</li>
+        </ul>
+
+        <p class="event-promo__desc">{description}</p>
+
+        <Button href={ctaHref} variant="primary" target="_blank" rel="noopener noreferrer">
+          {ctaLabel}
+        </Button>
+
+        {organiser && <p class="event-promo__organiser">{organiser}</p>}
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .event-promo-section {
+    padding-block: clamp(32px, 5vw, 56px);
+  }
+
+  .event-promo {
+    display: grid;
+    gap: clamp(24px, 4vw, 48px);
+    align-items: center;
+    padding: clamp(20px, 3vw, 32px);
+  }
+
+  @media (min-width: 760px) {
+    .event-promo {
+      grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+      padding: clamp(24px, 3vw, 34px);
+    }
+  }
+
+  .event-promo__media {
+    border: var(--border-subtle);
+    border-radius: var(--radius-sm);
+    overflow: hidden;
+  }
+
+  .event-promo__media :global(img) {
+    display: block;
+    width: 100%;
+    aspect-ratio: 16 / 10;
+    object-fit: cover;
+    background: var(--color-bg);
+  }
+
+  .event-promo__body h2 {
+    margin-top: 0;
+  }
+
+  .event-promo__tagline {
+    margin: 0 0 16px;
+    color: rgba(44, 44, 42, 0.7);
+    font-size: 15px;
+  }
+
+  .event-promo__meta {
+    list-style: none;
+    margin: 0 0 16px;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 20px;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--color-principal);
+  }
+
+  .event-promo__desc {
+    margin: 0 0 24px;
+    color: rgba(44, 44, 42, 0.8);
+  }
+
+  .event-promo__organiser {
+    margin: 14px 0 0;
+    font-size: 13px;
+    color: rgba(44, 44, 42, 0.55);
+  }
+</style>

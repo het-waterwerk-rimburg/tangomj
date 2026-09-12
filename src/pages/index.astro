@@ -7,12 +7,30 @@ import Card from '../components/Card.astro';
 import ContactForm from '../components/ContactForm.astro';
 import Testimonials from '../components/Testimonials.astro';
 import Community from '../components/Community.astro';
+import EventPromo from '../components/EventPromo.astro';
 import heroImage from '../assets/images/hero-classes.jpg';
 import maddiePhoto from '../assets/images/maddie.png';
 import joelPhoto from '../assets/images/dj2.webp';
+import lasTresEsquinasImage from '../assets/images/las-tres-esquinas.jpg';
 
 const whatsappCommunityUrl =
   'https://chat.whatsapp.com/BDvSLGgAuqW5THotX58YAh?mode=gi_t';
+
+// Milonga Las Tres Esquinas has its own official site — update these values
+// for each new edition. It is not a Tango MJ page: the CTA links out to
+// https://lastresesquinas.nl/.
+const lasTresEsquinas = {
+  eyebrow: 'Upcoming Milonga',
+  name: 'Las Tres Esquinas',
+  tagline: 'Argentine Tango Milonga in Landgraaf',
+  date: 'Friday · 6 November 2026',
+  location: 'Landgraaf · Limburg · Netherlands',
+  description:
+    'Join us for an evening of Argentine tango in Landgraaf, with a tango workshop, live music by Orquesta Conjunto Margot and DJ Cinthya Tomino.',
+  ctaLabel: 'Discover Las Tres Esquinas',
+  ctaHref: 'https://lastresesquinas.nl/',
+  organiser: 'Organised by Tango MJ',
+};
 
 const testimonials = [
   {
@@ -64,6 +82,43 @@ const lessons = [
     primaryCta={{ href: '#contact', label: 'Join our regular classes · €5 first class' }}
     secondaryCta={{ href: '#lessons', label: 'See what we offer' }}
   />
+
+  <EventPromo
+    eyebrow={lasTresEsquinas.eyebrow}
+    name={lasTresEsquinas.name}
+    tagline={lasTresEsquinas.tagline}
+    date={lasTresEsquinas.date}
+    location={lasTresEsquinas.location}
+    description={lasTresEsquinas.description}
+    ctaLabel={lasTresEsquinas.ctaLabel}
+    ctaHref={lasTresEsquinas.ctaHref}
+    organiser={lasTresEsquinas.organiser}
+    image={lasTresEsquinasImage}
+    imageAlt="Orquesta Conjunto Margot performing at Milonga Las Tres Esquinas in Landgraaf"
+  />
+
+  <script type="application/ld+json" is:inline set:html={JSON.stringify({
+    '@context': 'https://schema.org',
+    '@type': 'DanceEvent',
+    name: 'Milonga Las Tres Esquinas',
+    startDate: '2026-11-06T19:30:00+01:00',
+    endDate: '2026-11-07T01:00:00+01:00',
+    eventAttendanceMode: 'https://schema.org/OfflineEventAttendanceMode',
+    eventStatus: 'https://schema.org/EventScheduled',
+    location: {
+      '@type': 'Place',
+      name: 'Zalencentrum de Brandpoort',
+      address: {
+        '@type': 'PostalAddress',
+        streetAddress: 'Hoogstraat 191',
+        postalCode: '6373 HS',
+        addressLocality: 'Landgraaf',
+        addressCountry: 'NL',
+      },
+    },
+    organizer: { '@type': 'Organization', name: 'Tango MJ', url: 'https://tangomj.nl/' },
+    url: 'https://lastresesquinas.nl/',
+  })} />
 
   <section class="section section--tint">
     <div class="container prose" data-reveal>
