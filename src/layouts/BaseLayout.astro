@@ -9,21 +9,54 @@ interface Props {
   description: string;
   /** Path-relative OG image, resolved against the site origin. */
   image?: string;
+  /** Use `title` exactly as given, without appending " · SITE_NAME" (for the home page, which already spells out the brand). */
+  fullTitle?: boolean;
 }
 
-const SITE_NAME = 'Tango Studio';
+// Long form: <title> suffix and og:site_name (SEO). Short form: the visible
+// brand text in the header/footer (logo alt, aria-labels, copyright line).
+const SITE_NAME = 'TangoMJ - Argentine Tango Landgraaf';
+const BRAND_NAME = 'TangoMJ';
 
 const {
   title,
   description,
   image = '/og-default.png',
+  fullTitle = false,
 } = Astro.props;
 
-const pageTitle = title === SITE_NAME ? title : `${title} · ${SITE_NAME}`;
+const pageTitle =
+  fullTitle || title === SITE_NAME ? title : `${title} · ${SITE_NAME}`;
 
 // Canonical + absolute OG URLs. Astro.site comes from `site` in astro.config.mjs.
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 const ogImageURL = new URL(image, Astro.site);
+
+// Organization data — sourced from the real, published details in
+// Footer.astro (social links) and Legal Notice (registered company info).
+// Kept sitewide since it describes the business, not a single page.
+const organizationSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'LocalBusiness',
+  name: 'Tango MJ',
+  url: new URL('/', Astro.site).toString(),
+  logo: ogImageURL.toString(),
+  image: ogImageURL.toString(),
+  email: 'info@tangomj.nl',
+  telephone: '+31 6 21710803',
+  address: {
+    '@type': 'PostalAddress',
+    streetAddress: 'Kapelweien 2A',
+    postalCode: '6374 LX',
+    addressLocality: 'Landgraaf',
+    addressCountry: 'NL',
+  },
+  sameAs: [
+    'https://www.facebook.com/tangomj.experience/',
+    'https://www.instagram.com/tango_mj/',
+    'https://www.tiktok.com/@tango.mj',
+  ],
+};
 ---
 
 <!doctype html>
@@ -48,6 +81,8 @@ const ogImageURL = new URL(image, Astro.site);
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonicalURL} />
     <meta property="og:image" content={ogImageURL} />
+    <meta property="og:image:width" content="2493" />
+    <meta property="og:image:height" content="832" />
 
     <!-- Twitter -->
     <meta name="twitter:card" content="summary_large_image" />
@@ -62,14 +97,17 @@ const ogImageURL = new URL(image, Astro.site);
       rel="stylesheet"
       href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
     />
+
+    <!-- Organization structured data (sitewide) -->
+    <script type="application/ld+json" is:inline set:html={JSON.stringify(organizationSchema)} />
   </head>
   <body>
     <a class="skip-link" href="#main">Skip to content</a>
-    <Header siteName={SITE_NAME} />
+    <Header siteName={BRAND_NAME} />
     <main id="main">
       <slot />
     </main>
-    <Footer siteName={SITE_NAME} />
+    <Footer siteName={BRAND_NAME} />
     <WhatsAppButton />
 
     <script>
