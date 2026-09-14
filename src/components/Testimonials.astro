@@ -9,12 +9,15 @@ interface Props {
   eyebrow?: string;
   heading?: string;
   testimonials: Testimonial[];
+  /** Google review link. When set, shows a "leave a review" prompt below the carousel. */
+  reviewHref?: string;
 }
 
 const {
   eyebrow = 'Testimonials',
   heading = 'What students say',
   testimonials,
+  reviewHref,
 } = Astro.props;
 ---
 
@@ -87,6 +90,17 @@ const {
           <span class="testimonials__arrow-glyph testimonials__arrow-glyph--next" aria-hidden="true"></span>
         </button>
       </div>
+
+      {
+        reviewHref && (
+          <p class="testimonials__review-cta" data-reveal>
+            Danced with us?{' '}
+            <a href={reviewHref} target="_blank" rel="noopener noreferrer">
+              We'd love to hear about your experience — leave us a review
+            </a>
+          </p>
+        )
+      }
     </div>
   </div>
 </section>
@@ -255,6 +269,19 @@ const {
   .testimonials__dot[aria-current='true'] {
     background: var(--color-principal);
     transform: scale(1.35);
+  }
+
+  .testimonials__review-cta {
+    margin: clamp(20px, 3vw, 28px) 0 0;
+    text-align: center;
+    font-size: 15px;
+    color: rgba(44, 44, 42, 0.72);
+  }
+
+  .testimonials__review-cta a {
+    font-weight: 600;
+    text-decoration: underline;
+    text-underline-offset: 3px;
   }
 
   @media (prefers-reduced-motion: reduce) {
