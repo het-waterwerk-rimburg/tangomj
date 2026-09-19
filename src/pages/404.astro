@@ -1,0 +1,71 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Button from '../components/Button.astro';
+---
+
+<BaseLayout
+  title="Page Not Found"
+  description="The page you're looking for doesn't exist. Head back to the TangoMJ home page."
+>
+  <section class="section not-found">
+    <div class="container not-found__inner">
+      <img
+        src="/404.jpeg"
+        width="1600"
+        height="1600"
+        alt="Illustration of tango dancers, for a page that has wandered off the dance floor"
+        class="not-found__image"
+        data-reveal="zoom"
+      />
+
+      <div data-reveal-group>
+        <span class="eyebrow" data-reveal>404</span>
+        <h1 data-reveal>Oops! This page doesn't exist.</h1>
+        <p data-reveal>
+          The step you were looking for isn't on this floor. It may have been
+          moved, renamed, or never existed at all.
+        </p>
+        <div data-reveal>
+          <Button href="/" variant="secondary">Back to home</Button>
+        </div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .not-found {
+    display: flex;
+    align-items: center;
+    min-height: 60vh;
+  }
+
+  .not-found__inner {
+    max-width: 520px;
+    margin-inline: auto;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .not-found__image {
+    width: 100%;
+    max-width: 220px;
+    height: auto;
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-rest);
+    margin-bottom: 28px;
+  }
+
+  .not-found h1 {
+    margin-bottom: 12px;
+  }
+
+  .not-found p {
+    color: rgba(44, 44, 42, 0.75);
+    margin-bottom: 32px;
+  }
+</style>
