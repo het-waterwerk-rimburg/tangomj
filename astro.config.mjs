@@ -8,6 +8,6 @@ export default defineConfig({
   site: 'https://www.tangomj.nl',
   integrations: [sitemap()],
   redirects: {
-    '/milonga': 'https://tresesquinas.vercel.app/',
+    '/milonga': 'https://lastresesquinas.nl/',
   },
 });
