@@ -1,0 +1,413 @@
+---
+/**
+ * Cookie consent banner + settings dialog.
+ *
+ * - The banner starts hidden and is only shown when there is no valid
+ *   decision (src/scripts/consent.ts), so returning visitors never see it flash.
+ * - "Accept all" and "Reject optional" have the same visual weight.
+ * - Settings use the native <dialog> (focus handling, Esc to close).
+ * - Any element with `data-cookie-settings` (e.g. "Manage cookies" in the
+ *   footer) reopens the settings.
+ * - Only categories the site really uses are offered: Necessary + Analytics.
+ *   There is no marketing / advertising technology on the site.
+ */
+import Button from './Button.astro';
+---
+
+<section
+  class="cookie-banner"
+  data-cookie-banner
+  role="region"
+  aria-labelledby="cookie-banner-title"
+  hidden
+>
+  <div class="cookie-banner__text">
+    <p id="cookie-banner-title" class="cookie-banner__title">Cookies on this website</p>
+    <p>
+      We use technologies that are strictly necessary for the website to work and to remember
+      your choice. With your permission we also use Google Analytics to understand how visitors
+      use the site. You can change your choice at any time via &ldquo;Manage cookies&rdquo; in
+      the footer. <a href="/cookie-policy">Cookie Policy</a>
+    </p>
+  </div>
+  <div class="cookie-banner__actions">
+    <Button variant="secondary" data-consent="accept">Accept all</Button>
+    <Button variant="secondary" data-consent="reject">Reject optional</Button>
+    <Button variant="outline" data-consent="settings">Cookie settings</Button>
+  </div>
+</section>
+
+<dialog class="cookie-dialog" data-cookie-dialog aria-labelledby="cookie-dialog-title">
+  <div class="cookie-dialog__body">
+    <div class="cookie-dialog__head">
+      <p id="cookie-dialog-title" class="cookie-dialog__title">Cookie settings</p>
+      <button type="button" class="cookie-dialog__close" data-consent="close" aria-label="Close cookie settings">
+        <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" focusable="false">
+          <path d="M6 6l12 12M18 6 6 18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+        </svg>
+      </button>
+    </div>
+    <p class="cookie-dialog__intro">
+      Choose which optional technologies we may use. Necessary technologies are always on because
+      the website needs them.
+    </p>
+
+    <div class="cookie-option">
+      <div class="cookie-option__head">
+        <p class="cookie-option__name">Necessary</p>
+        <span class="cookie-option__always">Always on</span>
+      </div>
+      <p class="cookie-option__desc">
+        Needed for the website to work and to remember your cookie choice. Your choice is stored
+        in your own browser and contains no personal data.
+      </p>
+    </div>
+
+    <div class="cookie-option">
+      <div class="cookie-option__head">
+        <label class="cookie-option__name" for="cookie-analytics">Analytics</label>
+        <input
+          type="checkbox"
+          id="cookie-analytics"
+          class="cookie-switch"
+          role="switch"
+          aria-describedby="cookie-analytics-desc"
+          data-consent-analytics
+        />
+      </div>
+      <p class="cookie-option__desc" id="cookie-analytics-desc">
+        Google Analytics 4 counts visits and shows which pages are used, so we can improve the
+        website. It sets the cookies <code>_ga</code> and <code>_ga_P4B9P3VQVR</code> (Google).
+        Off unless you switch it on.
+      </p>
+    </div>
+
+    <div class="cookie-dialog__actions">
+      <Button variant="secondary" data-consent="save">Save choices</Button>
+      <Button variant="outline" data-consent="accept">Accept all</Button>
+      <Button variant="outline" data-consent="reject">Reject optional</Button>
+    </div>
+    <p class="cookie-dialog__more"><a href="/cookie-policy">Read the Cookie Policy</a></p>
+  </div>
+</dialog>
+
+<p class="cookie-status" role="status" aria-live="polite" data-cookie-status></p>
+
+<style>
+  /* ---------- Banner ---------- */
+  .cookie-banner {
+    position: fixed;
+    z-index: 70; /* above the floating WhatsApp button (60) */
+    left: 16px;
+    right: 16px;
+    bottom: 16px;
+    max-width: 980px;
+    margin-inline: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    padding: 20px;
+    background: var(--color-surface);
+    color: var(--color-texto);
+    border: var(--border-subtle);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-hover);
+    animation: cookie-in 0.5s var(--ease-premium) both;
+  }
+
+  .cookie-banner[hidden] {
+    display: none;
+  }
+
+  .cookie-banner__title {
+    margin: 0 0 6px;
+    font-weight: 600;
+    font-size: 17px;
+    color: var(--color-principal);
+  }
+
+  .cookie-banner__text p:last-child {
+    margin: 0;
+    font-size: 14.5px;
+    line-height: 1.55;
+  }
+
+  .cookie-banner a,
+  .cookie-dialog a {
+    color: var(--color-principal);
+    font-weight: 600;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  .cookie-banner a:hover,
+  .cookie-dialog a:hover {
+    color: var(--color-acento);
+  }
+
+  .cookie-banner__actions {
+    display: grid;
+    gap: 10px;
+  }
+
+  @media (min-width: 560px) {
+    .cookie-banner__actions {
+      grid-template-columns: repeat(3, auto);
+      justify-content: start;
+    }
+  }
+
+  @media (min-width: 900px) {
+    .cookie-banner {
+      flex-direction: row;
+      align-items: center;
+      gap: 28px;
+      padding: 22px 26px;
+    }
+    .cookie-banner__actions {
+      flex: none;
+    }
+  }
+
+  @keyframes cookie-in {
+    from {
+      opacity: 0;
+      transform: translateY(16px);
+    }
+  }
+
+  /* ---------- Settings dialog ---------- */
+  .cookie-dialog {
+    width: min(560px, calc(100vw - 32px));
+    max-height: calc(100vh - 32px);
+    padding: 0;
+    border: var(--border-subtle);
+    border-radius: var(--radius);
+    background: var(--color-surface);
+    color: var(--color-texto);
+    box-shadow: var(--shadow-hover);
+  }
+
+  .cookie-dialog::backdrop {
+    background: rgba(7, 58, 124, 0.35);
+  }
+
+  .cookie-dialog__body {
+    padding: clamp(20px, 4vw, 28px);
+  }
+
+  .cookie-dialog__head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+  }
+
+  .cookie-dialog__title {
+    margin: 0;
+    font-weight: 600;
+    font-size: 21px;
+    color: var(--color-principal);
+  }
+
+  .cookie-dialog__close {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    flex: none;
+    border: 0;
+    border-radius: 50%;
+    background: transparent;
+    color: var(--color-principal);
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+
+  .cookie-dialog__close:hover {
+    background: rgba(7, 58, 124, 0.08);
+  }
+
+  .cookie-dialog__intro {
+    margin: 8px 0 18px;
+    font-size: 15px;
+  }
+
+  .cookie-option {
+    padding: 16px 0;
+    border-top: var(--border-subtle);
+  }
+
+  .cookie-option__head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+  }
+
+  .cookie-option__name {
+    margin: 0;
+    font-weight: 600;
+    color: var(--color-principal);
+    cursor: default;
+  }
+
+  label.cookie-option__name {
+    cursor: pointer;
+  }
+
+  .cookie-option__always {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--color-principal);
+    background: rgba(7, 58, 124, 0.08);
+    padding: 4px 10px;
+    border-radius: 999px;
+  }
+
+  .cookie-option__desc {
+    margin: 6px 0 0;
+    font-size: 14px;
+    line-height: 1.55;
+  }
+
+  .cookie-option__desc code {
+    font-size: 13px;
+  }
+
+  /* On/off switch built on a real checkbox (keeps native keyboard + label behaviour) */
+  .cookie-switch {
+    appearance: none;
+    position: relative;
+    flex: none;
+    width: 46px;
+    height: 26px;
+    margin: 0;
+    border-radius: 999px;
+    background: rgba(44, 44, 42, 0.28);
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+
+  .cookie-switch::after {
+    content: '';
+    position: absolute;
+    top: 3px;
+    left: 3px;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: #fff;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.25);
+    transition: transform 0.3s var(--ease-premium);
+  }
+
+  .cookie-switch:checked {
+    background: var(--color-principal);
+  }
+
+  .cookie-switch:checked::after {
+    transform: translateX(20px);
+  }
+
+  .cookie-dialog__actions {
+    display: grid;
+    gap: 10px;
+    margin-top: 20px;
+  }
+
+  @media (min-width: 560px) {
+    /* Side by side, each button as wide as its label (no two-line buttons) */
+    .cookie-dialog__actions {
+      display: flex;
+      flex-wrap: wrap;
+    }
+    .cookie-dialog__actions > :global(*) {
+      flex: 1 1 auto;
+      white-space: nowrap;
+    }
+  }
+
+  .cookie-dialog__more {
+    margin: 16px 0 0;
+    font-size: 14px;
+  }
+
+  /* Visually hidden live region that confirms the saved choice to screen readers */
+  .cookie-status {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .cookie-banner {
+      animation: none;
+    }
+    .cookie-switch,
+    .cookie-switch::after {
+      transition: none;
+    }
+  }
+</style>
+
+<script>
+  import { readConsent, saveConsent } from '../scripts/consent';
+
+  const banner = document.querySelector<HTMLElement>('[data-cookie-banner]');
+  const dialog = document.querySelector<HTMLDialogElement>('[data-cookie-dialog]');
+  const analyticsSwitch = document.querySelector<HTMLInputElement>('[data-consent-analytics]');
+  const status = document.querySelector<HTMLElement>('[data-cookie-status]');
+
+  if (banner && dialog && analyticsSwitch) {
+    // First visit (or an expired / outdated decision): show the banner.
+    if (!readConsent()) banner.hidden = false;
+
+    const openSettings = () => {
+      analyticsSwitch.checked = readConsent()?.analytics ?? false;
+      dialog.showModal();
+    };
+
+    const decide = (analytics: boolean) => {
+      const focusWasInBanner = banner.contains(document.activeElement);
+      saveConsent({ analytics });
+      banner.hidden = true;
+      if (dialog.open) dialog.close();
+      if (status) {
+        status.textContent = analytics
+          ? 'Your cookie choice was saved: analytics on.'
+          : 'Your cookie choice was saved: analytics off.';
+      }
+      // The banner disappears, so give keyboard focus a sensible place to land.
+      if (focusWasInBanner || !document.activeElement || document.activeElement === document.body) {
+        const main = document.getElementById('main');
+        if (main) {
+          main.setAttribute('tabindex', '-1');
+          main.focus({ preventScroll: true });
+        }
+      }
+    };
+
+    document.addEventListener('click', (event) => {
+      const target = event.target as HTMLElement;
+
+      if (target.closest('[data-cookie-settings]')) {
+        event.preventDefault();
+        openSettings();
+        return;
+      }
+
+      const action = target.closest<HTMLElement>('[data-consent]')?.dataset.consent;
+      if (action === 'accept') decide(true);
+      else if (action === 'reject') decide(false);
+      else if (action === 'save') decide(analyticsSwitch.checked);
+      else if (action === 'settings') openSettings();
+      else if (action === 'close') dialog.close();
+    });
+  }
+</script>

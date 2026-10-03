@@ -1,0 +1,306 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+/*
+ * Cookie Policy — based on an audit of this website's code and a test of the
+ * built site (3 October 2026). Only technologies that were actually found are
+ * listed. Keep it in sync with src/scripts/consent.ts and the cookie banner.
+ */
+const lastUpdated = '3 October 2026';
+---
+
+<BaseLayout
+  title="Cookie Policy"
+  description="Which cookies and similar technologies the TangoMJ website uses, why, for how long, and how to change your choice."
+>
+  <section class="section">
+    <div class="container legal">
+      <header class="legal__head">
+        <span class="eyebrow">Legal</span>
+        <h1>Cookie Policy</h1>
+        <p class="legal__updated">Last updated: {lastUpdated}</p>
+        <nav class="legal__lang" aria-label="Language">
+          <a href="#cookies-en">English</a>
+          <span aria-hidden="true">·</span>
+          <a href="#cookies-nl">Nederlands</a>
+        </nav>
+      </header>
+
+      <!-- ============ ENGLISH ============ -->
+      <article id="cookies-en" class="legal__doc" lang="en">
+        <h2>Cookie Policy</h2>
+        <p><em>Last updated: {lastUpdated}</em></p>
+
+        <h3>1. What this policy covers</h3>
+        <p>
+          This policy explains which cookies and similar technologies (such as storage in your
+          browser) are used on www.tangomj.nl, run by TangoMJ, a trade name of Het Waterwerk
+          Rimburg V.O.F. It complements our <a href="/privacy-policy">Privacy Policy</a>.
+        </p>
+
+        <h3>2. How we ask for your consent</h3>
+        <p>
+          On your first visit a banner lets you choose: <strong>Accept all</strong>,
+          <strong>Reject optional</strong> or <strong>Cookie settings</strong>. There are two
+          categories:
+        </p>
+        <ul>
+          <li>
+            <strong>Necessary</strong> &ndash; always on. Needed for the website to work and to
+            remember your cookie choice.
+          </li>
+          <li>
+            <strong>Analytics</strong> &ndash; off unless you switch it on. Google Analytics is only
+            loaded after you accept this category.
+          </li>
+        </ul>
+        <p>
+          We do not use marketing, advertising or retargeting cookies. Your choice is kept for 12
+          months, after which we ask again. You can change it at any time:
+          <button type="button" class="legal__cookie-btn" data-cookie-settings>Manage cookies</button>
+        </p>
+
+        <h3>3. Cookies and storage on this website</h3>
+        <div class="legal__table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Provider</th>
+                <th>Purpose</th>
+                <th>Duration</th>
+                <th>Category</th>
+                <th>First / third party</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><code>tangomj-cookie-consent</code><br />(browser storage, not a cookie)</td>
+                <td>TangoMJ (this website)</td>
+                <td>Remembers your cookie choice: consent version, date and whether analytics is allowed. No personal data.</td>
+                <td>Asked again after 12 months; removed when you clear your browser data</td>
+                <td>Necessary</td>
+                <td>First party</td>
+              </tr>
+              <tr>
+                <td><code>_ga</code></td>
+                <td>Google (Google Analytics 4)</td>
+                <td>Distinguishes visitors so visits can be counted.</td>
+                <td>Up to 2 years according to Google; some browsers (e.g. Chrome) limit cookies to 400 days</td>
+                <td>Analytics (only with consent)</td>
+                <td>First-party cookie set by a Google script; data is sent to Google</td>
+              </tr>
+              <tr>
+                <td><code>_ga_P4B9P3VQVR</code></td>
+                <td>Google (Google Analytics 4)</td>
+                <td>Keeps track of the current visit (session) for our Analytics property.</td>
+                <td>Up to 2 years according to Google; some browsers (e.g. Chrome) limit cookies to 400 days</td>
+                <td>Analytics (only with consent)</td>
+                <td>First-party cookie set by a Google script; data is sent to Google</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <p>
+          The cookie names and the 400-day lifetime were observed in a test of this website. The
+          purposes and the two-year lifetime are taken from Google&rsquo;s own documentation for
+          Google Analytics 4.
+        </p>
+        <p>
+          With your consent, Google Analytics receives information such as the pages you visit,
+          your browser and device type, an approximate location based on your IP address, and the
+          page you came from. Google may process this data outside the European Economic Area.
+          See <a href="https://policies.google.com/privacy" target="_blank" rel="noopener noreferrer">Google&rsquo;s Privacy Policy</a>.
+        </p>
+
+        <h3>4. Other services that receive data from your browser</h3>
+        <p>These services set no cookies on this website, but your browser does contact them:</p>
+        <ul>
+          <li>
+            <strong>Google Fonts</strong> &ndash; the Inter typeface is loaded from Google
+            (fonts.googleapis.com and fonts.gstatic.com) on every page. Google receives your IP
+            address and browser information to deliver the font. No cookies were found for this.
+          </li>
+          <li>
+            <strong>Make.com</strong> &ndash; only when you send the contact form, the details you
+            typed (name, email, topic and message) are sent to Make.com, which forwards them to us.
+            Nothing is sent when you only visit a page.
+          </li>
+          <li>
+            <strong>Links to other websites</strong> &ndash; links to Facebook, Instagram, TikTok,
+            WhatsApp and Google are ordinary links. Nothing is loaded from those sites until you
+            click a link; after that, their own cookie and privacy policies apply.
+          </li>
+        </ul>
+
+        <h3>5. What we could not determine</h3>
+        <p>
+          Whether our hosting provider sets cookies or keeps server logs (such as IP addresses)
+          cannot be determined from the website itself. If it does, we will add the details here.
+        </p>
+
+        <h3>6. Changing or deleting your choice</h3>
+        <p>
+          Use &ldquo;Manage cookies&rdquo; at the bottom of every page. If you withdraw consent for
+          analytics, Google Analytics stops on that page and its cookies are deleted. You can also
+          delete cookies and site data at any time in your browser settings; the banner will then
+          appear again.
+        </p>
+
+        <h3>7. Contact</h3>
+        <p>
+          Questions about this policy? Email <a href="mailto:info@tangomj.nl">info@tangomj.nl</a>.
+        </p>
+      </article>
+
+      <hr class="legal__rule" />
+
+      <!-- ============ NEDERLANDS ============ -->
+      <article id="cookies-nl" class="legal__doc" lang="nl">
+        <h2>Cookiebeleid</h2>
+        <p><em>Laatst bijgewerkt: 3 oktober 2026</em></p>
+
+        <h3>1. Waar dit beleid over gaat</h3>
+        <p>
+          Dit beleid legt uit welke cookies en vergelijkbare technieken (zoals opslag in uw
+          browser) worden gebruikt op www.tangomj.nl, een website van TangoMJ, een handelsnaam van
+          Het Waterwerk Rimburg V.O.F. Het vult onze <a href="/privacy-policy#privacy-nl">Privacyverklaring</a> aan.
+        </p>
+
+        <h3>2. Hoe wij om uw toestemming vragen</h3>
+        <p>
+          Bij uw eerste bezoek kiest u in een melding: <strong>Accept all</strong> (alles
+          accepteren), <strong>Reject optional</strong> (optionele weigeren) of
+          <strong>Cookie settings</strong> (instellingen). Er zijn twee categorieën:
+        </p>
+        <ul>
+          <li>
+            <strong>Noodzakelijk</strong> &ndash; altijd aan. Nodig om de website te laten werken en
+            om uw cookiekeuze te onthouden.
+          </li>
+          <li>
+            <strong>Analyse</strong> &ndash; uit, tenzij u deze aanzet. Google Analytics wordt pas
+            geladen nadat u deze categorie accepteert.
+          </li>
+        </ul>
+        <p>
+          Wij gebruiken geen marketing-, advertentie- of retargetingcookies. Uw keuze wordt 12
+          maanden bewaard; daarna vragen wij opnieuw. U kunt uw keuze altijd wijzigen:
+          <button type="button" class="legal__cookie-btn" data-cookie-settings>Cookie-instellingen</button>
+        </p>
+
+        <h3>3. Cookies en opslag op deze website</h3>
+        <div class="legal__table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Naam</th>
+                <th>Aanbieder</th>
+                <th>Doel</th>
+                <th>Bewaartermijn</th>
+                <th>Categorie</th>
+                <th>Eerste / derde partij</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><code>tangomj-cookie-consent</code><br />(browseropslag, geen cookie)</td>
+                <td>TangoMJ (deze website)</td>
+                <td>Onthoudt uw cookiekeuze: versie, datum en of analyse is toegestaan. Geen persoonsgegevens.</td>
+                <td>Na 12 maanden opnieuw gevraagd; verwijderd als u uw browsergegevens wist</td>
+                <td>Noodzakelijk</td>
+                <td>Eerste partij</td>
+              </tr>
+              <tr>
+                <td><code>_ga</code></td>
+                <td>Google (Google Analytics 4)</td>
+                <td>Onderscheidt bezoekers zodat bezoeken geteld kunnen worden.</td>
+                <td>Tot 2 jaar volgens Google; sommige browsers (zoals Chrome) beperken cookies tot 400 dagen</td>
+                <td>Analyse (alleen met toestemming)</td>
+                <td>Eerstepartijcookie geplaatst door een script van Google; gegevens gaan naar Google</td>
+              </tr>
+              <tr>
+                <td><code>_ga_P4B9P3VQVR</code></td>
+                <td>Google (Google Analytics 4)</td>
+                <td>Houdt het huidige bezoek (sessie) bij voor ons Analytics-account.</td>
+                <td>Tot 2 jaar volgens Google; sommige browsers (zoals Chrome) beperken cookies tot 400 dagen</td>
+                <td>Analyse (alleen met toestemming)</td>
+                <td>Eerstepartijcookie geplaatst door een script van Google; gegevens gaan naar Google</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <p>
+          De cookienamen en de levensduur van 400 dagen zijn vastgesteld in een test van deze
+          website. De doelen en de termijn van twee jaar komen uit de documentatie van Google voor
+          Google Analytics 4.
+        </p>
+        <p>
+          Met uw toestemming ontvangt Google Analytics gegevens zoals de pagina&rsquo;s die u
+          bezoekt, uw browser- en apparaattype, een globale locatie op basis van uw IP-adres en de
+          pagina waar u vandaan kwam. Google kan deze gegevens buiten de Europese Economische Ruimte
+          verwerken. Zie het
+          <a href="https://policies.google.com/privacy?hl=nl" target="_blank" rel="noopener noreferrer">privacybeleid van Google</a>.
+        </p>
+
+        <h3>4. Andere diensten die gegevens van uw browser ontvangen</h3>
+        <p>Deze diensten plaatsen geen cookies op deze website, maar uw browser maakt wel contact met ze:</p>
+        <ul>
+          <li>
+            <strong>Google Fonts</strong> &ndash; het lettertype Inter wordt op elke pagina bij Google
+            geladen (fonts.googleapis.com en fonts.gstatic.com). Google ontvangt daarbij uw IP-adres
+            en browsergegevens. Hiervoor zijn geen cookies aangetroffen.
+          </li>
+          <li>
+            <strong>Make.com</strong> &ndash; alleen als u het contactformulier verstuurt, gaan de
+            ingevulde gegevens (naam, e-mail, onderwerp en bericht) naar Make.com, dat ze aan ons
+            doorstuurt. Bij alleen het bekijken van een pagina wordt niets verstuurd.
+          </li>
+          <li>
+            <strong>Links naar andere websites</strong> &ndash; links naar Facebook, Instagram,
+            TikTok, WhatsApp en Google zijn gewone links. Er wordt niets van die websites geladen
+            totdat u op een link klikt; daarna gelden hun eigen cookie- en privacybeleid.
+          </li>
+        </ul>
+
+        <h3>5. Wat wij niet konden vaststellen</h3>
+        <p>
+          Of onze hostingprovider cookies plaatst of serverlogs (zoals IP-adressen) bijhoudt, kan
+          niet worden vastgesteld vanuit de website zelf. Als dat zo is, vullen wij dit hier aan.
+        </p>
+
+        <h3>6. Uw keuze wijzigen of verwijderen</h3>
+        <p>
+          Gebruik &ldquo;Manage cookies&rdquo; onderaan elke pagina. Als u uw toestemming voor
+          analyse intrekt, stopt Google Analytics op die pagina en worden de bijbehorende cookies
+          verwijderd. U kunt cookies en websitegegevens ook altijd wissen via uw
+          browserinstellingen; de melding verschijnt dan opnieuw.
+        </p>
+
+        <h3>7. Contact</h3>
+        <p>
+          Vragen over dit beleid? Mail naar <a href="mailto:info@tangomj.nl">info@tangomj.nl</a>.
+        </p>
+      </article>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  /* Inline "Manage cookies" button inside the policy text, styled like the legal links */
+  .legal__cookie-btn {
+    padding: 0;
+    border: 0;
+    background: none;
+    font: inherit;
+    font-weight: 600;
+    color: var(--color-principal);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    cursor: pointer;
+  }
+
+  .legal__cookie-btn:hover {
+    color: var(--color-acento);
+  }
+</style>

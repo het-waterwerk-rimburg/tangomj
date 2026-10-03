@@ -1,0 +1,88 @@
+---
+/**
+ * Google Analytics 4 (gtag.js) — loaded only with Analytics consent.
+ *
+ * Included once in BaseLayout, so every page gets it. Nothing is requested
+ * from Google and no cookie is set until the visitor accepts the "Analytics"
+ * category (src/scripts/consent.ts). The site is a static multi-page build
+ * (no <ClientRouter />), so each navigation is a full page load and GA4's
+ * automatic page_view covers every route once it is loaded.
+ *
+ * - Production builds only (`astro build`), never in `astro dev`.
+ * - Measurement ID: PUBLIC_GA_MEASUREMENT_ID if set, otherwise the site's ID.
+ * - Withdrawing consent stops GA4 on the current page and deletes its cookies.
+ */
+---
+
+<script>
+  import { hasConsent, onConsentChange } from '../scripts/consent';
+
+  const MEASUREMENT_ID: string = import.meta.env.PUBLIC_GA_MEASUREMENT_ID || 'G-P4B9P3VQVR';
+
+  type GtagWindow = Window & {
+    dataLayer?: unknown[];
+    gtag?: (...args: unknown[]) => void;
+    [disableFlag: `ga-disable-${string}`]: boolean | undefined;
+  };
+  const w = window as GtagWindow;
+  let loaded = false;
+
+  function loadAnalytics() {
+    w[`ga-disable-${MEASUREMENT_ID}`] = false;
+    if (loaded) {
+      // Consent given again after being withdrawn on this same page.
+      w.gtag?.('consent', 'update', { analytics_storage: 'granted' });
+      return;
+    }
+    loaded = true;
+
+    w.dataLayer = w.dataLayer || [];
+    w.gtag = function gtag() {
+      // gtag.js expects the `arguments` object itself, not an array.
+      // eslint-disable-next-line prefer-rest-params
+      w.dataLayer!.push(arguments);
+    };
+    // Consent Mode v2: analytics was accepted; the site has no advertising, so ad signals stay off.
+    w.gtag('consent', 'default', {
+      analytics_storage: 'granted',
+      ad_storage: 'denied',
+      ad_user_data: 'denied',
+      ad_personalization: 'denied',
+    });
+    w.gtag('js', new Date());
+    w.gtag('config', MEASUREMENT_ID);
+
+    const script = document.createElement('script');
+    script.async = true;
+    script.src = `https://www.googletagmanager.com/gtag/js?id=${MEASUREMENT_ID}`;
+    document.head.appendChild(script);
+  }
+
+  /** Stop sending data on this page and remove the GA cookies (_ga, _ga_<id>). */
+  function stopAnalytics() {
+    w[`ga-disable-${MEASUREMENT_ID}`] = true;
+    w.gtag?.('consent', 'update', { analytics_storage: 'denied' });
+
+    const names = document.cookie
+      .split(';')
+      .map((c) => c.split('=')[0].trim())
+      .filter((name) => name === '_ga' || name.startsWith('_ga_'));
+    // GA sets its cookies on the top-level domain (e.g. .tangomj.nl), so try each level.
+    const parts = location.hostname.split('.');
+    const domains = [''];
+    for (let i = 0; i < parts.length - 1; i += 1) domains.push(`; domain=.${parts.slice(i).join('.')}`);
+    for (const name of names) {
+      for (const domain of domains) {
+        document.cookie = `${name}=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/${domain}`;
+      }
+    }
+  }
+
+  if (import.meta.env.PROD && MEASUREMENT_ID) {
+    if (hasConsent('analytics')) loadAnalytics();
+    onConsentChange((state) => {
+      if (state?.analytics) loadAnalytics();
+      else stopAnalytics();
+    });
+  }
+</script>
