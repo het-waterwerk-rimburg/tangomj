@@ -1,0 +1,130 @@
+---
+/**
+ * About page, in any language. Route files only choose the language.
+ * Texts: src/i18n/content/about.ts.
+ */
+import { Image } from 'astro:assets';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Hero from '../components/Hero.astro';
+import CTA from '../components/CTA.astro';
+import maddiePhoto from '../assets/images/maddie.png';
+import joelPhoto from '../assets/images/dj2.webp';
+import { pagePath, type Language } from '../i18n/languages';
+import { ABOUT_TEXT } from '../i18n/content/about';
+
+interface Props {
+  language: Language;
+}
+
+const { language } = Astro.props;
+const texts = ABOUT_TEXT[language];
+const contactSection = pagePath('home', language, 'contact');
+---
+
+<BaseLayout
+  title={texts.meta.title}
+  description={texts.meta.description}
+  language={language}
+  page="about"
+>
+  <Hero
+    eyebrow={texts.hero.eyebrow}
+    heading={texts.hero.heading}
+    description={texts.hero.description}
+    primaryCta={{ href: contactSection, label: texts.hero.primaryButton }}
+    secondaryCta={{ href: pagePath('weddingDance', language), label: texts.hero.secondaryButton }}
+  />
+
+  <!-- ============ Our story ============ -->
+  <section class="section section--tint">
+    <div class="container prose" data-reveal>
+      <span class="eyebrow">{texts.story.eyebrow}</span>
+      <h2>{texts.story.heading}</h2>
+      {texts.story.paragraphs.map((paragraph) => <p>{paragraph}</p>)}
+    </div>
+  </section>
+
+  <!-- ============ Maddie ============ -->
+  <section class="section">
+    <div class="container bio" data-reveal-group>
+      <div class="bio__media" data-reveal="left">
+        <Image src={maddiePhoto} alt="Maddie" widths={[220, 440]} sizes="220px" loading="lazy" />
+      </div>
+      <div class="bio__body" data-reveal="right">
+        <span class="eyebrow">{texts.maddie.eyebrow}</span>
+        <h2>{texts.maddie.heading}</h2>
+        {texts.maddie.paragraphs.map((paragraph) => <p>{paragraph}</p>)}
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ Joel ============ -->
+  <section class="section section--tint">
+    <div class="container bio bio--reverse" data-reveal-group>
+      <div class="bio__media" data-reveal="right">
+        <Image src={joelPhoto} alt="Joel" widths={[220, 440]} sizes="220px" loading="lazy" />
+      </div>
+      <div class="bio__body" data-reveal="left">
+        <span class="eyebrow">{texts.joel.eyebrow}</span>
+        <h2>{texts.joel.heading}</h2>
+        {texts.joel.paragraphs.map((paragraph) => <p>{paragraph}</p>)}
+      </div>
+    </div>
+  </section>
+
+  <CTA
+    heading={texts.callToAction.heading}
+    description={texts.callToAction.description}
+    button={{ href: contactSection, label: texts.callToAction.button }}
+  />
+</BaseLayout>
+
+<style>
+  .bio {
+    display: grid;
+    gap: clamp(20px, 4vw, 44px);
+    align-items: center;
+  }
+
+  @media (min-width: 720px) {
+    .bio {
+      grid-template-columns: minmax(0, 220px) minmax(0, 1fr);
+    }
+
+    .bio--reverse .bio__media {
+      order: 2;
+    }
+  }
+
+  .bio__media {
+    width: min(220px, 60vw);
+    margin-inline: auto;
+    border: var(--border-subtle);
+    border-radius: var(--radius);
+    overflow: hidden;
+    box-shadow: var(--shadow-rest);
+  }
+
+  @media (min-width: 720px) {
+    .bio__media {
+      width: 100%;
+    }
+  }
+
+  .bio__media :global(img) {
+    display: block;
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+    object-position: center top;
+    background: var(--color-bg);
+  }
+
+  .bio__body p {
+    color: rgba(44, 44, 42, 0.8);
+  }
+
+  .bio__body p:last-child {
+    margin-bottom: 0;
+  }
+</style>

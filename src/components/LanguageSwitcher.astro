@@ -1,0 +1,200 @@
+---
+/**
+ * Language button with the flag of the current language. It opens a small
+ * menu with every language (flag + name), each a normal link to the same page
+ * in that language, so search engines can follow them too.
+ *
+ * No automatic redirect by browser language: visitors (and search engine
+ * crawlers) always land on the page they asked for and choose here.
+ */
+import englishFlag from 'flag-icons/flags/4x3/gb.svg?url';
+import dutchFlag from 'flag-icons/flags/4x3/nl.svg?url';
+import germanFlag from 'flag-icons/flags/4x3/de.svg?url';
+import { LANGUAGES, LANGUAGE_DETAILS, PAGE_PATHS, type Language, type PageId } from '../i18n/languages';
+import { COMMON_TEXT } from '../i18n/content/common';
+
+interface Props {
+  language: Language;
+  /** Current page; without it (404 page) the menu links to each language's home page. */
+  page?: PageId;
+}
+
+const { language, page = 'home' } = Astro.props;
+const texts = COMMON_TEXT[language].navigation;
+const FLAGS: Record<Language, string> = { en: englishFlag, nl: dutchFlag, de: germanFlag };
+---
+
+<div class="language-switcher" data-language-switcher>
+  <button
+    type="button"
+    class="language-switcher__button"
+    aria-expanded="false"
+    aria-controls="language-menu"
+    aria-label={`${texts.chooseLanguage}: ${LANGUAGE_DETAILS[language].nativeName}`}
+    data-language-button
+  >
+    <img src={FLAGS[language]} alt="" width="22" height="16" class="language-switcher__flag" />
+    <span>{LANGUAGE_DETAILS[language].shortLabel}</span>
+    <span class="language-switcher__caret" aria-hidden="true"></span>
+  </button>
+
+  <ul id="language-menu" class="language-switcher__menu" data-language-menu hidden>
+    {
+      LANGUAGES.map((option) => (
+        <li>
+          <a
+            href={PAGE_PATHS[page][option]}
+            hreflang={LANGUAGE_DETAILS[option].htmlLang}
+            lang={LANGUAGE_DETAILS[option].htmlLang}
+            aria-current={option === language ? 'true' : undefined}
+          >
+            <img src={FLAGS[option]} alt="" width="22" height="16" class="language-switcher__flag" />
+            {LANGUAGE_DETAILS[option].nativeName}
+          </a>
+        </li>
+      ))
+    }
+  </ul>
+</div>
+
+<style>
+  .language-switcher {
+    position: relative;
+    flex: none;
+  }
+
+  .language-switcher__button {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    min-height: 44px;
+    padding: 0 12px;
+    border: 1px solid rgba(7, 58, 124, 0.16);
+    border-radius: var(--radius-sm);
+    background: transparent;
+    font: inherit;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    color: var(--color-principal);
+    cursor: pointer;
+    transition: var(--transition-surface);
+  }
+
+  .language-switcher__button:hover,
+  .language-switcher__button[aria-expanded='true'] {
+    border-color: var(--color-principal);
+    background: var(--color-surface);
+  }
+
+  .language-switcher__flag {
+    display: block;
+    width: 22px;
+    height: 16px;
+    flex: none;
+    border-radius: 2px;
+    object-fit: cover;
+    box-shadow: 0 0 0 1px rgba(7, 58, 124, 0.12);
+  }
+
+  /* Small chevron that turns when the menu is open */
+  .language-switcher__caret {
+    width: 7px;
+    height: 7px;
+    margin-left: 2px;
+    border-right: 1.5px solid currentColor;
+    border-bottom: 1.5px solid currentColor;
+    transform: translateY(-2px) rotate(45deg);
+    transition: transform 0.3s var(--ease-premium);
+  }
+
+  .language-switcher__button[aria-expanded='true'] .language-switcher__caret {
+    transform: translateY(2px) rotate(-135deg);
+  }
+
+  /* The menu grows out of the button, from its top-right corner */
+  .language-switcher__menu {
+    position: absolute;
+    top: calc(100% + 8px);
+    right: 0;
+    z-index: 60;
+    min-width: 180px;
+    margin: 0;
+    padding: 6px;
+    list-style: none;
+    background: var(--color-surface);
+    border: var(--border-subtle);
+    border-radius: var(--radius-sm);
+    box-shadow: var(--shadow-hover);
+    transform-origin: top right;
+    transition:
+      opacity 0.2s var(--ease-premium),
+      transform 0.2s var(--ease-premium);
+  }
+
+  .language-switcher__menu:not([hidden]) {
+    @starting-style {
+      opacity: 0;
+      transform: scale(0.96) translateY(-4px);
+    }
+  }
+
+  .language-switcher__menu a {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    min-height: 44px;
+    padding: 0 12px;
+    border-radius: 8px;
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--color-texto);
+    transition: background-color 0.2s ease, color 0.2s ease;
+  }
+
+  .language-switcher__menu a:hover {
+    background: rgba(7, 58, 124, 0.06);
+    color: var(--color-principal);
+  }
+
+  .language-switcher__menu a[aria-current='true'] {
+    font-weight: 600;
+    color: var(--color-principal);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .language-switcher__caret,
+    .language-switcher__menu {
+      transition: none;
+    }
+  }
+</style>
+
+<script>
+  /** Opens and closes the language menu; closes on a click outside or with Escape. */
+  function setUpLanguageSwitcher(switcher: HTMLElement) {
+    const button = switcher.querySelector<HTMLButtonElement>('[data-language-button]');
+    const menu = switcher.querySelector<HTMLUListElement>('[data-language-menu]');
+    if (!button || !menu) return;
+
+    const setMenuOpen = (shouldOpen: boolean) => {
+      menu.hidden = !shouldOpen;
+      button.setAttribute('aria-expanded', String(shouldOpen));
+    };
+
+    button.addEventListener('click', () => setMenuOpen(menu.hidden));
+
+    document.addEventListener('click', (event) => {
+      if (!switcher.contains(event.target as Node)) setMenuOpen(false);
+    });
+
+    switcher.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape' && !menu.hidden) {
+        setMenuOpen(false);
+        button.focus();
+      }
+    });
+  }
+
+  document.querySelectorAll<HTMLElement>('[data-language-switcher]').forEach(setUpLanguageSwitcher);
+</script>

@@ -1,0 +1,67 @@
+---
+/**
+ * Impressum — German text, translated from the English Legal Notice
+ * (LegalNoticeEn.astro). Keep the company details in sync in all languages.
+ * Headings start at h2 (the page title is the h1).
+ */
+import { pagePath } from '../../i18n/languages';
+---
+
+<h2>Angaben zum Unternehmen</h2>
+
+<ul class="legal__facts">
+  <li><span class="legal__facts-key">Handelsname</span><span>Tango MJ</span></li>
+  <li><span class="legal__facts-key">Firmenname</span><span>Het Waterwerk Rimburg V.O.F</span></li>
+  <li><span class="legal__facts-key">Inhaber</span><span>Maddalena Mol, Joel Correa, Valentin Mol</span></li>
+  <li><span class="legal__facts-key">Adresse</span><span>Kapelweien 2A, 6374 LX Landgraaf, Niederlande</span></li>
+  <li><span class="legal__facts-key">Ansprechpartner</span><span>Joel Correa</span></li>
+  <li><span class="legal__facts-key">Telefon</span><span>+31 6 21710803</span></li>
+  <li>
+    <span class="legal__facts-key">E-Mail</span>
+    <span><a href="mailto:info@tangomj.nl">info@tangomj.nl</a></span>
+  </li>
+  <li>
+    <span class="legal__facts-key">Website</span>
+    <span><a href="https://www.tangomj.nl" target="_blank" rel="noopener noreferrer">www.tangomj.nl</a></span>
+  </li>
+  <li>
+    <span class="legal__facts-key">Rechtsform</span>
+    <span>V.O.F. (offene Handelsgesellschaft nach niederländischem Recht)</span>
+  </li>
+  <li><span class="legal__facts-key">Handelsregisternummer (KvK)</span><span>89925688</span></li>
+  <li><span class="legal__facts-key">Umsatzsteuer-Identifikationsnummer</span><span>NL865155033B01</span></li>
+</ul>
+
+<h2>Haftungsausschluss</h2>
+
+<h3>Haftung für Inhalte</h3>
+<p>
+  Die Inhalte dieser Website wurden mit größtmöglicher Sorgfalt erstellt. Tango MJ übernimmt jedoch
+  keine Gewähr für die Vollständigkeit, Richtigkeit und Aktualität der bereitgestellten Informationen.
+  Aus dem Inhalt dieser Website können keine Rechte abgeleitet werden.
+</p>
+<p>
+  Tango MJ haftet nicht für direkte oder indirekte Schäden, die aus der Nutzung dieser Website oder
+  der darauf enthaltenen Informationen entstehen können.
+</p>
+
+<h3>Links zu anderen Websites</h3>
+<p>
+  Diese Website kann Links zu externen Websites enthalten. Tango MJ ist für die Inhalte dieser externen
+  Websites nicht verantwortlich und übernimmt keine Haftung für Schäden, die aus deren Nutzung
+  entstehen.
+</p>
+
+<h3>Urheberrecht</h3>
+<p>
+  Alle Texte, Fotos und grafischen Elemente auf dieser Website sind Eigentum von Tango MJ, sofern nicht
+  anders angegeben. Das Kopieren, Verbreiten oder jede andere Nutzung von Material dieser Website ohne
+  vorherige schriftliche Zustimmung ist nicht gestattet.
+</p>
+
+<h3>Datenschutz</h3>
+<p>
+  Ihre Privatsphäre ist uns wichtig. Bitte lesen Sie unsere
+  <a href={pagePath('privacyPolicy', 'de')}>Datenschutzerklärung</a>, um mehr darüber zu erfahren, wie
+  wir mit personenbezogenen Daten umgehen.
+</p>

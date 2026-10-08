@@ -1,21 +1,25 @@
 ---
 import { Image } from 'astro:assets';
 import logo from '../assets/images/logo_web_tr.png';
+import { pagePath, type Language, type PageId } from '../i18n/languages';
+import { COMMON_TEXT, fillText } from '../i18n/content/common';
 
 interface Props {
   siteName: string;
+  language: Language;
 }
 
-const { siteName } = Astro.props;
+const { siteName, language } = Astro.props;
+const texts = COMMON_TEXT[language];
 
-const navLinks = [
-  { href: '/', label: 'Home' },
-  { href: '/wedding-dance', label: 'Wedding Dance' },
-  { href: '/about', label: 'About' },
-  { href: '/contact', label: 'Contact' },
-  { href: '/privacy-policy', label: 'Privacy Policy' },
-  { href: '/cookie-policy', label: 'Cookie Policy' },
-  { href: '/legal-notice', label: 'Legal Notice' },
+const navLinks: { page: PageId; label: string }[] = [
+  { page: 'home', label: texts.navigation.home },
+  { page: 'weddingDance', label: texts.navigation.weddingDance },
+  { page: 'about', label: texts.navigation.about },
+  { page: 'contact', label: texts.navigation.contact },
+  { page: 'privacyPolicy', label: texts.footer.privacyPolicy },
+  { page: 'cookiePolicy', label: texts.footer.cookiePolicy },
+  { page: 'legalNotice', label: texts.footer.legalNotice },
 ];
 
 const socialLinks = [
@@ -41,7 +45,7 @@ const year = new Date().getFullYear();
 
 <footer class="site-footer">
   <div class="container site-footer__inner">
-    <a href="/" class="site-footer__logo" aria-label={`${siteName}, home`}>
+    <a href={pagePath('home', language)} class="site-footer__logo" aria-label={fillText(texts.navigation.homeLink, { site: siteName })}>
       <Image
         src={logo}
         alt={siteName}
@@ -52,18 +56,18 @@ const year = new Date().getFullYear();
       />
     </a>
 
-    <nav class="site-footer__nav" aria-label="Footer">
+    <nav class="site-footer__nav" aria-label={texts.footer.navigationLabel}>
       <ul>
         {
           navLinks.map((link) => (
             <li>
-              <a href={link.href}>{link.label}</a>
+              <a href={pagePath(link.page, language)}>{link.label}</a>
             </li>
           ))
         }
         <li>
           <!-- Reopens the cookie settings (handled in CookieConsent.astro) -->
-          <button type="button" class="site-footer__cookies" data-cookie-settings>Manage cookies</button>
+          <button type="button" class="site-footer__cookies" data-cookie-settings>{texts.footer.manageCookies}</button>
         </li>
       </ul>
     </nav>
@@ -76,7 +80,7 @@ const year = new Date().getFullYear();
               href={social.href}
               target="_blank"
               rel="noopener noreferrer"
-              aria-label={`${siteName} on ${social.label}`}
+              aria-label={fillText(texts.footer.socialLink, { site: siteName, network: social.label })}
             >
               <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false">
                 <path fill="currentColor" d={social.path} />
@@ -87,7 +91,7 @@ const year = new Date().getFullYear();
       }
     </ul>
 
-    <p class="site-footer__copy">&copy; {year} {siteName}. All rights reserved.</p>
+    <p class="site-footer__copy">&copy; {year} {siteName}. {texts.footer.rightsReserved}</p>
   </div>
 </footer>
 

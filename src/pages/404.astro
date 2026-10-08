@@ -1,11 +1,17 @@
 ---
+/**
+ * 404 page. A static site has a single 404 page, so it is in English (the
+ * default language) and also points Dutch and German visitors to their home page.
+ */
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Button from '../components/Button.astro';
+import { pagePath } from '../i18n/languages';
 ---
 
 <BaseLayout
   title="Page Not Found"
   description="The page you're looking for doesn't exist. Head back to the TangoMJ home page."
+  language="en"
 >
   <section class="section not-found">
     <div class="container not-found__inner">
@@ -26,8 +32,13 @@ import Button from '../components/Button.astro';
           moved, renamed, or never existed at all.
         </p>
         <div data-reveal>
-          <Button href="/" variant="secondary">Back to home</Button>
+          <Button href={pagePath('home', 'en')} variant="secondary">Back to home</Button>
         </div>
+        <p class="not-found__languages" data-reveal>
+          <a href={pagePath('home', 'nl')} lang="nl" hreflang="nl">Naar de Nederlandse homepage</a>
+          <span aria-hidden="true">·</span>
+          <a href={pagePath('home', 'de')} lang="de" hreflang="de">Zur deutschen Startseite</a>
+        </p>
       </div>
     </div>
   </section>
@@ -67,5 +78,24 @@ import Button from '../components/Button.astro';
   .not-found p {
     color: rgba(44, 44, 42, 0.75);
     margin-bottom: 32px;
+  }
+
+  .not-found__languages {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 6px 10px;
+    margin: 20px 0 0;
+    font-size: 14px;
+  }
+
+  .not-found__languages a {
+    color: var(--color-principal);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  .not-found__languages a:hover {
+    color: var(--color-acento);
   }
 </style>

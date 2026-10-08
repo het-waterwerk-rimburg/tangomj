@@ -6,34 +6,64 @@ import Footer from '../components/Footer.astro';
 import WhatsAppButton from '../components/WhatsAppButton.astro';
 import GoogleAnalytics from '../components/GoogleAnalytics.astro';
 import CookieConsent from '../components/CookieConsent.astro';
+import {
+  DEFAULT_LANGUAGE,
+  LANGUAGES,
+  LANGUAGE_DETAILS,
+  PAGE_PATHS,
+  type Language,
+  type PageId,
+} from '../i18n/languages';
+import { COMMON_TEXT } from '../i18n/content/common';
 
 interface Props {
   title: string;
   description: string;
+  /** Language of the page: sets <html lang>, the texts of the shared parts and the hreflang links. */
+  language: Language;
+  /** Which page this is, so the same page in the other languages can be linked. Omitted on the 404 page. */
+  page?: PageId;
   /** Path-relative OG image, resolved against the site origin. */
   image?: string;
-  /** Use `title` exactly as given, without appending " · SITE_NAME" (for the home page, which already spells out the brand). */
+  /** Use `title` exactly as given, without appending " · siteName" (for the home page, which already spells out the brand). */
   fullTitle?: boolean;
 }
 
-// Long form: <title> suffix and og:site_name (SEO). Short form: the visible
-// brand text in the header/footer (logo alt, aria-labels, copyright line).
-const SITE_NAME = 'TangoMJ - Argentine Tango Landgraaf';
+// Long form (per language): <title> suffix and og:site_name (SEO). Short form:
+// the visible brand text in the header/footer (logo alt, aria-labels, copyright line).
 const BRAND_NAME = 'TangoMJ';
 
 const {
   title,
   description,
+  language,
+  page,
   image = '/og-default.png',
   fullTitle = false,
 } = Astro.props;
 
-const pageTitle =
-  fullTitle || title === SITE_NAME ? title : `${title} · ${SITE_NAME}`;
+const texts = COMMON_TEXT[language];
+const siteName = texts.siteName;
+const pageTitle = fullTitle || title === siteName ? title : `${title} · ${siteName}`;
 
 // Canonical + absolute OG URLs. Astro.site comes from `site` in astro.config.mjs.
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 const ogImageURL = new URL(image, Astro.site);
+
+// The same page in every language, for <link rel="alternate" hreflang>.
+// x-default (English) is shown to visitors whose language is none of these.
+const alternateLinks = page
+  ? [
+      ...LANGUAGES.map((alternateLanguage) => ({
+        hreflang: LANGUAGE_DETAILS[alternateLanguage].htmlLang,
+        href: new URL(PAGE_PATHS[page][alternateLanguage], Astro.site).toString(),
+      })),
+      { hreflang: 'x-default', href: new URL(PAGE_PATHS[page][DEFAULT_LANGUAGE], Astro.site).toString() },
+    ]
+  : [];
+const otherOgLocales = LANGUAGES.filter((other) => other !== language).map(
+  (other) => LANGUAGE_DETAILS[other].ogLocale
+);
 
 // Organization data — sourced from the real, published details in
 // Footer.astro (social links) and Legal Notice (registered company info).
@@ -63,11 +93,13 @@ const organizationSchema = {
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang={LANGUAGE_DETAILS[language].htmlLang}>
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="generator" content={Astro.generator} />
+    <!-- Bing Webmaster Tools ownership check (also public/BingSiteAuth.xml) -->
+    <meta name="msvalidate.01" content="32682768FABF96BB85A2894288F692F0" />
 
     <!-- Google Analytics 4: production builds only, and only after Analytics consent -->
     <GoogleAnalytics />
@@ -75,6 +107,7 @@ const organizationSchema = {
     <title>{pageTitle}</title>
     <meta name="description" content={description} />
     <link rel="canonical" href={canonicalURL} />
+    {alternateLinks.map((link) => <link rel="alternate" hreflang={link.hreflang} href={link.href} />)}
 
     <!-- Favicon -->
     <link rel="icon" type="image/png" href="/favicon.png" />
@@ -82,7 +115,9 @@ const organizationSchema = {
 
     <!-- Open Graph -->
     <meta property="og:type" content="website" />
-    <meta property="og:site_name" content={SITE_NAME} />
+    <meta property="og:site_name" content={siteName} />
+    <meta property="og:locale" content={LANGUAGE_DETAILS[language].ogLocale} />
+    {otherOgLocales.map((locale) => <meta property="og:locale:alternate" content={locale} />)}
     <meta property="og:title" content={pageTitle} />
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonicalURL} />
@@ -103,15 +138,15 @@ const organizationSchema = {
     <script type="application/ld+json" is:inline set:html={JSON.stringify(organizationSchema)} />
   </head>
   <body>
-    <a class="skip-link" href="#main">Skip to content</a>
+    <a class="skip-link" href="#main">{texts.navigation.skipToContent}</a>
     <!-- Early in the DOM so keyboard users reach the consent choice first -->
-    <CookieConsent />
-    <Header siteName={BRAND_NAME} />
+    <CookieConsent language={language} />
+    <Header siteName={BRAND_NAME} language={language} page={page} />
     <main id="main">
       <slot />
     </main>
-    <Footer siteName={BRAND_NAME} />
-    <WhatsAppButton />
+    <Footer siteName={BRAND_NAME} language={language} />
+    <WhatsAppButton language={language} />
 
     <script>
       // Reveal elements once as they enter the viewport (guide §8.3).

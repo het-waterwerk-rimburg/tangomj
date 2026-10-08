@@ -1,0 +1,327 @@
+---
+/**
+ * Home page, in any language. Route files (src/pages/index.astro,
+ * src/pages/nl/index.astro, src/pages/de/index.astro) only choose the language.
+ * Texts: src/i18n/content/home.ts and common.ts.
+ */
+import { Image } from 'astro:assets';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Hero from '../components/Hero.astro';
+import Button from '../components/Button.astro';
+import Card from '../components/Card.astro';
+import ContactForm from '../components/ContactForm.astro';
+import Testimonials from '../components/Testimonials.astro';
+import Community from '../components/Community.astro';
+import EventPromo from '../components/EventPromo.astro';
+import heroImage from '../assets/images/hero-classes.jpg';
+import maddiePhoto from '../assets/images/maddie.png';
+import joelPhoto from '../assets/images/dj2.webp';
+import lasTresEsquinasImage from '../assets/images/las-tres-esquinas.jpg';
+import { pagePath, type Language } from '../i18n/languages';
+import { HOME_TEXT } from '../i18n/content/home';
+import { COMMON_TEXT } from '../i18n/content/common';
+
+interface Props {
+  language: Language;
+}
+
+const { language } = Astro.props;
+const texts = HOME_TEXT[language];
+const contactDetails = COMMON_TEXT[language].contactDetails;
+
+const whatsappCommunityUrl =
+  'https://chat.whatsapp.com/BDvSLGgAuqW5THotX58YAh?mode=gi_t';
+
+// Milonga Las Tres Esquinas has its own official site — update the event
+// texts in src/i18n/content/home.ts (all languages) and the DanceEvent data
+// below for each new edition. It is not a Tango MJ page: the button links out
+// to https://lastresesquinas.nl/.
+const lasTresEsquinasUrl = 'https://lastresesquinas.nl/';
+
+// Reviews stay exactly as the students wrote them, in their own language.
+const testimonials = [
+  {
+    quoteLanguage: 'en' as const,
+    quote:
+      'Amazing Tango teachers with focus on Technique and Essence. Very nice human beings too. Happy to recommend',
+    name: 'Rohit Rao',
+  },
+  {
+    quoteLanguage: 'en' as const,
+    quote:
+      'He has a great eye for detail and very gentle and encouraging guidance. He has helped me a lot. Oh and he is TALL so tall ladies, get involved! 😉',
+    name: 'Anthea Okereke',
+  },
+  {
+    quoteLanguage: 'en' as const,
+    quote:
+      'I was so surprised, how gently the tango dance could be led. 🙂 I very much recommend to take his lesson and try for yourself 😉',
+    name: 'Eliška Grafová',
+  },
+  {
+    quoteLanguage: 'nl' as const,
+    quote:
+      '2 mooie mensen die een droom hebben en deze stapje voor stapje uitvoeren. Ze zijn kundig in wat ze doen. Geven fijne uitleg en leren je de technieken goed. Dat wat zij voelen bij de Tango proberen zij je ook te laten voelen.',
+    name: 'Lydia',
+  },
+  {
+    quoteLanguage: 'nl' as const,
+    quote:
+      'Mooie locatie met een leuke sfeer. Goeie leraar die je echt het gevoel van Argentinië geeft en geeft top Tango les. Goeie muziek, er staat ook een bar voor drankjes en je kan er ook zitten en staan voor een sociale avond. Leuk voor een avond uit en socialisatie.',
+    name: 'Joenny Leunissen',
+  },
+];
+
+---
+
+<BaseLayout
+  title={texts.meta.title}
+  fullTitle
+  description={texts.meta.description}
+  language={language}
+  page="home"
+>
+  <Hero
+    image={heroImage}
+    imageAlt={texts.hero.imageAlt}
+    eyebrow={texts.hero.eyebrow}
+    heading={texts.hero.heading}
+    description={texts.hero.description}
+    primaryCta={{ href: '#contact', label: texts.hero.primaryButton }}
+    secondaryCta={{ href: '#lessons', label: texts.hero.secondaryButton }}
+  />
+
+  <EventPromo
+    eyebrow={texts.event.eyebrow}
+    name="Las Tres Esquinas"
+    tagline={texts.event.tagline}
+    date={texts.event.date}
+    location={texts.event.location}
+    description={texts.event.description}
+    ctaLabel={texts.event.button}
+    ctaHref={lasTresEsquinasUrl}
+    organiser={texts.event.organiser}
+    image={lasTresEsquinasImage}
+    imageAlt={texts.event.imageAlt}
+  />
+
+  <script type="application/ld+json" is:inline set:html={JSON.stringify({
+    '@context': 'https://schema.org',
+    '@type': 'DanceEvent',
+    name: 'Milonga Las Tres Esquinas',
+    startDate: '2026-11-06T19:30:00+01:00',
+    endDate: '2026-11-07T01:00:00+01:00',
+    eventAttendanceMode: 'https://schema.org/OfflineEventAttendanceMode',
+    eventStatus: 'https://schema.org/EventScheduled',
+    location: {
+      '@type': 'Place',
+      name: 'Zalencentrum de Brandpoort',
+      address: {
+        '@type': 'PostalAddress',
+        streetAddress: 'Hoogstraat 191',
+        postalCode: '6373 HS',
+        addressLocality: 'Landgraaf',
+        addressCountry: 'NL',
+      },
+    },
+    organizer: { '@type': 'Organization', name: 'Tango MJ', url: 'https://tangomj.nl/' },
+    url: lasTresEsquinasUrl,
+  })} />
+
+  <section class="section section--tint">
+    <div class="container prose" data-reveal>
+      <span class="eyebrow">{texts.school.eyebrow}</span>
+      <h2>{texts.school.heading}</h2>
+      {texts.school.paragraphs.map((paragraph) => <p>{paragraph}</p>)}
+    </div>
+  </section>
+
+  <section id="lessons" class="section">
+    <div class="container">
+      <div class="section-intro" data-reveal>
+        <span class="eyebrow">{texts.lessons.eyebrow}</span>
+        <h2>{texts.lessons.heading}</h2>
+        <p>{texts.lessons.intro}</p>
+      </div>
+
+      <div class="card-grid" data-reveal-group>
+        {
+          texts.lessons.items.map((lesson) => (
+            <div data-reveal>
+              <Card title={lesson.title} description={lesson.description} />
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--tint">
+    <div class="container">
+      <div class="section-intro" data-reveal>
+        <span class="eyebrow">{texts.teachers.eyebrow}</span>
+        <h2>{texts.teachers.heading}</h2>
+        <p>{texts.teachers.intro}</p>
+      </div>
+
+      <div class="teachers" data-reveal-group>
+        <figure class="teachers__card" data-reveal>
+          <Image src={maddiePhoto} alt="Maddie" widths={[320, 480, 640]} sizes="(min-width: 720px) 45vw, 90vw" loading="lazy" />
+          <figcaption>
+            <span class="teachers__name">Maddie</span>
+            <span class="teachers__role">{texts.teachers.maddieRole}</span>
+          </figcaption>
+        </figure>
+
+        <figure class="teachers__card" data-reveal>
+          <Image src={joelPhoto} alt="Joel" widths={[320, 480, 640]} sizes="(min-width: 720px) 45vw, 90vw" loading="lazy" />
+          <figcaption>
+            <span class="teachers__name">Joel</span>
+            <span class="teachers__role">{texts.teachers.joelRole}</span>
+          </figcaption>
+        </figure>
+      </div>
+
+      <p class="teachers__cta" data-reveal>
+        <Button href={pagePath('about', language)} variant="outline">{texts.teachers.storyButton}</Button>
+      </p>
+    </div>
+  </section>
+
+  <Testimonials
+    language={language}
+    eyebrow={texts.testimonials.eyebrow}
+    heading={texts.testimonials.heading}
+    testimonials={testimonials}
+    reviewHref="https://g.page/r/CV87WmkDV8_xEAE/review"
+  />
+
+  <Community language={language} whatsappUrl={whatsappCommunityUrl} />
+
+  <section id="contact" class="section section--tint">
+    <div class="container contact-block">
+      <div class="contact-block__intro" data-reveal="left">
+        <span class="eyebrow">{texts.contact.eyebrow}</span>
+        <h2>{texts.contact.heading}</h2>
+        <p>{texts.contact.intro}</p>
+
+        <ul class="contact-block__details">
+          <li>
+            <strong>{contactDetails.email}</strong>
+            <a href="mailto:info@tangomj.nl">info@tangomj.nl</a>
+          </li>
+          <li>
+            <strong>{contactDetails.whatsapp}</strong>
+            <a
+              href="https://wa.me/31621710803"
+              target="_blank"
+              rel="noopener noreferrer">+31 6 21710803</a
+            >
+          </li>
+          <li><strong>{contactDetails.area}</strong> {contactDetails.areaValue}</li>
+        </ul>
+      </div>
+
+      <div class="contact-block__form surface-card" data-reveal="right">
+        <ContactForm language={language} selectedTopic="Regular lessons" />
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  /* ---------- Meet the teachers ---------- */
+  .teachers {
+    display: grid;
+    gap: var(--gap-md);
+    grid-template-columns: 1fr;
+    max-width: 720px;
+    margin-inline: auto;
+  }
+
+  @media (min-width: 560px) {
+    .teachers {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  .teachers__card {
+    margin: 0;
+    background: var(--color-surface);
+    border: var(--border-subtle);
+    border-radius: var(--radius);
+    overflow: hidden;
+    box-shadow: var(--shadow-rest);
+    transition:
+      transform 0.5s var(--ease-premium),
+      border-color 0.4s ease,
+      box-shadow 0.4s ease;
+  }
+
+  .teachers__card:hover {
+    transform: translateY(-6px);
+    border-color: color-mix(in srgb, var(--color-principal) 40%, transparent);
+    box-shadow: var(--shadow-hover);
+  }
+
+  .teachers__card :global(img) {
+    display: block;
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+    object-position: center top;
+    background: var(--color-bg);
+  }
+
+  .teachers__card figcaption {
+    padding: 16px clamp(16px, 2.4vw, 22px) 20px;
+  }
+
+  .teachers__name {
+    display: block;
+    font-weight: 600;
+    color: var(--color-principal);
+    font-size: 17px;
+  }
+
+  .teachers__role {
+    display: block;
+    margin-top: 2px;
+    font-size: 13px;
+    color: rgba(44, 44, 42, 0.6);
+  }
+
+  .teachers__cta {
+    margin: clamp(28px, 4vw, 40px) 0 0;
+    text-align: center;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .teachers__card:hover {
+      transform: none;
+    }
+  }
+
+  .contact-block {
+    display: grid;
+    gap: clamp(32px, 6vw, 64px);
+  }
+
+  @media (min-width: 860px) {
+    .contact-block {
+      grid-template-columns: 1fr 1fr;
+      align-items: start;
+    }
+  }
+
+  .contact-block__details {
+    list-style: none;
+    padding: 0;
+    margin: 24px 0 0;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    font-size: 15px;
+    color: rgba(44, 44, 42, 0.8);
+  }
+</style>

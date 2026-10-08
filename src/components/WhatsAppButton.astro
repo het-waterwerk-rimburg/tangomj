@@ -1,15 +1,17 @@
 ---
+import type { Language } from '../i18n/languages';
+import { COMMON_TEXT } from '../i18n/content/common';
+
 interface Props {
+  language: Language;
   /** Phone number in international format, digits only. */
   phone?: string;
-  /** Pre-filled message. */
-  message?: string;
 }
 
-const {
-  phone = '31621710803',
-  message = 'Hi! I have a question about tango classes.',
-} = Astro.props;
+const { language, phone = '31621710803' } = Astro.props;
+const texts = COMMON_TEXT[language].whatsapp;
+// The pre-filled message is in the language of the page.
+const message = texts.message;
 
 const href = `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
 ---
@@ -19,7 +21,7 @@ const href = `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
   href={href}
   target="_blank"
   rel="noopener noreferrer"
-  aria-label="Chat with us on WhatsApp"
+  aria-label={texts.buttonLabel}
 >
   <svg viewBox="0 0 24 24" width="28" height="28" aria-hidden="true" focusable="false">
     <path

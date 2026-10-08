@@ -1,0 +1,53 @@
+---
+/**
+ * Privacy Policy, Cookie Policy and Legal Notice, in any language.
+ * The page frame (title, date) is shared; the text itself is one component
+ * per page and language in src/views/legal/.
+ */
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PrivacyPolicyEn from './legal/PrivacyPolicyEn.astro';
+import PrivacyPolicyNl from './legal/PrivacyPolicyNl.astro';
+import PrivacyPolicyDe from './legal/PrivacyPolicyDe.astro';
+import CookiePolicyEn from './legal/CookiePolicyEn.astro';
+import CookiePolicyNl from './legal/CookiePolicyNl.astro';
+import CookiePolicyDe from './legal/CookiePolicyDe.astro';
+import LegalNoticeEn from './legal/LegalNoticeEn.astro';
+import LegalNoticeNl from './legal/LegalNoticeNl.astro';
+import LegalNoticeDe from './legal/LegalNoticeDe.astro';
+import { LANGUAGE_DETAILS, type Language } from '../i18n/languages';
+import { PAGES_TEXT } from '../i18n/content/pages';
+
+type LegalPageId = 'privacyPolicy' | 'cookiePolicy' | 'legalNotice';
+
+interface Props {
+  language: Language;
+  page: LegalPageId;
+}
+
+const LEGAL_TEXTS = {
+  privacyPolicy: { en: PrivacyPolicyEn, nl: PrivacyPolicyNl, de: PrivacyPolicyDe },
+  cookiePolicy: { en: CookiePolicyEn, nl: CookiePolicyNl, de: CookiePolicyDe },
+  legalNotice: { en: LegalNoticeEn, nl: LegalNoticeNl, de: LegalNoticeDe },
+};
+
+const { language, page } = Astro.props;
+const texts = PAGES_TEXT[language].legal;
+const pageTexts = texts[page];
+const LegalText = LEGAL_TEXTS[page][language];
+---
+
+<BaseLayout title={pageTexts.title} description={pageTexts.description} language={language} page={page}>
+  <section class="section">
+    <div class="container legal">
+      <header class="legal__head">
+        <span class="eyebrow">{texts.eyebrow}</span>
+        <h1>{pageTexts.title}</h1>
+        {pageTexts.lastUpdated && <p class="legal__updated">{texts.lastUpdated} {pageTexts.lastUpdated}</p>}
+      </header>
+
+      <article class="legal__doc" lang={LANGUAGE_DETAILS[language].htmlLang}>
+        <LegalText />
+      </article>
+    </div>
+  </section>
+</BaseLayout>
