@@ -97,6 +97,12 @@ const en = {
     reviewPrompt: 'Danced with us?',
     reviewLink: "We'd love to hear about your experience — leave us a review",
   },
+  video: {
+    play: 'Play video: {title}',
+    /** {link} becomes a link to the Cookie Policy with the text of `policyLink`. */
+    notice: 'The video is loaded from YouTube (Google) only when you press play. See our {link}.',
+    policyLink: 'Cookie Policy',
+  },
   whatsapp: {
     message: 'Hi! I have a question about tango classes.',
     buttonLabel: 'Chat with us on WhatsApp',
@@ -196,6 +202,11 @@ const nl: CommonText = {
     reviewPrompt: 'Met ons gedanst?',
     reviewLink: 'We horen graag hoe je het vond — laat een review achter',
   },
+  video: {
+    play: 'Video afspelen: {title}',
+    notice: 'De video wordt pas van YouTube (Google) geladen als je op afspelen drukt. Zie ons {link}.',
+    policyLink: 'cookiebeleid',
+  },
   whatsapp: {
     message: 'Hoi! Ik heb een vraag over de tangolessen.',
     buttonLabel: 'Chat met ons via WhatsApp',
@@ -293,6 +304,11 @@ const de: CommonText = {
     goTo: 'Zu Erfahrungsbericht {number}',
     reviewPrompt: 'Schon mit uns getanzt?',
     reviewLink: 'Wir freuen uns über deine Erfahrung – hinterlass uns eine Bewertung',
+  },
+  video: {
+    play: 'Video abspielen: {title}',
+    notice: 'Das Video wird erst von YouTube (Google) geladen, wenn du auf Abspielen drückst. Siehe unsere {link}.',
+    policyLink: 'Cookie-Richtlinie',
   },
   whatsapp: {
     message: 'Hallo! Ich habe eine Frage zum Tangounterricht.',

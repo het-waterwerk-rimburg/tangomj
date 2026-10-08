@@ -7,6 +7,8 @@ import { Image } from 'astro:assets';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Hero from '../components/Hero.astro';
 import CTA from '../components/CTA.astro';
+import YouTubeVideo from '../components/YouTubeVideo.astro';
+import rtvParkstadPoster from '../assets/images/video-rtv-parkstad.jpg';
 import maddiePhoto from '../assets/images/maddie.png';
 import joelPhoto from '../assets/images/dj2.webp';
 import { pagePath, type Language } from '../i18n/languages';
@@ -72,6 +74,26 @@ const contactSection = pagePath('home', language, 'contact');
     </div>
   </section>
 
+  <!-- ============ In the media: RTV Parkstad interview ============ -->
+  <section class="section">
+    <div class="container media">
+      <div class="section-intro" data-reveal>
+        <span class="eyebrow">{texts.video.eyebrow}</span>
+        <h2>{texts.video.heading}</h2>
+        <p>{texts.video.intro}</p>
+      </div>
+
+      <div data-reveal>
+        <YouTubeVideo
+          language={language}
+          videoId="ri_pL7EeujI"
+          title="Cultuur Agenda | 6 mei 2026 | The Passion for the Argentine Tango (RTV Parkstad)"
+          poster={rtvParkstadPoster}
+        />
+      </div>
+    </div>
+  </section>
+
   <CTA
     heading={texts.callToAction.heading}
     description={texts.callToAction.description}
@@ -80,6 +102,10 @@ const contactSection = pagePath('home', language, 'contact');
 </BaseLayout>
 
 <style>
+  .media {
+    max-width: 860px;
+  }
+
   .bio {
     display: grid;
     gap: clamp(20px, 4vw, 44px);
@@ -89,6 +115,12 @@ const contactSection = pagePath('home', language, 'contact');
   @media (min-width: 720px) {
     .bio {
       grid-template-columns: minmax(0, 220px) minmax(0, 1fr);
+    }
+
+    /* Photo on the right: mirror the columns too, so the photo keeps the
+       narrow 220px column and the text the wide one (like Maddie's row). */
+    .bio--reverse {
+      grid-template-columns: minmax(0, 1fr) minmax(0, 220px);
     }
 
     .bio--reverse .bio__media {

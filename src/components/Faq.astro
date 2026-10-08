@@ -1,0 +1,183 @@
+---
+/**
+ * FAQ accordion: native <details> elements (open one, the others close),
+ * no JavaScript needed. Used on the home and Wedding Dance pages.
+ * Optionally outputs FAQPage structured data for search engines.
+ */
+interface FaqItem {
+  question: string;
+  /** One or more paragraphs. */
+  answer: string[];
+  /** Optional link under the answer (e.g. to a related page). */
+  link?: { href: string; label: string };
+}
+
+interface Props {
+  eyebrow: string;
+  heading: string;
+  intro?: string;
+  items: FaqItem[];
+  /** Name shared by the <details> of this list, so only one stays open. */
+  group: string;
+  /** Section id, for links to the FAQ. */
+  id?: string;
+  /** Add FAQPage structured data (schema.org) for this list. */
+  structuredData?: boolean;
+}
+
+const { eyebrow, heading, intro, items, group, id, structuredData = false } = Astro.props;
+
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: items.map((item) => ({
+    '@type': 'Question',
+    name: item.question,
+    acceptedAnswer: { '@type': 'Answer', text: item.answer.join(' ') },
+  })),
+};
+---
+
+<section class="section" id={id}>
+  <div class="container faq">
+    <div class="section-intro" data-reveal>
+      <span class="eyebrow">{eyebrow}</span>
+      <h2>{heading}</h2>
+      {intro && <p>{intro}</p>}
+    </div>
+
+    <div class="faq__list" data-reveal>
+      {
+        items.map((item) => (
+          <details class="faq__item" name={group}>
+            <summary>
+              {item.question}
+              <span class="faq__marker" aria-hidden="true" />
+            </summary>
+            <div class="faq__answer">
+              {item.answer.map((paragraph) => <p>{paragraph}</p>)}
+              {item.link && (
+                <p>
+                  <a class="faq__link" href={item.link.href}>
+                    {item.link.label} &rarr;
+                  </a>
+                </p>
+              )}
+            </div>
+          </details>
+        ))
+      }
+    </div>
+  </div>
+
+  {structuredData && <script type="application/ld+json" is:inline set:html={JSON.stringify(faqSchema)} />}
+</section>
+
+<style>
+  /* ---------- FAQ ---------- */
+  .faq {
+    max-width: 800px;
+  }
+
+  .faq__list {
+    background: var(--color-surface);
+    border: var(--border-subtle);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-rest);
+    overflow: hidden;
+  }
+
+  .faq__item {
+    border-bottom: var(--border-subtle);
+  }
+
+  .faq__item:last-child {
+    border-bottom: none;
+  }
+
+  .faq__item summary {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    padding: clamp(18px, 2.4vw, 24px) clamp(20px, 3vw, 30px);
+    font-size: clamp(15.5px, 1.6vw, 17px);
+    font-weight: 500;
+    color: var(--color-principal);
+    cursor: pointer;
+    list-style: none;
+    transition: background-color 0.3s ease;
+  }
+
+  .faq__item summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .faq__item summary:hover {
+    background: rgba(7, 58, 124, 0.03);
+  }
+
+  .faq__marker {
+    position: relative;
+    flex: none;
+    width: 16px;
+    height: 16px;
+  }
+
+  .faq__marker::before,
+  .faq__marker::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    background: var(--color-principal);
+    transition: transform 0.35s var(--ease-premium), background-color 0.3s ease;
+  }
+
+  .faq__marker::before {
+    width: 12px;
+    height: 1.5px;
+    transform: translate(-50%, -50%);
+  }
+
+  .faq__marker::after {
+    width: 1.5px;
+    height: 12px;
+    transform: translate(-50%, -50%);
+  }
+
+  .faq__item[open] .faq__marker::after {
+    transform: translate(-50%, -50%) rotate(90deg) scale(0);
+  }
+
+  .faq__item[open] .faq__marker::before {
+    background: var(--color-acento);
+  }
+
+  .faq__answer p {
+    margin: 0;
+    padding: 0 clamp(20px, 3vw, 30px) clamp(18px, 2.4vw, 24px);
+    font-size: 14.5px;
+    line-height: 1.7;
+    color: rgba(44, 44, 42, 0.7);
+    max-width: 58ch;
+  }
+
+  .faq__link {
+    font-weight: 600;
+    color: var(--color-principal);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  .faq__link:hover {
+    color: var(--color-acento);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .faq__marker::before,
+    .faq__marker::after {
+      transition: none;
+    }
+  }
+</style>

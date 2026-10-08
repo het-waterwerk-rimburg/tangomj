@@ -41,6 +41,11 @@ const en = {
       'After the quarantine he started teaching with his wife Maddie, while continuing to study with the big maestros. He loves performing and exploring tango further, but his passion lies in teaching and sharing an art that has brought so much joy to his own life.',
     ],
   },
+  video: {
+    eyebrow: 'In the media',
+    heading: 'Maddie & Joel on RTV Parkstad',
+    intro: 'We were guests on the Cultuur Agenda of RTV Parkstad (6 May 2026), talking about our passion for Argentine tango.',
+  },
   callToAction: {
     heading: 'Come dance with us',
     description: 'Regular classes, private lessons and wedding dance choreography in Limburg, the Netherlands.',
@@ -90,6 +95,11 @@ const nl: AboutText = {
       'Na de quarantaine begon hij samen met zijn vrouw Maddie les te geven, terwijl hij bleef studeren bij de grote maestro’s. Hij treedt graag op en verdiept zich steeds verder in tango, maar zijn passie ligt bij lesgeven en het delen van een kunst die zijn eigen leven zoveel vreugde heeft gebracht.',
     ],
   },
+  video: {
+    eyebrow: 'In de media',
+    heading: 'Maddie & Joel bij RTV Parkstad',
+    intro: 'We waren te gast in de Cultuur Agenda van RTV Parkstad (6 mei 2026) en vertelden over onze passie voor Argentijnse tango.',
+  },
   callToAction: {
     heading: 'Kom met ons dansen',
     description: 'Wekelijkse groepslessen, privélessen en choreografieën voor je openingsdans in Limburg, Nederland.',
@@ -136,6 +146,11 @@ const de: AboutText = {
       '2016–2017 tanzte er in der bekannten Show des Café Homero Manzi. 2018 nahm er am Tangofestival in Brno (Tschechien) teil und trat beim Tango Mundial (2018 und 2019) sowie bei der Metropolitan-Meisterschaft von Buenos Aires an. Mit seiner früheren Tangopartnerin trat er in zahlreichen Shows in ganz Buenos Aires auf.',
       'Nach der Quarantäne begann er, gemeinsam mit seiner Frau Maddie zu unterrichten, und studierte weiterhin bei den großen Maestros. Er liebt es aufzutreten und den Tango immer weiter zu erforschen, doch seine Leidenschaft gilt dem Unterrichten und dem Weitergeben einer Kunst, die ihm selbst so viel Freude geschenkt hat.',
     ],
+  },
+  video: {
+    eyebrow: 'In den Medien',
+    heading: 'Maddie & Joel bei RTV Parkstad',
+    intro: 'Wir waren Gäste in der Cultuur Agenda von RTV Parkstad (6. Mai 2026) und haben über unsere Leidenschaft für argentinischen Tango gesprochen.',
   },
   callToAction: {
     heading: 'Tanz mit uns',

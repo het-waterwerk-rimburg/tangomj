@@ -27,7 +27,7 @@ const en = {
         'How TangoMJ (Het Waterwerk Rimburg V.O.F.) collects, uses and protects your personal data, in line with the GDPR and Dutch data protection law.',
     },
     cookiePolicy: {
-      lastUpdated: '3 October 2026',
+      lastUpdated: '8 October 2026',
       title: 'Cookie Policy',
       description:
         'Which cookies and similar technologies the TangoMJ website uses, why, for how long, and how to change your choice.',
@@ -65,7 +65,7 @@ const nl: PagesText = {
         'Hoe TangoMJ (Het Waterwerk Rimburg V.O.F.) persoonsgegevens verzamelt, gebruikt en beschermt, in overeenstemming met de AVG.',
     },
     cookiePolicy: {
-      lastUpdated: '3 oktober 2026',
+      lastUpdated: '8 oktober 2026',
       title: 'Cookiebeleid',
       description:
         'Welke cookies en vergelijkbare technieken de website van TangoMJ gebruikt, waarom, hoe lang, en hoe u uw keuze wijzigt.',
@@ -101,7 +101,7 @@ const de: PagesText = {
         'Wie TangoMJ (Het Waterwerk Rimburg V.O.F.) personenbezogene Daten gemäß der DSGVO und dem niederländischen Datenschutzrecht erhebt, verwendet und schützt.',
     },
     cookiePolicy: {
-      lastUpdated: '3. Oktober 2026',
+      lastUpdated: '8. Oktober 2026',
       title: 'Cookie-Richtlinie',
       description:
         'Welche Cookies und ähnlichen Technologien die Website von TangoMJ verwendet, wozu, wie lange und wie Sie Ihre Auswahl ändern.',

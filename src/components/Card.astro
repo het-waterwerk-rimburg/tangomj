@@ -1,4 +1,6 @@
 ---
+import Button from './Button.astro';
+
 interface Props {
   title: string;
   description?: string;
@@ -6,13 +8,15 @@ interface Props {
   imageAlt?: string;
   href?: string;
   cta?: string;
+  /** Optional button at the bottom of the card (buttons line up across a row of cards). */
+  button?: { href: string; label: string };
 }
 
-const { title, description, image, imageAlt = '', href, cta } = Astro.props;
+const { title, description, image, imageAlt = '', href, cta, button } = Astro.props;
 const linked = Boolean(href);
 ---
 
-<article class:list={['card', { 'card--linked': linked }]}>
+<article class:list={['card', { 'card--linked': linked, 'card--with-button': button }]}>
   {
     image && (
       <div class="card__media">
@@ -41,6 +45,14 @@ const linked = Boolean(href);
         <span class="card__cta" aria-hidden="true">
           {cta} &rarr;
         </span>
+      )
+    }
+
+    {
+      button && (
+        <Button href={button.href} variant="outline" class="card__button">
+          {button.label}
+        </Button>
       )
     }
   </div>
@@ -94,6 +106,24 @@ const linked = Boolean(href);
 
   .card__title {
     margin: 0;
+  }
+
+  /* Cards with a button fill their grid cell, and the button sits at the bottom */
+  .card--with-button {
+    height: 100%;
+  }
+
+  .card--with-button .card__body {
+    flex: 1;
+  }
+
+  .card__body :global(.card__button) {
+    align-self: flex-start;
+    margin-top: auto;
+  }
+
+  .card--with-button .card__text {
+    margin-bottom: 14px;
   }
 
   .card__link {

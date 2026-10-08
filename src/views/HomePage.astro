@@ -13,6 +13,7 @@ import ContactForm from '../components/ContactForm.astro';
 import Testimonials from '../components/Testimonials.astro';
 import Community from '../components/Community.astro';
 import EventPromo from '../components/EventPromo.astro';
+import Faq from '../components/Faq.astro';
 import heroImage from '../assets/images/hero-classes.jpg';
 import maddiePhoto from '../assets/images/maddie.png';
 import joelPhoto from '../assets/images/dj2.webp';
@@ -28,6 +29,19 @@ interface Props {
 const { language } = Astro.props;
 const texts = HOME_TEXT[language];
 const contactDetails = COMMON_TEXT[language].contactDetails;
+
+// FAQ links point to another page or to the contact form further down this page.
+const faqItems = texts.faq.items.map((item) => ({
+  question: item.question,
+  answer: item.answer,
+  link:
+    'link' in item && item.link
+      ? {
+          label: item.link.label,
+          href: item.link.target === 'contact' ? '#contact' : pagePath('privateLessons', language),
+        }
+      : undefined,
+}));
 
 const whatsappCommunityUrl =
   'https://chat.whatsapp.com/BDvSLGgAuqW5THotX58YAh?mode=gi_t';
@@ -148,7 +162,17 @@ const testimonials = [
         {
           texts.lessons.items.map((lesson) => (
             <div data-reveal>
-              <Card title={lesson.title} description={lesson.description} />
+              <Card
+                title={lesson.title}
+                description={lesson.description}
+                button={{
+                  label: lesson.button.label,
+                  href:
+                    lesson.button.target === 'contact'
+                      ? '#contact'
+                      : pagePath(lesson.button.target === 'privateLessons' ? 'privateLessons' : 'weddingDance', language),
+                }}
+              />
             </div>
           ))
         }
@@ -197,6 +221,15 @@ const testimonials = [
   />
 
   <Community language={language} whatsappUrl={whatsappCommunityUrl} />
+
+  <Faq
+    id="faq"
+    eyebrow={texts.faq.eyebrow}
+    heading={texts.faq.heading}
+    items={faqItems}
+    group="home-faq"
+    structuredData
+  />
 
   <section id="contact" class="section section--tint">
     <div class="container contact-block">
