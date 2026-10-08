@@ -38,6 +38,7 @@ export const LANGUAGE_DETAILS: Record<
 export const PAGE_PATHS = {
   home: { en: '/', nl: '/nl/', de: '/de/' },
   weddingDance: { en: '/wedding-dance/', nl: '/nl/openingsdans/', de: '/de/hochzeitstanz/' },
+  privateLessons: { en: '/private-lessons/', nl: '/nl/privelessen/', de: '/de/privatstunden/' },
   about: { en: '/about/', nl: '/nl/over-ons/', de: '/de/ueber-uns/' },
   contact: { en: '/contact/', nl: '/nl/contact/', de: '/de/kontakt/' },
   privacyPolicy: { en: '/privacy-policy/', nl: '/nl/privacyverklaring/', de: '/de/datenschutz/' },

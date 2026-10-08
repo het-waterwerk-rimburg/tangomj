@@ -1,0 +1,290 @@
+---
+/**
+ * Private Lessons page (private tango lessons for couples), in any language.
+ * Route files only choose the language. Texts and prices: src/i18n/content/private-lessons.ts.
+ */
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Hero from '../components/Hero.astro';
+import CTA from '../components/CTA.astro';
+import ContactForm from '../components/ContactForm.astro';
+import type { Language } from '../i18n/languages';
+import { PRIVATE_LESSONS_TEXT } from '../i18n/content/private-lessons';
+import { COMMON_TEXT } from '../i18n/content/common';
+
+interface Props {
+  language: Language;
+}
+
+const { language } = Astro.props;
+const texts = PRIVATE_LESSONS_TEXT[language];
+const contactDetails = COMMON_TEXT[language].contactDetails;
+const priceCards = [texts.prices.studio, texts.prices.home];
+---
+
+<BaseLayout
+  title={texts.meta.title}
+  description={texts.meta.description}
+  language={language}
+  page="privateLessons"
+>
+  <Hero
+    eyebrow={texts.hero.eyebrow}
+    heading={texts.hero.heading}
+    description={texts.hero.description}
+    primaryCta={{ href: '#private-contact', label: texts.hero.primaryButton }}
+    secondaryCta={{ href: '#prices', label: texts.hero.secondaryButton }}
+    note={texts.hero.note}
+  />
+
+  <!-- ============ Prices: studio or at home ============ -->
+  <section id="prices" class="section section--tint">
+    <div class="container">
+      <div class="section-intro" data-reveal>
+        <span class="eyebrow">{texts.prices.eyebrow}</span>
+        <h2>{texts.prices.heading}</h2>
+        <p>{texts.prices.intro}</p>
+      </div>
+
+      <div class="price-grid" data-reveal-group>
+        {
+          priceCards.map((card) => (
+            <article class="price-card" data-reveal>
+              <h3 class="price-card__title">{card.title}</h3>
+              <ul class="price-card__options">
+                {card.options.map((option) => (
+                  <li class="price-card__option">
+                    <span class="price-card__label">{option.label}</span>
+                    <span class="price-card__price">
+                      {option.price}
+                      <span class="price-card__unit">{texts.prices.perLesson}</span>
+                    </span>
+                  </li>
+                ))}
+              </ul>
+              {card.note && <p class="price-card__note">{card.note}</p>}
+            </article>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ Good to know: special times and packages ============ -->
+  <section class="section">
+    <div class="container">
+      <div class="section-intro" data-reveal>
+        <span class="eyebrow">{texts.extras.eyebrow}</span>
+        <h2>{texts.extras.heading}</h2>
+      </div>
+
+      <ul class="extras" data-reveal-group>
+        {
+          texts.extras.items.map((item) => (
+            <li class="extras__item" data-reveal>
+              <span class="extras__title">{item.title}</span>
+              <span class="extras__value">{item.value}</span>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </section>
+
+  <CTA
+    heading={texts.callToAction.heading}
+    description={texts.callToAction.description}
+    button={{ href: '#private-contact', label: texts.callToAction.button }}
+  />
+
+  <!-- ============ Contact ============ -->
+  <section id="private-contact" class="section section--tint">
+    <div class="container contact-block">
+      <div class="contact-block__intro" data-reveal="left">
+        <span class="eyebrow">{texts.contact.eyebrow}</span>
+        <h2>{texts.contact.heading}</h2>
+        <p>{texts.contact.intro}</p>
+
+        <ul class="contact-block__details">
+          <li>
+            <strong>{contactDetails.email}</strong>{' '}
+            <a href="mailto:info@tangomj.nl">info@tangomj.nl</a>
+          </li>
+          <li>
+            <strong>{contactDetails.whatsapp}</strong>{' '}
+            <a
+              href="https://wa.me/31621710803"
+              target="_blank"
+              rel="noopener noreferrer">+31 6 21710803</a
+            >
+          </li>
+          <li><strong>{contactDetails.area}</strong> {contactDetails.areaValue}</li>
+        </ul>
+      </div>
+
+      <div class="contact-block__form surface-card" data-reveal="right">
+        <ContactForm language={language} selectedTopic="Private lessons" />
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  /* ---------- Price cards ---------- */
+  .price-grid {
+    display: grid;
+    gap: var(--gap-md);
+    grid-template-columns: 1fr;
+    max-width: 920px;
+    margin-inline: auto;
+  }
+
+  @media (min-width: 720px) {
+    .price-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  .price-card {
+    display: flex;
+    flex-direction: column;
+    background: var(--color-surface);
+    border: var(--border-subtle);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-rest);
+    padding: clamp(24px, 3vw, 36px);
+    transition:
+      transform 0.5s var(--ease-premium),
+      border-color 0.4s ease,
+      box-shadow 0.4s ease;
+  }
+
+  .price-card:hover {
+    transform: translateY(-6px);
+    border-color: color-mix(in srgb, var(--color-principal) 40%, transparent);
+    box-shadow: var(--shadow-hover);
+  }
+
+  .price-card__title {
+    margin: 0 0 18px;
+    color: var(--color-principal);
+    font-weight: var(--weight-heading);
+    font-size: clamp(19px, 2vw, 23px);
+  }
+
+  .price-card__options {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .price-card__option {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 16px 0;
+    border-top: var(--border-subtle);
+  }
+
+  .price-card__label {
+    font-size: 15px;
+    color: rgba(44, 44, 42, 0.78);
+  }
+
+  .price-card__price {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    text-align: right;
+    font-size: clamp(20px, 2.2vw, 26px);
+    font-weight: 600;
+    line-height: 1.2;
+    color: var(--color-acento);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .price-card__unit {
+    margin-top: 2px;
+    font-size: 12.5px;
+    font-weight: 500;
+    color: rgba(44, 44, 42, 0.55);
+  }
+
+  .price-card__note {
+    margin: auto 0 0;
+    padding-top: 16px;
+    border-top: var(--border-subtle);
+    font-size: 13.5px;
+    line-height: 1.6;
+    color: rgba(44, 44, 42, 0.68);
+  }
+
+  /* ---------- Good to know ---------- */
+  .extras {
+    list-style: none;
+    margin: 0 auto;
+    padding: 0;
+    display: grid;
+    gap: 16px;
+    grid-template-columns: 1fr;
+    max-width: 920px;
+  }
+
+  @media (min-width: 760px) {
+    .extras {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+  .extras__item {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    padding: clamp(20px, 2.6vw, 26px);
+    background: var(--color-surface);
+    border: var(--border-subtle);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-rest);
+  }
+
+  .extras__title {
+    font-size: 14.5px;
+    color: rgba(44, 44, 42, 0.72);
+  }
+
+  .extras__value {
+    font-size: clamp(17px, 1.8vw, 20px);
+    font-weight: 600;
+    color: var(--color-principal);
+  }
+
+  /* ---------- Contact block (same as the other pages) ---------- */
+  .contact-block {
+    display: grid;
+    gap: clamp(32px, 6vw, 64px);
+  }
+
+  @media (min-width: 860px) {
+    .contact-block {
+      grid-template-columns: 1fr 1fr;
+      align-items: start;
+    }
+  }
+
+  .contact-block__details {
+    list-style: none;
+    padding: 0;
+    margin: 24px 0 0;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    font-size: 15px;
+    color: rgba(44, 44, 42, 0.8);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .price-card:hover {
+      transform: none;
+    }
+  }
+</style>

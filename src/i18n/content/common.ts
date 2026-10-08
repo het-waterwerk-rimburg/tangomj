@@ -16,6 +16,7 @@ const en = {
   navigation: {
     home: 'Home',
     weddingDance: 'Wedding Dance',
+    privateLessons: 'Private Lessons',
     about: 'About',
     contact: 'Contact',
     primaryLabel: 'Primary',
@@ -116,6 +117,7 @@ const nl: CommonText = {
   navigation: {
     home: 'Home',
     weddingDance: 'Openingsdans',
+    privateLessons: 'Privélessen',
     about: 'Over ons',
     contact: 'Contact',
     primaryLabel: 'Hoofdmenu',
@@ -212,6 +214,7 @@ const de: CommonText = {
   navigation: {
     home: 'Startseite',
     weddingDance: 'Hochzeitstanz',
+    privateLessons: 'Privatstunden',
     about: 'Über uns',
     contact: 'Kontakt',
     primaryLabel: 'Hauptmenü',

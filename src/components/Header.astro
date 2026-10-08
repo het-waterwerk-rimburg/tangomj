@@ -19,6 +19,7 @@ const texts = COMMON_TEXT[language].navigation;
 const navLinks: { page: PageId; label: string }[] = [
   { page: 'home', label: texts.home },
   { page: 'weddingDance', label: texts.weddingDance },
+  { page: 'privateLessons', label: texts.privateLessons },
   { page: 'about', label: texts.about },
   { page: 'contact', label: texts.contact },
 ];
@@ -142,6 +143,7 @@ const navLinks: { page: PageId; label: string }[] = [
 
   .site-header__link {
     display: inline-block;
+    white-space: nowrap;
     padding: 6px 2px;
     font-size: 15px;
     font-weight: 500;
@@ -192,7 +194,10 @@ const navLinks: { page: PageId; label: string }[] = [
     transform: translateY(-7px) rotate(-45deg);
   }
 
-  @media (max-width: 820px) {
+  /* Below this width the five links, the button and the language switcher no
+     longer fit on one row (German labels are the longest): use the menu button.
+     Keep in sync with the matchMedia query in the script below. */
+  @media (max-width: 1120px) {
     .site-header__toggle {
       display: flex;
     }
@@ -254,7 +259,7 @@ const navLinks: { page: PageId; label: string }[] = [
   const nav = document.querySelector<HTMLElement>('[data-nav]');
 
   if (toggle && nav) {
-    const mq = window.matchMedia('(max-width: 820px)');
+    const mq = window.matchMedia('(max-width: 1120px)');
 
     const setOpen = (open: boolean) => {
       nav.dataset.open = String(open);
