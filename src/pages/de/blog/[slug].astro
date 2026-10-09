@@ -1,0 +1,13 @@
+---
+// German — one page per article in src/content/blog/de/; the page itself is in src/views/BlogPostPage.astro.
+import BlogPostPage from '../../../views/BlogPostPage.astro';
+import { getPostRoutes, type BlogPost } from '../../../i18n/blog';
+
+export async function getStaticPaths() {
+  return getPostRoutes('de');
+}
+
+const { post } = Astro.props as { post: BlogPost };
+---
+
+<BlogPostPage language="de" post={post} />

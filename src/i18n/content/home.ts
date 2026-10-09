@@ -41,12 +41,12 @@ const en = {
   },
   lessons: {
     eyebrow: 'What we offer',
-    heading: 'Three ways to dance with us',
+    heading: 'Four ways to dance with us',
     intro: 'Pick the one that fits, or ask us and we will point you the right way.',
     items: [
       {
         title: 'Regular lessons',
-        button: { label: 'Join a regular class', target: 'contact' },
+        button: { label: 'Join a regular class', target: 'contact', topic: 'Regular lessons' },
         description:
           'Weekly group classes for every level. Come with or without a partner and build your dance step by step, in a friendly room. Your first class is €5.',
       },
@@ -62,6 +62,12 @@ const en = {
         description:
           'A choreography made for your song and your comfort on the floor, rehearsed until it feels easy on the day.',
       },
+      {
+        title: 'Tango for business',
+        button: { label: 'Ask about a workshop', target: 'contact', topic: 'Tango for business' },
+        description:
+          'Develop the way your team works together with tango: workshops for companies and teams on connection, communication, listening and collaboration.',
+      },
     ],
   },
   teachers: {
@@ -76,6 +82,11 @@ const en = {
   testimonials: {
     eyebrow: 'Testimonials',
     heading: 'What students say',
+  },
+  blog: {
+    eyebrow: 'Blog',
+    heading: 'From our blog',
+    button: 'All articles',
   },
   faq: {
     eyebrow: 'FAQ',
@@ -154,7 +165,7 @@ const en = {
           'We also work with companies and teams, using tango as a way to explore connection, communication, listening, movement and collaboration.',
           'If you are interested in organising a tango workshop for your dance school, company or organisation, you can contact Tango MJ to discuss your needs.',
         ],
-        link: { target: 'contact', label: 'Get in touch' },
+        link: { target: 'contact', label: 'Get in touch', topic: 'Tango for business' },
       },
     ],
   },
@@ -204,12 +215,12 @@ const nl: HomeText = {
   },
   lessons: {
     eyebrow: 'Ons aanbod',
-    heading: 'Drie manieren om met ons te dansen',
+    heading: 'Vier manieren om met ons te dansen',
     intro: 'Kies wat bij je past, of vraag het ons en we wijzen je de weg.',
     items: [
       {
         title: 'Wekelijkse groepslessen',
-        button: { label: 'Doe mee met een les', target: 'contact' },
+        button: { label: 'Doe mee met een les', target: 'contact', topic: 'Regular lessons' },
         description:
           'Groepslessen voor elk niveau, elke week. Kom met of zonder partner en bouw je dans stap voor stap op, in een vriendelijke zaal. Je eerste les kost €5.',
       },
@@ -225,6 +236,12 @@ const nl: HomeText = {
         description:
           'Een choreografie op jullie nummer en afgestemd op hoe jullie je voelen op de dansvloer, geoefend tot het op de grote dag vanzelf gaat.',
       },
+      {
+        title: 'Tango voor bedrijven',
+        button: { label: 'Vraag een workshop aan', target: 'contact', topic: 'Tango for business' },
+        description:
+          'Ontwikkel de samenwerking in je team met tango: workshops voor bedrijven en teams over verbinding, communicatie, luisteren en samenwerking.',
+      },
     ],
   },
   teachers: {
@@ -239,6 +256,11 @@ const nl: HomeText = {
   testimonials: {
     eyebrow: 'Ervaringen',
     heading: 'Wat leerlingen zeggen',
+  },
+  blog: {
+    eyebrow: 'Blog',
+    heading: 'Uit ons blog',
+    button: 'Alle artikelen',
   },
   faq: {
     eyebrow: 'FAQ',
@@ -317,7 +339,7 @@ const nl: HomeText = {
           'We werken ook met bedrijven en teams, waarbij we tango gebruiken om verbinding, communicatie, luisteren, beweging en samenwerking te verkennen.',
           'Wil je een tangoworkshop organiseren voor je dansschool, bedrijf of organisatie? Neem dan contact op met Tango MJ om je wensen te bespreken.',
         ],
-        link: { target: 'contact', label: 'Neem contact op' },
+        link: { target: 'contact', label: 'Neem contact op', topic: 'Tango for business' },
       },
     ],
   },
@@ -365,12 +387,12 @@ const de: HomeText = {
   },
   lessons: {
     eyebrow: 'Unser Angebot',
-    heading: 'Drei Wege, mit uns zu tanzen',
+    heading: 'Vier Wege, mit uns zu tanzen',
     intro: 'Wähle, was zu dir passt – oder frag uns, und wir zeigen dir den richtigen Weg.',
     items: [
       {
         title: 'Wöchentliche Gruppenkurse',
-        button: { label: 'Zu den Gruppenkursen', target: 'contact' },
+        button: { label: 'Zu den Gruppenkursen', target: 'contact', topic: 'Regular lessons' },
         description:
           'Gruppenkurse für jedes Niveau, jede Woche. Komm mit oder ohne Partner und bau deinen Tanz Schritt für Schritt auf, in freundlicher Atmosphäre. Deine erste Stunde kostet €5.',
       },
@@ -386,6 +408,12 @@ const de: HomeText = {
         description:
           'Eine Choreografie zu eurem Lied, abgestimmt darauf, wie ihr euch auf der Tanzfläche wohlfühlt – geprobt, bis sie am großen Tag ganz leicht geht.',
       },
+      {
+        title: 'Tango für Unternehmen',
+        button: { label: 'Workshop anfragen', target: 'contact', topic: 'Tango for business' },
+        description:
+          'Entwickle die Zusammenarbeit in deinem Team mit Tango: Workshops für Unternehmen und Teams zu Verbindung, Kommunikation, Zuhören und Zusammenarbeit.',
+      },
     ],
   },
   teachers: {
@@ -400,6 +428,11 @@ const de: HomeText = {
   testimonials: {
     eyebrow: 'Erfahrungen',
     heading: 'Das sagen unsere Schüler',
+  },
+  blog: {
+    eyebrow: 'Blog',
+    heading: 'Aus unserem Blog',
+    button: 'Alle Artikel',
   },
   faq: {
     eyebrow: 'FAQ',
@@ -478,7 +511,7 @@ const de: HomeText = {
           'Wir arbeiten auch mit Unternehmen und Teams und nutzen Tango, um Verbindung, Kommunikation, Zuhören, Bewegung und Zusammenarbeit zu erforschen.',
           'Möchtest du einen Tango-Workshop für deine Tanzschule, dein Unternehmen oder deine Organisation organisieren? Dann kontaktiere Tango MJ, um deine Wünsche zu besprechen.',
         ],
-        link: { target: 'contact', label: 'Kontakt aufnehmen' },
+        link: { target: 'contact', label: 'Kontakt aufnehmen', topic: 'Tango for business' },
       },
     ],
   },

@@ -12,6 +12,7 @@ const TOPICS = [
   { value: 'Regular lessons', textKey: 'regularLessons' },
   { value: 'Private lessons', textKey: 'privateLessons' },
   { value: 'Wedding dance', textKey: 'weddingDance' },
+  { value: 'Tango for business', textKey: 'business' },
   { value: 'Other', textKey: 'other' },
 ] as const;
 
@@ -250,6 +251,24 @@ const [consentBeforeLink, consentAfterLink = ''] = texts.consent.split('{link}')
   type StatusState = 'success' | 'error';
 
   const forms = document.querySelectorAll<HTMLFormElement>('[data-contact-form]');
+
+  /**
+   * Links and buttons with data-contact-topic="<English topic value>" choose that
+   * topic in the form they lead to (e.g. "Tango for business" on the home page).
+   * The same works from another page with ?topic=<value> in the URL.
+   */
+  const selectTopic = (topic: string) => {
+    forms.forEach((form) => {
+      const select = form.elements.namedItem('subject') as HTMLSelectElement | null;
+      if (select && [...select.options].some((option) => option.value === topic)) select.value = topic;
+    });
+  };
+  document.addEventListener('click', (event) => {
+    const trigger = (event.target as HTMLElement).closest<HTMLElement>('[data-contact-topic]');
+    if (trigger?.dataset.contactTopic) selectTopic(trigger.dataset.contactTopic);
+  });
+  const topicFromUrl = new URLSearchParams(window.location.search).get('topic');
+  if (topicFromUrl) selectTopic(topicFromUrl);
 
   forms.forEach((form) => {
     const button = form.querySelector<HTMLButtonElement>('[data-submit]');

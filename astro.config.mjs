@@ -1,6 +1,7 @@
 // @ts-check
 import { defineConfig, fontProviders } from 'astro/config';
 import sitemap from '@astrojs/sitemap';
+import fs from 'node:fs';
 import {
   DEFAULT_LANGUAGE,
   LANGUAGES,
@@ -20,7 +21,24 @@ export default defineConfig({
       // Lists, for every page, the same page in the other languages (hreflang),
       // so search engines connect /wedding-dance/, /nl/openingsdans/ and /de/hochzeitstanz/.
       serialize(item) {
-        const match = findPageByPath(new URL(item.url).pathname);
+        const pathname = new URL(item.url).pathname;
+        const match = findPageByPath(pathname);
+        // Blog articles: the same file name (slug) in src/content/blog/<language>/ is the same article.
+        const blogArticle = pathname.match(/^(?:\/(nl|de))?\/blog\/([^/]+)\/$/);
+        if (!match && blogArticle) {
+          const slug = blogArticle[2];
+          const translated = LANGUAGES.filter((language) =>
+            fs.existsSync(`./src/content/blog/${language}/${slug}.md`)
+          );
+          item.links = translated.map((language) => ({
+            lang: LANGUAGE_DETAILS[language].htmlLang,
+            url: new URL(`${PAGE_PATHS.blog[language]}${slug}/`, SITE).href,
+          }));
+          if (translated.includes(DEFAULT_LANGUAGE)) {
+            item.links.push({ lang: 'x-default', url: new URL(`/blog/${slug}/`, SITE).href });
+          }
+          return item;
+        }
         if (!match) return item;
         const paths = PAGE_PATHS[match.page];
         item.links = [

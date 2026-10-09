@@ -1,0 +1,106 @@
+---
+/**
+ * One article in a list (blog page and the home page): date, title,
+ * summary and "read the article". The whole card is clickable.
+ */
+import { blogPostPath, type Language } from '../i18n/languages';
+import { PAGES_TEXT } from '../i18n/content/pages';
+import { splitPostId, type BlogPost } from '../i18n/blog';
+
+interface Props {
+  post: BlogPost;
+  language: Language;
+  /** Heading level of the title: h2 on the blog page, h3 inside a home section. */
+  headingLevel?: 'h2' | 'h3';
+}
+
+const { post, language, headingLevel = 'h2' } = Astro.props;
+const texts = PAGES_TEXT[language].blog;
+const Heading = headingLevel;
+const readableDate = new Intl.DateTimeFormat(texts.dateLocale, { dateStyle: 'long' }).format(post.data.date);
+---
+
+<article class="blog-card">
+  <p class="blog-card__date">
+    <time datetime={post.data.date.toISOString().slice(0, 10)}>{readableDate}</time>
+  </p>
+  <Heading class="blog-card__title">
+    <a href={blogPostPath(language, splitPostId(post).slug)}>{post.data.title}</a>
+  </Heading>
+  <p class="blog-card__description">{post.data.description}</p>
+  <span class="blog-card__more" aria-hidden="true">
+    {texts.readArticle} &rarr;
+  </span>
+</article>
+
+<style>
+  .blog-card {
+    position: relative;
+    padding: clamp(26px, 3.4vw, 40px);
+    background: var(--color-surface);
+    border: var(--border-subtle);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-rest);
+    transition:
+      transform 0.5s var(--ease-premium),
+      border-color 0.4s ease,
+      box-shadow 0.4s ease;
+  }
+
+  .blog-card:hover {
+    transform: translateY(-6px);
+    border-color: var(--color-acento);
+    box-shadow: var(--shadow-hover);
+  }
+
+  .blog-card__date {
+    margin: 0 0 10px;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--color-secundario);
+  }
+
+  .blog-card__title {
+    margin: 0;
+    font-weight: var(--weight-heading); /* same weight whether the title is an h2 or an h3 */
+    font-size: clamp(21px, 2.4vw, 27px);
+    line-height: 1.25;
+  }
+
+  /* No accent underline under each article title in the list */
+  .blog-card__title::after {
+    display: none;
+  }
+
+  .blog-card__title a {
+    color: var(--color-principal);
+  }
+
+  /* The whole card is clickable; the title link stays the accessible target */
+  .blog-card__title a::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+  }
+
+  .blog-card__description {
+    margin: 12px 0 0;
+    font-size: 15.5px;
+    line-height: 1.65;
+    color: rgba(44, 44, 42, 0.75);
+  }
+
+  .blog-card__more {
+    display: inline-block;
+    margin-top: 16px;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--color-acento);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .blog-card:hover {
+      transform: none;
+    }
+  }
+</style>

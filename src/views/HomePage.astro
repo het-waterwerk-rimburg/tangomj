@@ -14,6 +14,8 @@ import Testimonials from '../components/Testimonials.astro';
 import Community from '../components/Community.astro';
 import EventPromo from '../components/EventPromo.astro';
 import Faq from '../components/Faq.astro';
+import BlogCard from '../components/BlogCard.astro';
+import { getPostsInLanguage } from '../i18n/blog';
 import heroImage from '../assets/images/hero-classes.jpg';
 import maddiePhoto from '../assets/images/maddie.png';
 import joelPhoto from '../assets/images/dj2.webp';
@@ -29,6 +31,8 @@ interface Props {
 const { language } = Astro.props;
 const texts = HOME_TEXT[language];
 const contactDetails = COMMON_TEXT[language].contactDetails;
+// The three newest blog articles in this language (the section is hidden if there are none).
+const latestPosts = (await getPostsInLanguage(language)).slice(0, 3);
 
 // FAQ links point to another page or to the contact form further down this page.
 const faqItems = texts.faq.items.map((item) => ({
@@ -38,6 +42,7 @@ const faqItems = texts.faq.items.map((item) => ({
     'link' in item && item.link
       ? {
           label: item.link.label,
+          topic: 'topic' in item.link ? item.link.topic : undefined,
           href: item.link.target === 'contact' ? '#contact' : pagePath('privateLessons', language),
         }
       : undefined,
@@ -158,7 +163,7 @@ const testimonials = [
         <p>{texts.lessons.intro}</p>
       </div>
 
-      <div class="card-grid" data-reveal-group>
+      <div class="card-grid card-grid--pairs" data-reveal-group>
         {
           texts.lessons.items.map((lesson) => (
             <div data-reveal>
@@ -167,6 +172,7 @@ const testimonials = [
                 description={lesson.description}
                 button={{
                   label: lesson.button.label,
+                  topic: 'topic' in lesson.button ? lesson.button.topic : undefined,
                   href:
                     lesson.button.target === 'contact'
                       ? '#contact'
@@ -221,6 +227,33 @@ const testimonials = [
   />
 
   <Community language={language} whatsappUrl={whatsappCommunityUrl} />
+
+  {
+    latestPosts.length > 0 && (
+      <section class="section section--tint" aria-labelledby="home-blog-heading">
+        <div class="container">
+          <div class="section-intro" data-reveal>
+            <span class="eyebrow">{texts.blog.eyebrow}</span>
+            <h2 id="home-blog-heading">{texts.blog.heading}</h2>
+          </div>
+
+          <ul class:list={['home-blog', `home-blog--${latestPosts.length}`]} data-reveal-group>
+            {latestPosts.map((post) => (
+              <li data-reveal>
+                <BlogCard post={post} language={language} headingLevel="h3" />
+              </li>
+            ))}
+          </ul>
+
+          <p class="home-blog__more" data-reveal>
+            <Button href={pagePath('blog', language)} variant="outline">
+              {texts.blog.button}
+            </Button>
+          </p>
+        </div>
+      </section>
+    )
+  }
 
   <Faq
     id="faq"
@@ -333,6 +366,42 @@ const testimonials = [
     .teachers__card:hover {
       transform: none;
     }
+  }
+
+  /* ---------- Latest blog articles ---------- */
+  .home-blog {
+    list-style: none;
+    margin: 0 auto;
+    padding: 0;
+    display: grid;
+    gap: var(--gap-md);
+    grid-auto-rows: 1fr;
+  }
+
+  /* One article: a single readable card, not a stretched one */
+  .home-blog--1 {
+    max-width: 760px;
+  }
+
+  @media (min-width: 760px) {
+    .home-blog--2 {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .home-blog--3 {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+  .home-blog :global(.blog-card) {
+    height: 100%;
+  }
+
+  .home-blog__more {
+    margin: clamp(28px, 4vw, 40px) 0 0;
+    text-align: center;
   }
 
   .contact-block {

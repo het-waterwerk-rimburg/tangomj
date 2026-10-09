@@ -23,6 +23,10 @@ interface Props {
   language: Language;
   /** Which page this is, so the same page in the other languages can be linked. Omitted on the 404 page. */
   page?: PageId;
+  /** The same page in each language, for pages outside PAGE_PATHS (blog articles). */
+  alternatePaths?: Partial<Record<Language, string>>;
+  /** Open Graph type: "website" for pages, "article" for blog articles. */
+  ogType?: 'website' | 'article';
   /** Path-relative OG image, resolved against the site origin. */
   image?: string;
   /** Use `title` exactly as given, without appending " · siteName" (for the home page, which already spells out the brand). */
@@ -38,6 +42,8 @@ const {
   description,
   language,
   page,
+  alternatePaths,
+  ogType = 'website',
   image = '/og-default.png',
   fullTitle = false,
 } = Astro.props;
@@ -52,13 +58,19 @@ const ogImageURL = new URL(image, Astro.site);
 
 // The same page in every language, for <link rel="alternate" hreflang>.
 // x-default (English) is shown to visitors whose language is none of these.
-const alternateLinks = page
+// For pages in PAGE_PATHS they come from there; blog articles pass their own
+// `alternatePaths` (only the languages the article has been translated into).
+const pathsPerLanguage: Partial<Record<Language, string>> | undefined =
+  alternatePaths ?? (page ? PAGE_PATHS[page] : undefined);
+const alternateLinks = pathsPerLanguage
   ? [
-      ...LANGUAGES.map((alternateLanguage) => ({
+      ...LANGUAGES.filter((alternateLanguage) => pathsPerLanguage[alternateLanguage]).map((alternateLanguage) => ({
         hreflang: LANGUAGE_DETAILS[alternateLanguage].htmlLang,
-        href: new URL(PAGE_PATHS[page][alternateLanguage], Astro.site).toString(),
+        href: new URL(pathsPerLanguage[alternateLanguage]!, Astro.site).toString(),
       })),
-      { hreflang: 'x-default', href: new URL(PAGE_PATHS[page][DEFAULT_LANGUAGE], Astro.site).toString() },
+      ...(pathsPerLanguage[DEFAULT_LANGUAGE]
+        ? [{ hreflang: 'x-default', href: new URL(pathsPerLanguage[DEFAULT_LANGUAGE]!, Astro.site).toString() }]
+        : []),
     ]
   : [];
 const otherOgLocales = LANGUAGES.filter((other) => other !== language).map(
@@ -88,6 +100,7 @@ const organizationSchema = {
     'https://www.facebook.com/tangomj.experience/',
     'https://www.instagram.com/tango_mj/',
     'https://www.tiktok.com/@tango.mj',
+    'https://www.linkedin.com/company/tango-mj',
   ],
 };
 ---
@@ -115,7 +128,7 @@ const organizationSchema = {
     <link rel="apple-touch-icon" href="/favicon.png" />
 
     <!-- Open Graph -->
-    <meta property="og:type" content="website" />
+    <meta property="og:type" content={ogType} />
     <meta property="og:site_name" content={siteName} />
     <meta property="og:locale" content={LANGUAGE_DETAILS[language].ogLocale} />
     {otherOgLocales.map((locale) => <meta property="og:locale:alternate" content={locale} />)}
@@ -142,7 +155,7 @@ const organizationSchema = {
     <a class="skip-link" href="#main">{texts.navigation.skipToContent}</a>
     <!-- Early in the DOM so keyboard users reach the consent choice first -->
     <CookieConsent language={language} />
-    <Header siteName={BRAND_NAME} language={language} page={page} />
+    <Header siteName={BRAND_NAME} language={language} page={page} alternatePaths={alternatePaths} />
     <main id="main">
       <slot />
     </main>

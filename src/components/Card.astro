@@ -9,7 +9,7 @@ interface Props {
   href?: string;
   cta?: string;
   /** Optional button at the bottom of the card (buttons line up across a row of cards). */
-  button?: { href: string; label: string };
+  button?: { href: string; label: string; /** Contact-form topic to select (English value). */ topic?: string };
 }
 
 const { title, description, image, imageAlt = '', href, cta, button } = Astro.props;
@@ -50,7 +50,7 @@ const linked = Boolean(href);
 
     {
       button && (
-        <Button href={button.href} variant="outline" class="card__button">
+        <Button href={button.href} variant="outline" class="card__button" data-contact-topic={button.topic}>
           {button.label}
         </Button>
       )

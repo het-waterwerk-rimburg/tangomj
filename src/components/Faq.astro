@@ -9,7 +9,7 @@ interface FaqItem {
   /** One or more paragraphs. */
   answer: string[];
   /** Optional link under the answer (e.g. to a related page). */
-  link?: { href: string; label: string };
+  link?: { href: string; label: string; /** Contact-form topic to select (English value). */ topic?: string };
 }
 
 interface Props {
@@ -58,7 +58,7 @@ const faqSchema = {
               {item.answer.map((paragraph) => <p>{paragraph}</p>)}
               {item.link && (
                 <p>
-                  <a class="faq__link" href={item.link.href}>
+                  <a class="faq__link" href={item.link.href} data-contact-topic={item.link.topic}>
                     {item.link.label} &rarr;
                   </a>
                 </p>

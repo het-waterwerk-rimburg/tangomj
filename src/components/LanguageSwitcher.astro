@@ -17,9 +17,13 @@ interface Props {
   language: Language;
   /** Current page; without it (404 page) the menu links to each language's home page. */
   page?: PageId;
+  /** The same page in each language (blog articles). A language without a translation links to its blog list. */
+  alternatePaths?: Partial<Record<Language, string>>;
 }
 
-const { language, page = 'home' } = Astro.props;
+const { language, page = 'home', alternatePaths } = Astro.props;
+const linkFor = (option: Language) =>
+  alternatePaths ? (alternatePaths[option] ?? PAGE_PATHS.blog[option]) : PAGE_PATHS[page][option];
 const texts = COMMON_TEXT[language].navigation;
 const FLAGS: Record<Language, string> = { en: englishFlag, nl: dutchFlag, de: germanFlag };
 ---
@@ -43,7 +47,7 @@ const FLAGS: Record<Language, string> = { en: englishFlag, nl: dutchFlag, de: ge
       LANGUAGES.map((option) => (
         <li>
           <a
-            href={PAGE_PATHS[page][option]}
+            href={linkFor(option)}
             hreflang={LANGUAGE_DETAILS[option].htmlLang}
             lang={LANGUAGE_DETAILS[option].htmlLang}
             aria-current={option === language ? 'true' : undefined}

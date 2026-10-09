@@ -11,9 +11,11 @@ interface Props {
   language: Language;
   /** Current page, to highlight its menu link and to link the other languages. */
   page?: PageId;
+  /** The same page in each language, for pages outside PAGE_PATHS (blog articles). */
+  alternatePaths?: Partial<Record<Language, string>>;
 }
 
-const { siteName, language, page } = Astro.props;
+const { siteName, language, page, alternatePaths } = Astro.props;
 const texts = COMMON_TEXT[language].navigation;
 
 const navLinks: { page: PageId; label: string }[] = [
@@ -39,7 +41,7 @@ const navLinks: { page: PageId; label: string }[] = [
     </a>
 
     <div class="site-header__tools">
-      <LanguageSwitcher language={language} page={page} />
+      <LanguageSwitcher language={language} page={page} alternatePaths={alternatePaths} />
 
       <button
         type="button"

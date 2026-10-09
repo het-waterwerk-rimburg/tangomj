@@ -41,6 +41,7 @@ export const PAGE_PATHS = {
   privateLessons: { en: '/private-lessons/', nl: '/nl/privelessen/', de: '/de/privatstunden/' },
   about: { en: '/about/', nl: '/nl/over-ons/', de: '/de/ueber-uns/' },
   contact: { en: '/contact/', nl: '/nl/contact/', de: '/de/kontakt/' },
+  blog: { en: '/blog/', nl: '/nl/blog/', de: '/de/blog/' },
   privacyPolicy: { en: '/privacy-policy/', nl: '/nl/privacyverklaring/', de: '/de/datenschutz/' },
   cookiePolicy: { en: '/cookie-policy/', nl: '/nl/cookiebeleid/', de: '/de/cookie-richtlinie/' },
   legalNotice: { en: '/legal-notice/', nl: '/nl/juridische-informatie/', de: '/de/impressum/' },
@@ -52,6 +53,11 @@ export type PageId = keyof typeof PAGE_PATHS;
 export function pagePath(page: PageId, language: Language, sectionId?: string): string {
   const path = PAGE_PATHS[page][language];
   return sectionId ? `${path}#${sectionId}` : path;
+}
+
+/** Path of a blog article: the blog path of the language + the file name of the article. */
+export function blogPostPath(language: Language, slug: string): string {
+  return `${PAGE_PATHS.blog[language]}${slug}/`;
 }
 
 /** Finds which page a URL path belongs to (used by the sitemap). */

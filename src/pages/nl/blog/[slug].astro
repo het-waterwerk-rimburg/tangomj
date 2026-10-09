@@ -1,0 +1,13 @@
+---
+// Dutch — one page per article in src/content/blog/nl/; the page itself is in src/views/BlogPostPage.astro.
+import BlogPostPage from '../../../views/BlogPostPage.astro';
+import { getPostRoutes, type BlogPost } from '../../../i18n/blog';
+
+export async function getStaticPaths() {
+  return getPostRoutes('nl');
+}
+
+const { post } = Astro.props as { post: BlogPost };
+---
+
+<BlogPostPage language="nl" post={post} />

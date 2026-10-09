@@ -29,6 +29,7 @@ const en = {
   },
   footer: {
     navigationLabel: 'Footer',
+    blog: 'Blog',
     privacyPolicy: 'Privacy Policy',
     cookiePolicy: 'Cookie Policy',
     legalNotice: 'Legal Notice',
@@ -52,6 +53,7 @@ const en = {
       regularLessons: 'Regular lessons',
       privateLessons: 'Private lessons',
       weddingDance: 'Wedding dance',
+      business: 'Tango for business',
       other: 'Other',
     },
     message: 'Message',
@@ -136,6 +138,7 @@ const nl: CommonText = {
   },
   footer: {
     navigationLabel: 'Voettekst',
+    blog: 'Blog',
     privacyPolicy: 'Privacyverklaring',
     cookiePolicy: 'Cookiebeleid',
     legalNotice: 'Juridische informatie',
@@ -158,6 +161,7 @@ const nl: CommonText = {
       regularLessons: 'Wekelijkse groepslessen',
       privateLessons: 'Privélessen',
       weddingDance: 'Openingsdans',
+      business: 'Tango voor bedrijven',
       other: 'Iets anders',
     },
     message: 'Bericht',
@@ -238,6 +242,7 @@ const de: CommonText = {
   },
   footer: {
     navigationLabel: 'Fußzeile',
+    blog: 'Blog',
     privacyPolicy: 'Datenschutzerklärung',
     cookiePolicy: 'Cookie-Richtlinie',
     legalNotice: 'Impressum',
@@ -260,6 +265,7 @@ const de: CommonText = {
       regularLessons: 'Wöchentliche Gruppenkurse',
       privateLessons: 'Privatstunden',
       weddingDance: 'Hochzeitstanz',
+      business: 'Tango für Unternehmen',
       other: 'Etwas anderes',
     },
     message: 'Nachricht',

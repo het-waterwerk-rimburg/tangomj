@@ -117,6 +117,7 @@ h2::after {
 }
 
 /* Centre the accent where the heading itself is centred */
+.section-intro h1::after,
 .section-intro h2::after,
 .section-head--center h2::after,
 .cta__heading::after {
@@ -214,9 +215,26 @@ ol {
   }
 }
 
+/* Home "ways to dance" cards: every card the same height (rows share the
+   tallest card's height) and every button the same width, at the bottom. */
+.card-grid--pairs {
+  grid-auto-rows: 1fr;
+}
+
+.card-grid--pairs .card .card__body .card__button {
+  align-self: stretch;
+}
+
 @media (min-width: 1024px) {
   .card-grid {
     grid-template-columns: repeat(3, 1fr);
+  }
+
+  /* Four cards (home "ways to dance"): two by two, so none is left alone on a row */
+  .card-grid--pairs {
+    grid-template-columns: repeat(2, 1fr);
+    max-width: 960px;
+    margin-inline: auto;
   }
 }
 

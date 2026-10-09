@@ -1,0 +1,60 @@
+---
+/**
+ * Blog list, in any language: every article of that language, newest first.
+ * Texts: `blog` in src/i18n/content/pages.ts. Articles: src/content/blog/<language>/.
+ */
+import BaseLayout from '../layouts/BaseLayout.astro';
+import BlogCard from '../components/BlogCard.astro';
+import type { Language } from '../i18n/languages';
+import { PAGES_TEXT } from '../i18n/content/pages';
+import { getPostsInLanguage } from '../i18n/blog';
+
+interface Props {
+  language: Language;
+}
+
+const { language } = Astro.props;
+const texts = PAGES_TEXT[language].blog;
+const posts = await getPostsInLanguage(language);
+---
+
+<BaseLayout title={texts.meta.title} description={texts.meta.description} language={language} page="blog">
+  <section class="section">
+    <div class="container blog-list">
+      <header class="section-intro" data-reveal>
+        <span class="eyebrow">{texts.eyebrow}</span>
+        <h1>{texts.heading}</h1>
+        <p>{texts.intro}</p>
+      </header>
+
+      <ul class="blog-list__items" data-reveal-group>
+        {
+          posts.map((post) => (
+            <li data-reveal>
+              <BlogCard post={post} language={language} />
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .blog-list {
+    max-width: 860px;
+  }
+
+  .blog-list h1 {
+    margin-bottom: 0.4em;
+  }
+
+  .blog-list__items {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: var(--gap-md);
+  }
+
+</style>
