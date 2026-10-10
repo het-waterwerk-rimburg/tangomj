@@ -48,6 +48,13 @@ const socialLinks = [
 ];
 
 const year = new Date().getFullYear();
+
+/** Credit line for the web agency; the name links to its website. */
+const MADE_BY: Record<Language, string> = {
+  en: 'Website by',
+  nl: 'Website door',
+  de: 'Website von',
+};
 ---
 
 <footer class="site-footer">
@@ -99,6 +106,10 @@ const year = new Date().getFullYear();
     </ul>
 
     <p class="site-footer__copy">&copy; {year} {siteName}. {texts.footer.rightsReserved}</p>
+    <p class="site-footer__copy site-footer__credit">
+      {MADE_BY[language]}{' '}
+      <a href="https://www.waterwerk-websolutions.nl" target="_blank" rel="noopener">Waterwerk Websolutions</a>
+    </p>
   </div>
 </footer>
 
@@ -211,5 +222,20 @@ const year = new Date().getFullYear();
     font-size: 13px;
     color: rgba(44, 44, 42, 0.7);
     width: 100%;
+  }
+
+  .site-footer__credit {
+    /* Sits right under the copyright line instead of the 20px flex gap. */
+    margin-top: -14px;
+  }
+
+  .site-footer__credit a {
+    color: inherit;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+
+  .site-footer__credit a:hover {
+    color: var(--color-principal);
   }
 </style>
