@@ -46,7 +46,7 @@ const en = {
     items: [
       {
         title: 'Regular lessons',
-        button: { label: 'Join a regular class', target: 'contact', topic: 'Regular lessons' },
+        button: { label: 'See regular classes', target: 'regularLessons' },
         description:
           'Weekly group classes for every level. Come with or without a partner and build your dance step by step, in a friendly room. Your first class is €5.',
       },
@@ -119,6 +119,7 @@ const en = {
           'Our regular Argentine tango classes take place every Friday at 19:30 at Brandpoort in Landgraaf, Limburg.',
           'The classes are suitable for people starting their tango journey as well as dancers with previous experience.',
         ],
+        link: { target: 'regularLessons', label: 'See times, prices and location' },
       },
       {
         question: 'What levels of Argentine tango do you teach?',
@@ -220,7 +221,7 @@ const nl: HomeText = {
     items: [
       {
         title: 'Wekelijkse groepslessen',
-        button: { label: 'Doe mee met een les', target: 'contact', topic: 'Regular lessons' },
+        button: { label: 'Bekijk de groepslessen', target: 'regularLessons' },
         description:
           'Groepslessen voor elk niveau, elke week. Kom met of zonder partner en bouw je dans stap voor stap op, in een vriendelijke zaal. Je eerste les kost €5.',
       },
@@ -293,6 +294,7 @@ const nl: HomeText = {
           'Onze wekelijkse lessen Argentijnse tango zijn elke vrijdag om 19:30 uur in de Brandpoort in Landgraaf, Limburg.',
           'De lessen zijn geschikt voor mensen die net met tango beginnen en voor dansers met ervaring.',
         ],
+        link: { target: 'regularLessons', label: 'Bekijk tijden, prijzen en locatie' },
       },
       {
         question: 'Welke niveaus Argentijnse tango geven jullie les?',
@@ -392,7 +394,7 @@ const de: HomeText = {
     items: [
       {
         title: 'Wöchentliche Gruppenkurse',
-        button: { label: 'Zu den Gruppenkursen', target: 'contact', topic: 'Regular lessons' },
+        button: { label: 'Zu den Gruppenkursen', target: 'regularLessons' },
         description:
           'Gruppenkurse für jedes Niveau, jede Woche. Komm mit oder ohne Partner und bau deinen Tanz Schritt für Schritt auf, in freundlicher Atmosphäre. Deine erste Stunde kostet €5.',
       },
@@ -465,6 +467,7 @@ const de: HomeText = {
           'Unsere wöchentlichen Kurse in argentinischem Tango finden jeden Freitag um 19:30 Uhr in der Brandpoort in Landgraaf, Limburg, statt.',
           'Die Kurse eignen sich für Menschen, die gerade mit Tango beginnen, ebenso wie für Tänzerinnen und Tänzer mit Erfahrung.',
         ],
+        link: { target: 'regularLessons', label: 'Zeiten, Preise und Ort ansehen' },
       },
       {
         question: 'Welche Niveaus im argentinischen Tango unterrichtet ihr?',

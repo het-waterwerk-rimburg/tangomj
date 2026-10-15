@@ -43,7 +43,10 @@ const faqItems = texts.faq.items.map((item) => ({
       ? {
           label: item.link.label,
           topic: 'topic' in item.link ? item.link.topic : undefined,
-          href: item.link.target === 'contact' ? '#contact' : pagePath('privateLessons', language),
+          href:
+            item.link.target === 'contact'
+              ? '#contact'
+              : pagePath(item.link.target === 'regularLessons' ? 'regularLessons' : 'privateLessons', language),
         }
       : undefined,
 }));
@@ -176,7 +179,12 @@ const testimonials = [
                   href:
                     lesson.button.target === 'contact'
                       ? '#contact'
-                      : pagePath(lesson.button.target === 'privateLessons' ? 'privateLessons' : 'weddingDance', language),
+                      : pagePath(
+                          lesson.button.target === 'regularLessons' || lesson.button.target === 'privateLessons'
+                            ? lesson.button.target
+                            : 'weddingDance',
+                          language
+                        ),
                 }}
               />
             </div>

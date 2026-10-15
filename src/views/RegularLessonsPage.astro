@@ -1,0 +1,526 @@
+---
+/**
+ * Regular Classes page (weekly group classes on Friday evening), in any language.
+ * Route files only choose the language. Texts, prices and venue: src/i18n/content/regular-lessons.ts.
+ */
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Hero from '../components/Hero.astro';
+import CTA from '../components/CTA.astro';
+import Button from '../components/Button.astro';
+import ContactForm from '../components/ContactForm.astro';
+import GoogleMap from '../components/GoogleMap.astro';
+import heroImage from '../assets/images/hero-classes.jpg';
+import { pagePath, type Language } from '../i18n/languages';
+import { getPostTranslations } from '../i18n/blog';
+import { REGULAR_LESSONS_TEXT, REGULAR_LESSONS_VENUE, TANGO_MOVEMENTS } from '../i18n/content/regular-lessons';
+import { COMMON_TEXT } from '../i18n/content/common';
+
+interface Props {
+  language: Language;
+}
+
+const { language } = Astro.props;
+const texts = REGULAR_LESSONS_TEXT[language];
+const contactDetails = COMMON_TEXT[language].contactDetails;
+const venue = REGULAR_LESSONS_VENUE;
+
+// Blog article about the classes for beginners (the link is hidden if it does not exist in this language).
+const articlePath = (await getPostTranslations('argentijnse-tango-beginners-parkstad'))[language];
+
+// Weekly class as a Course with a recurring schedule, for search engines.
+const courseSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Course',
+  name: texts.meta.title,
+  description: texts.meta.description,
+  inLanguage: ['en', 'de', 'nl', 'es'],
+  provider: { '@type': 'Organization', name: 'Tango MJ', url: new URL('/', Astro.site).toString() },
+  offers: [
+    { '@type': 'Offer', category: 'Trial class', price: '5', priceCurrency: 'EUR' },
+    { '@type': 'Offer', category: 'Single class', price: '15', priceCurrency: 'EUR' },
+  ],
+  hasCourseInstance: {
+    '@type': 'CourseInstance',
+    courseMode: 'Onsite',
+    location: {
+      '@type': 'Place',
+      name: venue.name,
+      address: {
+        '@type': 'PostalAddress',
+        streetAddress: venue.streetAddress,
+        postalCode: venue.postalCode,
+        addressLocality: venue.locality,
+        addressCountry: 'NL',
+      },
+    },
+    courseSchedule: {
+      '@type': 'Schedule',
+      repeatFrequency: 'P1W',
+      byDay: 'https://schema.org/Friday',
+      startTime: '19:30',
+      endTime: '20:15',
+      scheduleTimezone: 'Europe/Amsterdam',
+    },
+  },
+};
+---
+
+<BaseLayout
+  title={texts.meta.title}
+  description={texts.meta.description}
+  language={language}
+  page="regularLessons"
+>
+  <Hero
+    image={heroImage}
+    imageAlt={texts.hero.imageAlt}
+    eyebrow={texts.hero.eyebrow}
+    heading={texts.hero.heading}
+    description={texts.hero.description}
+    primaryCta={{ href: '#regular-contact', label: texts.hero.primaryButton }}
+    secondaryCta={{ href: '#practical', label: texts.hero.secondaryButton }}
+    note={texts.hero.note}
+  />
+
+  <script type="application/ld+json" is:inline set:html={JSON.stringify(courseSchema)} />
+
+  <!-- ============ Practical information ============ -->
+  <section id="practical" class="section section--tint">
+    <div class="container">
+      <div class="section-intro" data-reveal>
+        <span class="eyebrow">{texts.practical.eyebrow}</span>
+        <h2>{texts.practical.heading}</h2>
+        <p>{texts.practical.intro}</p>
+      </div>
+
+      <ul class="facts" data-reveal-group>
+        {
+          texts.practical.items.map((item) => (
+            <li class="facts__item" data-reveal>
+              <span class="facts__title">{item.title}</span>
+              <span class="facts__value">{item.value}</span>
+              <span class="facts__detail">{item.detail}</span>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </section>
+
+  <!-- ============ Prices ============ -->
+  <section id="prices" class="section">
+    <div class="container">
+      <div class="section-intro" data-reveal>
+        <span class="eyebrow">{texts.prices.eyebrow}</span>
+        <h2>{texts.prices.heading}</h2>
+        <p>{texts.prices.intro}</p>
+      </div>
+
+      <div class="prices" data-reveal-group>
+        {
+          texts.prices.cards.map((card, index) => (
+            <article class:list={['prices__card', { 'prices__card--featured': index === 0 }]} data-reveal>
+              <h3 class="prices__title">{card.title}</h3>
+              <p class="prices__price">{card.price}</p>
+              <p class="prices__unit">{card.unit}</p>
+              <p class="prices__text">{card.text}</p>
+            </article>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ Location ============ -->
+  <section id="location" class="section section--tint">
+    <div class="container location">
+      <div class="location__intro" data-reveal="left">
+        <span class="eyebrow">{texts.map.eyebrow}</span>
+        <h2>{texts.map.heading}</h2>
+        <p>{texts.map.intro}</p>
+        <address class="location__address">
+          <strong>{venue.name}</strong>
+          <span>{venue.streetAddress}</span>
+          <span>{venue.postalCode} {venue.locality}</span>
+        </address>
+      </div>
+
+      <div data-reveal="right">
+        <GoogleMap
+          language={language}
+          place={venue.name}
+          addressLines={[venue.streetAddress, `${venue.postalCode} ${venue.locality}`]}
+        />
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ Our pillars ============ -->
+  <section class="section">
+    <div class="container">
+      <div class="section-intro" data-reveal>
+        <span class="eyebrow">{texts.pillars.eyebrow}</span>
+        <h2>{texts.pillars.heading}</h2>
+        <p>{texts.pillars.intro}</p>
+      </div>
+
+      <ol class="pillars" data-reveal-group>
+        {
+          texts.pillars.items.map((pillar, index) => (
+            <li class="pillars__item" data-reveal>
+              <span class="pillars__number" aria-hidden="true">{String(index + 1).padStart(2, '0')}</span>
+              <h3 class="pillars__title">{pillar.title}</h3>
+              <p class="pillars__text">{pillar.text}</p>
+              {pillar.showMovements && (
+                <ul class="pillars__movements" aria-label={texts.pillars.movementsLabel} lang="es">
+                  {TANGO_MOVEMENTS.map((movement) => (
+                    <li>{movement}</li>
+                  ))}
+                </ul>
+              )}
+            </li>
+          ))
+        }
+      </ol>
+    </div>
+  </section>
+
+  <!-- ============ Get to know us ============ -->
+  <section class="section section--tint">
+    <div class="container prose more" data-reveal>
+      <span class="eyebrow">{texts.more.eyebrow}</span>
+      <h2>{texts.more.heading}</h2>
+      <p>{texts.more.text}</p>
+      <p>
+        <Button href={pagePath('about', language)} variant="outline">{texts.more.aboutButton}</Button>
+      </p>
+      {
+        articlePath && (
+          <p class="more__article">
+            {texts.more.articleIntro} <a href={articlePath}>{texts.more.articleLink} &rarr;</a>
+          </p>
+        )
+      }
+    </div>
+  </section>
+
+  <CTA
+    heading={texts.callToAction.heading}
+    description={texts.callToAction.description}
+    button={{ href: '#regular-contact', label: texts.callToAction.button }}
+  />
+
+  <!-- ============ Contact ============ -->
+  <section id="regular-contact" class="section section--tint">
+    <div class="container contact-block">
+      <div class="contact-block__intro" data-reveal="left">
+        <span class="eyebrow">{texts.contact.eyebrow}</span>
+        <h2>{texts.contact.heading}</h2>
+        <p>{texts.contact.intro}</p>
+
+        <ul class="contact-block__details">
+          <li>
+            <strong>{contactDetails.email}</strong>{' '}
+            <a href="mailto:info@tangomj.nl">info@tangomj.nl</a>
+          </li>
+          <li>
+            <strong>{contactDetails.whatsapp}</strong>{' '}
+            <a
+              href="https://wa.me/31621710803"
+              target="_blank"
+              rel="noopener noreferrer">+31 6 21710803</a
+            >
+          </li>
+          <li><strong>{contactDetails.area}</strong> {contactDetails.areaValue}</li>
+        </ul>
+      </div>
+
+      <div class="contact-block__form surface-card" data-reveal="right">
+        <ContactForm language={language} selectedTopic="Regular lessons" />
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  /* ---------- Practical information ---------- */
+  .facts {
+    list-style: none;
+    margin: 0 auto;
+    padding: 0;
+    display: grid;
+    gap: 16px;
+    grid-template-columns: 1fr;
+    max-width: 1040px;
+  }
+
+  @media (min-width: 640px) {
+    .facts {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .facts {
+      grid-template-columns: repeat(4, 1fr);
+    }
+  }
+
+  .facts__item {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    padding: clamp(20px, 2.6vw, 26px);
+    background: var(--color-bg);
+    border: var(--border-subtle);
+    border-radius: var(--radius);
+  }
+
+  .facts__title {
+    font-size: 12px;
+    font-weight: var(--weight-label);
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--color-secundario);
+  }
+
+  .facts__value {
+    font-size: clamp(17px, 1.8vw, 20px);
+    font-weight: 600;
+    line-height: 1.3;
+    color: var(--color-principal);
+  }
+
+  .facts__detail {
+    font-size: 14.5px;
+    line-height: 1.5;
+    color: rgba(44, 44, 42, 0.72);
+  }
+
+  /* ---------- Prices ---------- */
+  .prices {
+    display: grid;
+    gap: var(--gap-md);
+    grid-template-columns: 1fr;
+    max-width: 1040px;
+    margin-inline: auto;
+  }
+
+  @media (min-width: 860px) {
+    .prices {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+  .prices__card {
+    display: flex;
+    flex-direction: column;
+    background: var(--color-surface);
+    border: var(--border-subtle);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-rest);
+    padding: clamp(24px, 3vw, 32px);
+    transition:
+      transform 0.5s var(--ease-premium),
+      border-color 0.4s ease,
+      box-shadow 0.4s ease;
+  }
+
+  .prices__card:hover {
+    transform: translateY(-6px);
+    border-color: color-mix(in srgb, var(--color-principal) 40%, transparent);
+    box-shadow: var(--shadow-hover);
+  }
+
+  /* The trial class is the way in: gold edge to draw the eye */
+  .prices__card--featured {
+    border-color: var(--color-detalle);
+    box-shadow: inset 0 3px 0 var(--color-detalle), var(--shadow-rest);
+  }
+
+  .prices__title {
+    margin: 0 0 14px;
+    color: var(--color-principal);
+    font-weight: var(--weight-heading);
+    font-size: clamp(18px, 1.9vw, 21px);
+  }
+
+  .prices__price {
+    margin: 0;
+    font-size: clamp(26px, 3vw, 34px);
+    font-weight: 600;
+    line-height: 1.1;
+    color: var(--color-acento);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .prices__unit {
+    margin: 4px 0 0;
+    font-size: 13px;
+    font-weight: 500;
+    color: rgba(44, 44, 42, 0.55);
+  }
+
+  .prices__text {
+    margin: 16px 0 0;
+    padding-top: 16px;
+    border-top: var(--border-subtle);
+    font-size: 14.5px;
+    line-height: 1.6;
+    color: rgba(44, 44, 42, 0.75);
+  }
+
+  /* ---------- Location ---------- */
+  .location {
+    display: grid;
+    gap: clamp(32px, 6vw, 64px);
+  }
+
+  @media (min-width: 860px) {
+    .location {
+      grid-template-columns: 2fr 3fr;
+      align-items: center;
+    }
+  }
+
+  .location__address {
+    display: flex;
+    flex-direction: column;
+    margin-top: 20px;
+    padding-top: 16px;
+    border-top: var(--border-subtle);
+    font-style: normal;
+    font-size: 15.5px;
+    line-height: 1.6;
+    color: rgba(44, 44, 42, 0.8);
+  }
+
+  .location__address strong {
+    color: var(--color-principal);
+  }
+
+  /* ---------- Pillars ---------- */
+  .pillars {
+    list-style: none;
+    margin: 0 auto;
+    padding: 0;
+    display: grid;
+    gap: var(--gap-md);
+    grid-template-columns: 1fr;
+    max-width: 1040px;
+  }
+
+  @media (min-width: 720px) {
+    .pillars {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    /* Five pillars: the first one, with the movement list, spans the full row */
+    .pillars__item:first-child {
+      grid-column: 1 / -1;
+    }
+  }
+
+  .pillars__item {
+    position: relative;
+    padding: clamp(24px, 3vw, 32px);
+    background: var(--color-surface);
+    border: var(--border-subtle);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-rest);
+  }
+
+  .pillars__number {
+    display: block;
+    margin-bottom: 10px;
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    color: var(--color-detalle);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .pillars__title {
+    margin: 0 0 10px;
+    font-weight: var(--weight-heading);
+    font-size: clamp(18px, 1.9vw, 21px);
+  }
+
+  .pillars__text {
+    margin: 0;
+    font-size: 15px;
+    line-height: 1.65;
+    color: rgba(44, 44, 42, 0.78);
+  }
+
+  .pillars__movements {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    list-style: none;
+    margin: 18px 0 0;
+    padding: 0;
+  }
+
+  .pillars__movements li {
+    padding: 6px 14px;
+    border: 1px solid rgba(7, 58, 124, 0.2);
+    border-radius: 999px;
+    background: var(--color-header);
+    font-size: 14px;
+    font-style: italic;
+    font-weight: 500;
+    color: var(--color-principal);
+  }
+
+  /* ---------- Get to know us ---------- */
+  .more {
+    margin-inline: auto;
+    text-align: center;
+  }
+
+  .more h2::after {
+    margin-inline: auto;
+  }
+
+  .more__article {
+    font-size: 15px;
+    color: rgba(44, 44, 42, 0.75);
+  }
+
+  .more__article a {
+    font-weight: 600;
+  }
+
+  /* ---------- Contact block (same as the other pages) ---------- */
+  .contact-block {
+    display: grid;
+    gap: clamp(32px, 6vw, 64px);
+  }
+
+  @media (min-width: 860px) {
+    .contact-block {
+      grid-template-columns: 1fr 1fr;
+      align-items: start;
+    }
+  }
+
+  .contact-block__details {
+    list-style: none;
+    padding: 0;
+    margin: 24px 0 0;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    font-size: 15px;
+    color: rgba(44, 44, 42, 0.8);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .prices__card,
+    .prices__card:hover {
+      transition: none;
+      transform: none;
+    }
+  }
+</style>

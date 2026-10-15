@@ -1,0 +1,167 @@
+---
+/**
+ * Google Maps map that only loads after a click ("click to load").
+ *
+ * Until the visitor presses "Show map", the page shows the address and a
+ * button, and contacts nobody: no request to Google, no cookies. On click the
+ * map is loaded from google.com/maps. Without JavaScript the button is a plain
+ * link to the place on Google Maps.
+ *
+ * If you add a map, keep the Cookie Policy and Privacy Policy
+ * (src/views/legal/) accurate.
+ */
+import Button from './Button.astro';
+import type { Language } from '../i18n/languages';
+import { COMMON_TEXT, fillText } from '../i18n/content/common';
+import { pagePath } from '../i18n/languages';
+
+interface Props {
+  language: Language;
+  /** Name of the place, shown on the map card and used for the map title. */
+  place: string;
+  /** Address lines, shown on the card and used to search the place on Google Maps. */
+  addressLines: string[];
+}
+
+const { language, place, addressLines } = Astro.props;
+const texts = COMMON_TEXT[language].map;
+const query = encodeURIComponent([place, ...addressLines].join(', '));
+const mapsUrl = `https://www.google.com/maps/search/?api=1&query=${query}`;
+const embedUrl = `https://www.google.com/maps?q=${query}&hl=${language}&z=16&output=embed`;
+const title = fillText(texts.title, { place });
+const [noticeBeforeLink, noticeAfterLink = ''] = texts.notice.split('{link}');
+---
+
+<figure class="map">
+  <div class="map__frame" data-map data-embed-url={embedUrl} data-title={title}>
+    <div class="map__placeholder">
+      <span class="map__pin" aria-hidden="true">
+        <svg viewBox="0 0 24 24" width="26" height="26" focusable="false">
+          <path
+            fill="currentColor"
+            d="M12 2a7 7 0 0 0-7 7c0 5.25 7 13 7 13s7-7.75 7-13a7 7 0 0 0-7-7Zm0 9.5A2.5 2.5 0 1 1 12 6.5a2.5 2.5 0 0 1 0 5Z"
+          />
+        </svg>
+      </span>
+      <address class="map__address">
+        <strong>{place}</strong>
+        {addressLines.map((line) => <span>{line}</span>)}
+      </address>
+      <Button href={mapsUrl} variant="primary" target="_blank" rel="noopener noreferrer" data-map-load>
+        {texts.show}
+      </Button>
+    </div>
+  </div>
+  <figcaption class="map__notice">
+    {noticeBeforeLink}<a href={pagePath('cookiePolicy', language)}>{texts.policyLink}</a>{noticeAfterLink}
+    {' '}
+    <a href={mapsUrl} target="_blank" rel="noopener noreferrer">{texts.directions}</a>
+  </figcaption>
+</figure>
+
+<style>
+  .map {
+    margin: 0;
+  }
+
+  .map__frame {
+    position: relative;
+    aspect-ratio: 4 / 3;
+    overflow: hidden;
+    border: var(--border-subtle);
+    border-radius: var(--radius);
+    background: var(--color-header);
+    box-shadow: var(--shadow-rest);
+  }
+
+  @media (min-width: 860px) {
+    .map__frame {
+      aspect-ratio: 16 / 10;
+    }
+  }
+
+  .map__frame :global(iframe) {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    border: 0;
+  }
+
+  /* Soft street-grid pattern so the placeholder reads as a map without loading one */
+  .map__placeholder {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 14px;
+    padding: 24px;
+    text-align: center;
+    background-image:
+      linear-gradient(rgba(7, 58, 124, 0.06) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(7, 58, 124, 0.06) 1px, transparent 1px);
+    background-size: 36px 36px;
+  }
+
+  .map__pin {
+    display: grid;
+    place-items: center;
+    width: 56px;
+    aspect-ratio: 1;
+    border-radius: 50%;
+    background: var(--color-principal);
+    color: var(--color-detalle);
+    box-shadow:
+      0 0 0 4px rgba(255, 255, 255, 0.9),
+      0 12px 30px rgba(7, 26, 54, 0.25);
+  }
+
+  .map__address {
+    display: flex;
+    flex-direction: column;
+    font-style: normal;
+    font-size: 15px;
+    line-height: 1.5;
+    color: rgba(44, 44, 42, 0.8);
+  }
+
+  .map__address strong {
+    color: var(--color-principal);
+    font-size: 17px;
+  }
+
+  .map__notice {
+    margin-top: 12px;
+    font-size: 13px;
+    line-height: 1.55;
+    color: rgba(44, 44, 42, 0.65);
+  }
+
+  .map__notice a {
+    color: var(--color-principal);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+</style>
+
+<script>
+  /** Replaces the placeholder with the Google Maps map when the visitor presses "Show map". */
+  document.querySelectorAll<HTMLElement>('[data-map]').forEach((frame) => {
+    const loadLink = frame.querySelector<HTMLAnchorElement>('[data-map-load]');
+    if (!loadLink) return;
+
+    loadLink.addEventListener('click', (event) => {
+      event.preventDefault();
+      const map = document.createElement('iframe');
+      map.src = frame.dataset.embedUrl ?? '';
+      map.title = frame.dataset.title ?? '';
+      map.loading = 'lazy';
+      map.referrerPolicy = 'no-referrer-when-downgrade';
+      map.allowFullscreen = true;
+      frame.replaceChildren(map);
+      map.focus();
+    });
+  });
+</script>

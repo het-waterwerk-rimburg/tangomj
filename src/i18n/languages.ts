@@ -37,6 +37,7 @@ export const LANGUAGE_DETAILS: Record<
 /** Every page of the site, in every language. Paths end with a slash, like the built site. */
 export const PAGE_PATHS = {
   home: { en: '/', nl: '/nl/', de: '/de/' },
+  regularLessons: { en: '/regular-classes/', nl: '/nl/groepslessen/', de: '/de/gruppenkurse/' },
   weddingDance: { en: '/wedding-dance/', nl: '/nl/openingsdans/', de: '/de/hochzeitstanz/' },
   privateLessons: { en: '/private-lessons/', nl: '/nl/privelessen/', de: '/de/privatstunden/' },
   about: { en: '/about/', nl: '/nl/over-ons/', de: '/de/ueber-uns/' },

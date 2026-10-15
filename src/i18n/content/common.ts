@@ -15,6 +15,7 @@ const en = {
   siteName: 'TangoMJ - Argentine Tango Landgraaf',
   navigation: {
     home: 'Home',
+    regularLessons: 'Regular Classes',
     weddingDance: 'Wedding Dance',
     privateLessons: 'Private Lessons',
     about: 'About',
@@ -105,6 +106,15 @@ const en = {
     notice: 'The video is loaded from YouTube (Google) only when you press play. See our {link}.',
     policyLink: 'Cookie Policy',
   },
+  map: {
+    show: 'Show map',
+    /** {place} is the name of the venue. */
+    title: 'Map: {place}',
+    /** {link} becomes a link to the Cookie Policy with the text of `policyLink`. */
+    notice: 'The map is loaded from Google Maps only when you press “Show map”. See our {link}.',
+    policyLink: 'Cookie Policy',
+    directions: 'Open in Google Maps',
+  },
   whatsapp: {
     message: 'Hi! I have a question about tango classes.',
     buttonLabel: 'Chat with us on WhatsApp',
@@ -124,6 +134,7 @@ const nl: CommonText = {
   siteName: 'TangoMJ - Argentijnse tango Landgraaf',
   navigation: {
     home: 'Home',
+    regularLessons: 'Groepslessen',
     weddingDance: 'Openingsdans',
     privateLessons: 'Privélessen',
     about: 'Over ons',
@@ -211,6 +222,13 @@ const nl: CommonText = {
     notice: 'De video wordt pas van YouTube (Google) geladen als je op afspelen drukt. Zie ons {link}.',
     policyLink: 'cookiebeleid',
   },
+  map: {
+    show: 'Kaart tonen',
+    title: 'Kaart: {place}',
+    notice: 'De kaart wordt pas van Google Maps geladen als je op ‘Kaart tonen’ drukt. Zie ons {link}.',
+    policyLink: 'cookiebeleid',
+    directions: 'Openen in Google Maps',
+  },
   whatsapp: {
     message: 'Hoi! Ik heb een vraag over de tangolessen.',
     buttonLabel: 'Chat met ons via WhatsApp',
@@ -228,6 +246,7 @@ const de: CommonText = {
   siteName: 'TangoMJ - Argentinischer Tango Landgraaf',
   navigation: {
     home: 'Startseite',
+    regularLessons: 'Gruppenkurse',
     weddingDance: 'Hochzeitstanz',
     privateLessons: 'Privatstunden',
     about: 'Über uns',
@@ -315,6 +334,13 @@ const de: CommonText = {
     play: 'Video abspielen: {title}',
     notice: 'Das Video wird erst von YouTube (Google) geladen, wenn du auf Abspielen drückst. Siehe unsere {link}.',
     policyLink: 'Cookie-Richtlinie',
+  },
+  map: {
+    show: 'Karte anzeigen',
+    title: 'Karte: {place}',
+    notice: 'Die Karte wird erst von Google Maps geladen, wenn du auf „Karte anzeigen“ drückst. Siehe unsere {link}.',
+    policyLink: 'Cookie-Richtlinie',
+    directions: 'In Google Maps öffnen',
   },
   whatsapp: {
     message: 'Hallo! Ich habe eine Frage zum Tangounterricht.',
