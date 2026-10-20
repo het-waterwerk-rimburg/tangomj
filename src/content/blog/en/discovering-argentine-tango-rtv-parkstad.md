@@ -1,5 +1,5 @@
 ---
-title: 'Discovering the Real Argentine Tango with Joel and Maddie'
+title: 'Discovering Argentine Tango in Parkstad with Maddie and Joel'
 description: 'In an interview on RTV Parkstad, Joel and Maddie talk about the history of Argentine tango, its spirit of improvisation and the social tango culture they are building in Landgraaf.'
 date: 2026-05-13
 video:

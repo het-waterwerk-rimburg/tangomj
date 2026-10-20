@@ -66,5 +66,9 @@ export default defineConfig({
   ],
   redirects: {
     '/milonga': 'https://lastresesquinas.nl/',
+    // Old URL of the RTV Parkstad article (renamed).
+    '/blog/discovering-the-real-argentine-tango': '/blog/discovering-argentine-tango-rtv-parkstad/',
+    '/nl/blog/discovering-the-real-argentine-tango': '/nl/blog/discovering-argentine-tango-rtv-parkstad/',
+    '/de/blog/discovering-the-real-argentine-tango': '/de/blog/discovering-argentine-tango-rtv-parkstad/',
   },
 });

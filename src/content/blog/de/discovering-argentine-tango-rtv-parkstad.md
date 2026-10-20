@@ -1,5 +1,5 @@
 ---
-title: 'Den echten argentinischen Tango entdecken mit Joel und Maddie'
+title: 'Argentinischen Tango in Parkstad entdecken mit Maddie und Joel'
 description: 'In einem Interview bei RTV Parkstad sprechen Joel und Maddie über die Geschichte des argentinischen Tangos, seinen Geist der Improvisation und die soziale Tangokultur, die sie in Landgraaf aufbauen.'
 date: 2026-05-13
 video:
