@@ -26,6 +26,8 @@ interface Props {
   selectedTopic?: TopicValue;
   /** Sent as the `website` field so Make can route by source. */
   website?: string;
+  /** Text already in the message box (e.g. which trip the visitor is interested in). */
+  defaultMessage?: string;
 }
 
 const {
@@ -33,6 +35,7 @@ const {
   action = 'https://hook.eu1.make.com/6haz3m8zqr7uooygiv8d1wz7y3kawiev',
   selectedTopic,
   website = 'tangomj',
+  defaultMessage = '',
 } = Astro.props;
 
 const texts = COMMON_TEXT[language].contactForm;
@@ -94,7 +97,7 @@ const [consentBeforeLink, consentAfterLink = ''] = texts.consent.split('{link}')
   <div class="contact-form__field">
     <label for="cf-message">{texts.message}</label>
     <textarea id="cf-message" name="message" rows="5" required minlength="10"
-    ></textarea>
+    >{defaultMessage}</textarea>
   </div>
 
   <input type="hidden" name="website" value={website} />
