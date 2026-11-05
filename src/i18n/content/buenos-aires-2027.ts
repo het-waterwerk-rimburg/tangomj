@@ -219,6 +219,7 @@ const en = {
     imageAlt: 'Maddie and Joel in a tango embrace',
     formIntro: 'Leave your details and we will keep you posted. No payment, no commitment.',
     defaultMessage: 'I’m interested in the Buenos Aires Tango Immersion 2027.',
+    brochureButton: 'Download the brochure (PDF, English)',
   },
 };
 
@@ -437,6 +438,7 @@ const nl: BuenosAiresText = {
     imageAlt: 'Maddie en Joel in een tango-omhelzing',
     formIntro: 'Laat je gegevens achter en we houden je op de hoogte. Geen betaling, geen verplichting.',
     defaultMessage: 'Ik heb interesse in de Buenos Aires Tango Immersion 2027.',
+    brochureButton: 'Download de brochure (pdf, Engels)',
   },
 };
 
@@ -653,6 +655,7 @@ const de: BuenosAiresText = {
     imageAlt: 'Maddie und Joel in einer Tango-Umarmung',
     formIntro: 'Hinterlass deine Daten und wir halten dich auf dem Laufenden. Keine Zahlung, keine Verpflichtung.',
     defaultMessage: 'Ich interessiere mich für die Buenos Aires Tango Immersion 2027.',
+    brochureButton: 'Broschüre herunterladen (PDF, Englisch)',
   },
 };
 

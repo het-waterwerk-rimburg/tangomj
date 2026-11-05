@@ -76,6 +76,8 @@ const PHOTO_CREDITS: Record<string, { author: string; license: string; licenseUr
   },
 };
 // 12 places, the first 8 filled: the group goes ahead from 8 students
+/** The trip brochure (web-info/Buenos_Aires_Tango_Immersion_2027_1.pdf), in English only */
+const BROCHURE_PDF = '/downloads/buenos-aires-tango-immersion-2027.pdf';
 const groupSeats = Array.from({ length: 12 }, (_, index) => index < 8);
 ---
 
@@ -360,7 +362,10 @@ const groupSeats = Array.from({ length: 12 }, (_, index) => index < 8);
         <h2>{texts.ask.heading}</h2>
         <p>{texts.ask.text}</p>
         <p><strong>{texts.ask.strong}</strong> {texts.ask.after}</p>
-        <Button href="#interest" variant="primary">{texts.hero.primaryButton}</Button>
+        <div class="ask__actions">
+          <Button href="#interest" variant="primary">{texts.hero.primaryButton}</Button>
+          <Button href={BROCHURE_PDF} variant="ghost" download>{texts.interest.brochureButton}</Button>
+        </div>
       </div>
     </div>
   </section>
@@ -376,6 +381,9 @@ const groupSeats = Array.from({ length: 12 }, (_, index) => index < 8);
         <h2>{texts.interest.heading}</h2>
         <p>{texts.interest.text}</p>
         <p class="interest__signature">{texts.interest.signature}</p>
+        <p>
+          <Button href={BROCHURE_PDF} variant="outline" download>{texts.interest.brochureButton}</Button>
+        </p>
         <ul class="interest__details">
           <li><strong>{contactDetails.email}</strong> <a href="mailto:info@tangomj.nl">info@tangomj.nl</a></li>
           <li>
@@ -914,6 +922,14 @@ const groupSeats = Array.from({ length: 12 }, (_, index) => index < 8);
 
   .ask p {
     color: rgba(255, 255, 255, 0.88);
+  }
+
+  .ask__actions {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 12px;
+    margin-top: 8px;
   }
 
   .ask strong {
