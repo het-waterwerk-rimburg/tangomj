@@ -18,13 +18,6 @@ const TOPICS = [
 
 type TopicValue = (typeof TOPICS)[number]['value'];
 
-/**
- * reCAPTCHA Enterprise site key (public, score-based). The token is sent as
- * `recaptchaToken`; Make.com checks it with a reCAPTCHA Enterprise assessment
- * (action "contact") before passing the message on.
- */
-const RECAPTCHA_SITE_KEY = '6LcrNxIuAAAAAIh1NJqXDpEHuFU2IFLeJOgJwvbL';
-
 interface Props {
   language: Language;
   /** Make.com webhook the form POSTs to (JSON via fetch, form-encoded as no-JS fallback). */
@@ -49,12 +42,6 @@ const texts = COMMON_TEXT[language].contactForm;
 const privacyPolicyUrl = pagePath('privacyPolicy', language);
 // The consent sentence has a {link} placeholder where the privacy policy link goes.
 const [consentBeforeLink, consentAfterLink = ''] = texts.consent.split('{link}');
-// Google requires this notice when its reCAPTCHA badge is hidden (see the styles).
-const recaptchaLinks: Record<string, { href: string; text: string }> = {
-  '{privacy}': { href: `https://policies.google.com/privacy?hl=${language}`, text: texts.recaptchaPrivacy },
-  '{terms}': { href: `https://policies.google.com/terms?hl=${language}`, text: texts.recaptchaTerms },
-};
-const recaptchaParts = texts.recaptcha.split(/(\{privacy\}|\{terms\})/);
 ---
 
 <form
@@ -63,7 +50,6 @@ const recaptchaParts = texts.recaptcha.split(/(\{privacy\}|\{terms\})/);
   method="post"
   data-contact-form
   data-website={website}
-  data-recaptcha-key={RECAPTCHA_SITE_KEY}
   data-message-sending={texts.sending}
   data-message-success={texts.success}
   data-message-error={texts.error}
@@ -126,20 +112,6 @@ const recaptchaParts = texts.recaptcha.split(/(\{privacy\}|\{terms\})/);
   </div>
 
   <Button type="submit" variant="primary" data-submit>{texts.send}</Button>
-
-  <p class="contact-form__recaptcha">
-    {
-      recaptchaParts.map((part) =>
-        recaptchaLinks[part] ? (
-          <a href={recaptchaLinks[part].href} target="_blank" rel="noopener noreferrer">
-            {recaptchaLinks[part].text}
-          </a>
-        ) : (
-          part
-        ),
-      )
-    }
-  </p>
 
   <p class="contact-form__status" data-status role="status" aria-live="polite" hidden></p>
 </form>
@@ -254,22 +226,6 @@ const recaptchaParts = texts.recaptcha.split(/(\{privacy\}|\{terms\})/);
     border-color: var(--color-acento);
   }
 
-  .contact-form__recaptcha {
-    margin: 0;
-    font-size: 12px;
-    line-height: 1.5;
-    color: rgba(44, 44, 42, 0.7);
-  }
-
-  .contact-form__recaptcha a {
-    color: inherit;
-  }
-
-  /* The badge would cover the floating WhatsApp button; the notice above replaces it. */
-  :global(.grecaptcha-badge) {
-    visibility: hidden;
-  }
-
   .contact-form__status {
     margin: 0;
     padding: 12px 14px;
@@ -295,13 +251,6 @@ const recaptchaParts = texts.recaptcha.split(/(\{privacy\}|\{terms\})/);
 </style>
 
 <script>
-  /** The part of Google's reCAPTCHA Enterprise API used here (window.grecaptcha.enterprise). */
-  type Grecaptcha = {
-    ready: (callback: () => void) => void;
-    execute: (siteKey: string, options: { action: string }) => Promise<string>;
-  };
-  const grecaptcha = () => (window as unknown as { grecaptcha: { enterprise: Grecaptcha } }).grecaptcha.enterprise;
-
   type StatusState = 'success' | 'error';
 
   const forms = document.querySelectorAll<HTMLFormElement>('[data-contact-form]');
@@ -324,31 +273,6 @@ const recaptchaParts = texts.recaptcha.split(/(\{privacy\}|\{terms\})/);
   const topicFromUrl = new URLSearchParams(window.location.search).get('topic');
   if (topicFromUrl) selectTopic(topicFromUrl);
 
-  /**
-   * reCAPTCHA is loaded only once the visitor starts using a form, so pages
-   * without interaction make no request to Google.
-   */
-  let recaptchaReady: Promise<void> | undefined;
-  const loadRecaptcha = (siteKey: string) => {
-    recaptchaReady ??= new Promise<void>((resolve, reject) => {
-      const script = document.createElement('script');
-      script.src = `https://www.google.com/recaptcha/enterprise.js?render=${siteKey}`;
-      script.async = true;
-      script.onload = () => grecaptcha().ready(() => resolve());
-      script.onerror = () => {
-        recaptchaReady = undefined;
-        reject(new Error('reCAPTCHA failed to load'));
-      };
-      document.head.append(script);
-    });
-    return recaptchaReady;
-  };
-
-  const getRecaptchaToken = async (siteKey: string) => {
-    await loadRecaptcha(siteKey);
-    return grecaptcha().execute(siteKey, { action: 'contact' });
-  };
-
   forms.forEach((form) => {
     const button = form.querySelector<HTMLButtonElement>('[data-submit]');
     const status = form.querySelector<HTMLElement>('[data-status]');
@@ -356,11 +280,6 @@ const recaptchaParts = texts.recaptcha.split(/(\{privacy\}|\{terms\})/);
     const website = form.dataset.website || 'tangomj';
 
     if (!endpoint || endpoint === '#') return;
-
-    const siteKey = form.dataset.recaptchaKey || '';
-    if (siteKey) {
-      form.addEventListener('focusin', () => loadRecaptcha(siteKey).catch(() => {}), { once: true });
-    }
 
     const setStatus = (state: StatusState, message: string) => {
       if (!status) return;
@@ -390,16 +309,15 @@ const recaptchaParts = texts.recaptcha.split(/(\{privacy\}|\{terms\})/);
       const originalLabel = button?.textContent ?? '';
       if (button) button.textContent = form.dataset.messageSending ?? '';
 
-      try {
-        const payload = {
-          name: (form.elements.namedItem('name') as HTMLInputElement).value.trim(),
-          email: (form.elements.namedItem('email') as HTMLInputElement).value.trim(),
-          subject: (form.elements.namedItem('subject') as HTMLSelectElement).value,
-          message: (form.elements.namedItem('message') as HTMLTextAreaElement).value.trim(),
-          website,
-          recaptchaToken: siteKey ? await getRecaptchaToken(siteKey) : '',
-        };
+      const payload = {
+        name: (form.elements.namedItem('name') as HTMLInputElement).value.trim(),
+        email: (form.elements.namedItem('email') as HTMLInputElement).value.trim(),
+        subject: (form.elements.namedItem('subject') as HTMLSelectElement).value,
+        message: (form.elements.namedItem('message') as HTMLTextAreaElement).value.trim(),
+        website,
+      };
 
+      try {
         const response = await fetch(endpoint, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
