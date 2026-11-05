@@ -10,7 +10,7 @@ import CTA from '../components/CTA.astro';
 import YouTubeVideo from '../components/YouTubeVideo.astro';
 import { LANGUAGE_DETAILS, pagePath, type Language } from '../i18n/languages';
 import { PAGES_TEXT } from '../i18n/content/pages';
-import { getPostTranslations, splitPostId, type BlogPost } from '../i18n/blog';
+import { getPostTranslations, splitPostId, translationKey, type BlogPost } from '../i18n/blog';
 
 interface Props {
   language: Language;
@@ -20,7 +20,7 @@ interface Props {
 const { language, post } = Astro.props;
 const texts = PAGES_TEXT[language].blog;
 const { Content } = await render(post);
-const translations = await getPostTranslations(splitPostId(post).slug);
+const translations = await getPostTranslations(translationKey(post));
 const isoDate = post.data.date.toISOString().slice(0, 10);
 const readableDate = new Intl.DateTimeFormat(texts.dateLocale, { dateStyle: 'long' }).format(post.data.date);
 

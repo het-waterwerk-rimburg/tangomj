@@ -4,6 +4,7 @@
  *
  * Use the same file name (slug) for the translations of one article: the
  * site then links them to each other (language menu, hreflang, sitemap).
+ * Translations with their own slug instead share a `translationKey`.
  */
 import { defineCollection } from 'astro:content';
 import { glob } from 'astro/loaders';
@@ -18,6 +19,8 @@ const blog = defineCollection({
       description: z.string(),
       /** Publication date, e.g. 2026-10-09. */
       date: z.coerce.date(),
+      /** Links translations with different slugs; defaults to the slug. */
+      translationKey: z.string().optional(),
       /**
        * Optional YouTube video shown at the end of the article (click to play,
        * see src/components/YouTubeVideo.astro). `poster` is a local still image,

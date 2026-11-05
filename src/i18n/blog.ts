@@ -19,12 +19,17 @@ export async function getPostsInLanguage(language: Language): Promise<BlogPost[]
   return posts.sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
 }
 
-/** Paths of the same article (same slug) in every language it exists in. */
-export async function getPostTranslations(slug: string): Promise<Partial<Record<Language, string>>> {
-  const posts = await getCollection('blog', (post) => splitPostId(post).slug === slug);
+/** Key that links an article's translations: translationKey, or else the slug. */
+export function translationKey(post: BlogPost): string {
+  return post.data.translationKey ?? splitPostId(post).slug;
+}
+
+/** Paths of the same article (same translation key) in every language it exists in. */
+export async function getPostTranslations(key: string): Promise<Partial<Record<Language, string>>> {
+  const posts = await getCollection('blog', (post) => translationKey(post) === key);
   const paths: Partial<Record<Language, string>> = {};
   for (const post of posts) {
-    const { language } = splitPostId(post);
+    const { language, slug } = splitPostId(post);
     if (LANGUAGES.includes(language)) paths[language] = blogPostPath(language, slug);
   }
   return paths;
