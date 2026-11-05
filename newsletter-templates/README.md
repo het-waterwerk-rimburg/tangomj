@@ -12,7 +12,7 @@ HTML into Brevo's code editor.
 | `4_unsubscribe-confirmation.en.html` | Unsubscribe confirmation ("We will miss you!") | English |
 
 - `{{ doubleoptin }}` (double opt-in template) is filled in by Brevo with the confirmation link; keep it as is.
-- The logo is the website's own image, `https://www.tangomj.nl/_astro/logo_web_tr.s8b8L3hm_2l6g0S.webp`.
-  Astro generates that file name, so it can change after a site update; if the
-  logo disappears from the emails, copy the new URL from the site.
+- The logo is `https://www.tangomj.nl/email/tangomj-logo.png` (`public/email/tangomj-logo.png`,
+  720 px wide from `src/assets/images/logo_web_tr.png`, sharp on high-density screens).
+  Files in `public/` keep their name, so this URL stays the same.
 - Name new templates `<number>_<purpose>.<language>.html` (e.g. `2_double-opt-in-confirmation.nl.html`).
