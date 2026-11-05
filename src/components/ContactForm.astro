@@ -19,10 +19,11 @@ const TOPICS = [
 type TopicValue = (typeof TOPICS)[number]['value'];
 
 /**
- * reCAPTCHA v3 site key (public). The token is sent as `recaptchaToken`;
- * Make.com checks it with Google's siteverify before passing the message on.
+ * reCAPTCHA Enterprise site key (public, score-based). The token is sent as
+ * `recaptchaToken`; Make.com checks it with a reCAPTCHA Enterprise assessment
+ * (action "contact") before passing the message on.
  */
-const RECAPTCHA_SITE_KEY = '6LcHLBIuAAAAAM1BeGo8WzWzZoNOoRHKZungXdNU';
+const RECAPTCHA_SITE_KEY = '6LcrNxIuAAAAAIh1NJqXDpEHuFU2IFLeJOgJwvbL';
 
 interface Props {
   language: Language;
@@ -294,12 +295,12 @@ const recaptchaParts = texts.recaptcha.split(/(\{privacy\}|\{terms\})/);
 </style>
 
 <script>
-  /** The part of Google's reCAPTCHA v3 API used here. */
+  /** The part of Google's reCAPTCHA Enterprise API used here (window.grecaptcha.enterprise). */
   type Grecaptcha = {
     ready: (callback: () => void) => void;
     execute: (siteKey: string, options: { action: string }) => Promise<string>;
   };
-  const grecaptcha = () => (window as unknown as { grecaptcha: Grecaptcha }).grecaptcha;
+  const grecaptcha = () => (window as unknown as { grecaptcha: { enterprise: Grecaptcha } }).grecaptcha.enterprise;
 
   type StatusState = 'success' | 'error';
 
@@ -331,7 +332,7 @@ const recaptchaParts = texts.recaptcha.split(/(\{privacy\}|\{terms\})/);
   const loadRecaptcha = (siteKey: string) => {
     recaptchaReady ??= new Promise<void>((resolve, reject) => {
       const script = document.createElement('script');
-      script.src = `https://www.google.com/recaptcha/api.js?render=${siteKey}`;
+      script.src = `https://www.google.com/recaptcha/enterprise.js?render=${siteKey}`;
       script.async = true;
       script.onload = () => grecaptcha().ready(() => resolve());
       script.onerror = () => {
