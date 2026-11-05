@@ -1,0 +1,54 @@
+---
+/**
+ * Centred message for the steps of the newsletter sign-up (Brevo redirects
+ * here). English only for now; the pages pass their own texts.
+ */
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+interface Props {
+  title: string;
+  description: string;
+  eyebrow: string;
+  heading: string;
+}
+
+const { title, description, eyebrow, heading } = Astro.props;
+---
+
+<BaseLayout title={title} description={description} language="en" noindex>
+  <section class="section newsletter-status">
+    <div class="container section-intro newsletter-status__inner">
+      <span class="eyebrow">{eyebrow}</span>
+      <h1>{heading}</h1>
+      <slot />
+      <div class="newsletter-status__actions">
+        <slot name="actions" />
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .newsletter-status {
+    display: flex;
+    align-items: center;
+    min-height: 60vh;
+  }
+
+  .newsletter-status__inner {
+    margin-bottom: 0;
+  }
+
+  .newsletter-status__inner :global(.newsletter-status__note) {
+    font-size: 15px;
+    color: rgba(44, 44, 42, 0.75);
+  }
+
+  .newsletter-status__actions {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 12px;
+    margin-top: 8px;
+  }
+</style>

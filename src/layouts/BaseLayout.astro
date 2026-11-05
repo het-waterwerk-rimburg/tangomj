@@ -31,6 +31,8 @@ interface Props {
   image?: string;
   /** Use `title` exactly as given, without appending " · siteName" (for the home page, which already spells out the brand). */
   fullTitle?: boolean;
+  /** Keep the page out of search results (e.g. newsletter confirmation steps). */
+  noindex?: boolean;
 }
 
 // Long form (per language): <title> suffix and og:site_name (SEO). Short form:
@@ -46,6 +48,7 @@ const {
   ogType = 'website',
   image = '/og-default.png',
   fullTitle = false,
+  noindex = false,
 } = Astro.props;
 
 const texts = COMMON_TEXT[language];
@@ -121,6 +124,7 @@ const organizationSchema = {
     <title>{pageTitle}</title>
     <meta name="description" content={description} />
     <link rel="canonical" href={canonicalURL} />
+    {noindex && <meta name="robots" content="noindex" />}
     {alternateLinks.map((link) => <link rel="alternate" hreflang={link.hreflang} href={link.href} />)}
 
     <!-- Favicon -->

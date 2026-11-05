@@ -1,0 +1,23 @@
+---
+// Shown by Brevo after the newsletter form is submitted (English only for now).
+import NewsletterStatus from '../../components/NewsletterStatus.astro';
+import Button from '../../components/Button.astro';
+import { pagePath } from '../../i18n/languages';
+---
+
+<NewsletterStatus
+  title="Check your email"
+  description="Almost there: confirm your subscription to the Tango MJ newsletter with the link we just emailed you."
+  eyebrow="Newsletter"
+  heading="Almost there! Check your email"
+>
+  <p>
+    We just sent you an email with a confirmation link. Click it to complete your subscription to the
+    Tango MJ newsletter.
+  </p>
+  <p class="newsletter-status__note">
+    No email after a few minutes? Check your spam or promotions folder, or{' '}
+    <a href={pagePath('newsletter', 'en')}>sign up again</a> with the right address.
+  </p>
+  <Button slot="actions" href={pagePath('home', 'en')} variant="secondary">Back to home</Button>
+</NewsletterStatus>

@@ -18,6 +18,8 @@ export default defineConfig({
   site: SITE,
   integrations: [
     sitemap({
+      // Newsletter confirmation steps are only reached from the sign-up flow.
+      filter: (page) => !/\/newsletter\/.+/.test(new URL(page).pathname),
       // Lists, for every page, the same page in the other languages (hreflang),
       // so search engines connect /wedding-dance/, /nl/openingsdans/ and /de/hochzeitstanz/.
       serialize(item) {

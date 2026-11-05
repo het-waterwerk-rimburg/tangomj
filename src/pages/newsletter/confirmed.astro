@@ -1,0 +1,20 @@
+---
+// Shown by Brevo after the confirmation link in the email is clicked (English only for now).
+import NewsletterStatus from '../../components/NewsletterStatus.astro';
+import Button from '../../components/Button.astro';
+import { pagePath } from '../../i18n/languages';
+---
+
+<NewsletterStatus
+  title="Subscription confirmed"
+  description="Your subscription to the Tango MJ newsletter is confirmed."
+  eyebrow="Newsletter"
+  heading="You're subscribed!"
+>
+  <p>
+    Thanks for confirming. From now on you will be the first to hear about new classes, workshops,
+    milongas and trips.
+  </p>
+  <Button slot="actions" href={pagePath('regularLessons', 'en')} variant="primary">See our classes</Button>
+  <Button slot="actions" href={pagePath('home', 'en')} variant="outline">Back to home</Button>
+</NewsletterStatus>
