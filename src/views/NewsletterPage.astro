@@ -1,0 +1,71 @@
+---
+/**
+ * Newsletter page, in any language. Route files only choose the language.
+ * Texts: src/i18n/content/pages.ts (newsletter). The sign-up form itself is
+ * Brevo's (sibforms.com), embedded in an iframe.
+ */
+import BaseLayout from '../layouts/BaseLayout.astro';
+import type { Language } from '../i18n/languages';
+import { PAGES_TEXT } from '../i18n/content/pages';
+
+interface Props {
+  language: Language;
+}
+
+const { language } = Astro.props;
+const texts = PAGES_TEXT[language].newsletter;
+
+const BREVO_FORM_URL =
+  'https://6e219e17.sibforms.com/v2/serve/MUIFAADZsnzn3becEvIAVdIfvTRCcQEXv2r8KPiCi4JXC2uBgO_MpfBY20YP_IY9VAffdFXt3wIyObGuC3Q8H42Y8Nd_aSBMV4eQfy4funcKik54ovQZlbcw_cWPiE9s2kIj3PjFz1J7bpoOIhJUYznVRJq_BlrmkIIazP3PGz8btb4P9hIxuIQHpLWUByJ_3geXYW_36l-5QKDgdg==';
+---
+
+<BaseLayout
+  title={texts.meta.title}
+  description={texts.meta.description}
+  language={language}
+  page="newsletter"
+>
+  <section class="section">
+    <div class="container newsletter">
+      <div class="newsletter__intro">
+        <span class="eyebrow">{texts.eyebrow}</span>
+        <h1>{texts.heading}</h1>
+        <p>{texts.intro}</p>
+      </div>
+
+      <div class="newsletter__form">
+        <iframe
+          src={BREVO_FORM_URL}
+          title={texts.heading}
+          width="540"
+          height="305"
+          loading="lazy"
+          allowfullscreen></iframe>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .newsletter {
+    display: grid;
+    gap: clamp(24px, 4vw, 40px);
+    max-width: 640px;
+  }
+
+  .newsletter__form iframe {
+    display: block;
+    width: 100%;
+    max-width: 540px;
+    /* The iframe cannot size itself to Brevo's form: heights measured from the form, plus room for messages. */
+    height: 1100px;
+    margin-inline: auto;
+    border: 0;
+  }
+
+  @media (min-width: 600px) {
+    .newsletter__form iframe {
+      height: 870px;
+    }
+  }
+</style>

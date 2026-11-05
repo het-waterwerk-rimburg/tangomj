@@ -17,6 +17,17 @@ const en = {
     heading: 'Get in touch',
     intro: 'Contact us to start or improve your tango, or with any question you have. We will be happy to answer.',
   },
+  newsletter: {
+    meta: {
+      title: 'Newsletter',
+      description:
+        'Subscribe to the Tango MJ newsletter: new classes, workshops, milongas and trips, straight to your inbox.',
+    },
+    eyebrow: 'Newsletter',
+    heading: 'Stay in the tango loop',
+    intro:
+      'New classes, workshops, milongas and trips: subscribe and you will hear about them first. No spam, and you can unsubscribe at any time.',
+  },
   blog: {
     meta: {
       title: 'Blog',
@@ -74,6 +85,17 @@ const nl: PagesText = {
     intro:
       'Neem contact met ons op om met tango te beginnen of je dans te verbeteren, of met welke vraag dan ook. We helpen je graag.',
   },
+  newsletter: {
+    meta: {
+      title: 'Nieuwsbrief',
+      description:
+        'Schrijf je in voor de nieuwsbrief van Tango MJ: nieuwe lessen, workshops, milonga’s en reizen, direct in je inbox.',
+    },
+    eyebrow: 'Nieuwsbrief',
+    heading: 'Blijf op de hoogte',
+    intro:
+      'Nieuwe lessen, workshops, milonga’s en reizen: schrijf je in en je hoort het als eerste. Geen spam, en je kunt je altijd weer uitschrijven.',
+  },
   blog: {
     meta: {
       title: 'Blog',
@@ -127,6 +149,17 @@ const de: PagesText = {
     heading: 'Schreib uns',
     intro:
       'Schreib uns, wenn du mit Tango anfangen oder besser werden möchtest – oder wenn du eine Frage hast. Wir antworten gern.',
+  },
+  newsletter: {
+    meta: {
+      title: 'Newsletter',
+      description:
+        'Abonniere den Newsletter von Tango MJ: neue Kurse, Workshops, Milongas und Reisen, direkt in dein Postfach.',
+    },
+    eyebrow: 'Newsletter',
+    heading: 'Bleib auf dem Laufenden',
+    intro:
+      'Neue Kurse, Workshops, Milongas und Reisen: Abonniere den Newsletter und du erfährst es zuerst. Kein Spam, und du kannst dich jederzeit wieder abmelden.',
   },
   blog: {
     meta: {

@@ -31,6 +31,7 @@ const en = {
   footer: {
     navigationLabel: 'Footer',
     blog: 'Blog',
+    newsletter: 'Newsletter',
     privacyPolicy: 'Privacy Policy',
     cookiePolicy: 'Cookie Policy',
     legalNotice: 'Legal Notice',
@@ -61,6 +62,10 @@ const en = {
     /** {link} is replaced by a link to the privacy policy, with the text of `consentLink`. */
     consent: 'I have read the {link}.',
     consentLink: 'privacy policy',
+    /** {privacy} and {terms} become links to Google's privacy policy and terms. */
+    recaptcha: 'This site is protected by reCAPTCHA and the Google {privacy} and {terms} apply.',
+    recaptchaPrivacy: 'Privacy Policy',
+    recaptchaTerms: 'Terms of Service',
     send: 'Send message',
     sending: 'Sending…',
     success: 'Thanks! Your message has been sent. We will get back to you soon.',
@@ -150,6 +155,7 @@ const nl: CommonText = {
   footer: {
     navigationLabel: 'Voettekst',
     blog: 'Blog',
+    newsletter: 'Nieuwsbrief',
     privacyPolicy: 'Privacyverklaring',
     cookiePolicy: 'Cookiebeleid',
     legalNotice: 'Juridische informatie',
@@ -178,6 +184,9 @@ const nl: CommonText = {
     message: 'Bericht',
     consent: 'Ik heb de {link} gelezen.',
     consentLink: 'privacyverklaring',
+    recaptcha: 'Deze site wordt beschermd door reCAPTCHA; het {privacy} en de {terms} van Google zijn van toepassing.',
+    recaptchaPrivacy: 'privacybeleid',
+    recaptchaTerms: 'servicevoorwaarden',
     send: 'Verstuur bericht',
     sending: 'Versturen…',
     success: 'Bedankt! Je bericht is verstuurd. We nemen snel contact met je op.',
@@ -262,6 +271,7 @@ const de: CommonText = {
   footer: {
     navigationLabel: 'Fußzeile',
     blog: 'Blog',
+    newsletter: 'Newsletter',
     privacyPolicy: 'Datenschutzerklärung',
     cookiePolicy: 'Cookie-Richtlinie',
     legalNotice: 'Impressum',
@@ -290,6 +300,9 @@ const de: CommonText = {
     message: 'Nachricht',
     consent: 'Ich habe die {link} gelesen.',
     consentLink: 'Datenschutzerklärung',
+    recaptcha: 'Diese Website ist durch reCAPTCHA geschützt; es gelten die {privacy} und die {terms} von Google.',
+    recaptchaPrivacy: 'Datenschutzerklärung',
+    recaptchaTerms: 'Nutzungsbedingungen',
     send: 'Nachricht senden',
     sending: 'Wird gesendet…',
     success: 'Danke! Deine Nachricht wurde gesendet. Wir melden uns bald bei dir.',

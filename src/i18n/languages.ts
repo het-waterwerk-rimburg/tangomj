@@ -43,6 +43,7 @@ export const PAGE_PATHS = {
   about: { en: '/about/', nl: '/nl/over-ons/', de: '/de/ueber-uns/' },
   contact: { en: '/contact/', nl: '/nl/contact/', de: '/de/kontakt/' },
   blog: { en: '/blog/', nl: '/nl/blog/', de: '/de/blog/' },
+  newsletter: { en: '/newsletter/', nl: '/nl/nieuwsbrief/', de: '/de/newsletter/' },
   /** Trip page, not linked from the menu yet (reached by its URL). */
   buenosAires2027: { en: '/bs-as-inmersion-2027/', nl: '/nl/bs-as-inmersion-2027/', de: '/de/bs-as-inmersion-2027/' },
   privacyPolicy: { en: '/privacy-policy/', nl: '/nl/privacyverklaring/', de: '/de/datenschutz/' },
